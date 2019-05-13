@@ -1,14 +1,12 @@
 <template>
   <div id="home">
     <div class="home-swiper">
-      <swiper :options="swiperOption" v-if="showSwiper">
-        <!-- slides -->
+      <!-- <swiper :options="swiperOption" v-if="showSwiper">
         <swiper-slide v-for="item of list" :key="item.id">
           <img class="swiper-img" :src="item.imgUrl" alt="">
         </swiper-slide>
-        <!-- Optional controls -->
         <div class="swiper-pagination" slot="pagination"></div>
-      </swiper>
+      </swiper> -->
     </div>
   </div>
 </template>

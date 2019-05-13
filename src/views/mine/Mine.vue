@@ -11,7 +11,7 @@
         </div>
         <div class="mine-user-img">
           <router-link to="/">
-            <img src="./img/user.png">
+            <img src="images/user.png">
           </router-link>
         </div>
       </div>
@@ -19,72 +19,72 @@
         <ul class="mime-content-grid">
           <li>
             <router-link to="/">
-              <img src="./img/icon-ge-002.png">
+              <img src="images/icon-ge-002.png">
               <h3>智慧党建</h3>
             </router-link>
           </li>
           <li>
             <router-link to="/">
-              <img src="./img/icon-ge-003.png">
+              <img src="images/icon-ge-003.png">
               <h3>我的评价</h3>
             </router-link>
           </li>
           <li>
             <router-link to="/">
-              <img src="./img/icon-ge-005.png">
+              <img src="images/icon-ge-005.png">
               <h3>常用下载</h3>
             </router-link>
           </li>
         </ul>
         <div class="mime-content-mv">
-          <img src="./img/06.jpg">
+          <img src="images/06.jpg">
         </div>
         <ul class="mime-content-list">
           <li>
             <router-link to="/">
-              <img src="./img/icon-qe-005.png">
+              <img src="images/icon-qe-005.png">
               <span>我的消息</span>
             </router-link>
           </li>
           <li>
             <router-link to="/">
-              <img src="./img/icon-qe-006.png">
+              <img src="images/icon-qe-006.png">
               <span>我的竞赛</span>
             </router-link>
           </li>
           <li>
             <router-link to="/">
-              <img src="./img/icon-qe-007.png">
+              <img src="images/icon-qe-007.png">
               <span>学习情况</span>
             </router-link>
           </li>
           <li>
             <router-link to="/">
-              <img src="./img/icon-qe-008.png">
+              <img src="images/icon-qe-008.png">
               <span>我的组织</span>
             </router-link>
           </li>
           <li>
             <router-link to="/">
-              <img src="./img/icon-qe-009.png">
+              <img src="images/icon-qe-009.png">
               <span>我的笔记</span>
             </router-link>
           </li>
           <li>
             <router-link to="/">
-              <img src="./img/icon-qe-010.png">
+              <img src="images/icon-qe-010.png">
               <span>我的公益</span>
             </router-link>
           </li>
           <li>
             <router-link to="/">
-              <img src="./img/icon-qe-011.png">
+              <img src="images/icon-qe-011.png">
               <span>我的收藏</span>
             </router-link>
           </li>
           <li>
             <router-link to="/">
-              <img src="./img/icon-qe-012.png">
+              <img src="images/icon-qe-012.png">
               <span>意见反馈</span>
             </router-link>
           </li>
@@ -95,7 +95,7 @@
 </template>
 
 <script>
-import Header from "../../components/Header";
+import Header from "@/components/Header";
 export default {
   components: { Header },
   data() {
@@ -103,7 +103,7 @@ export default {
       userInfo: {
         username: "张山山同学",
         count: 13,
-        headImg: "./img/user.png"
+        headImg: "images/user.png"
       }
     }
   },
@@ -132,7 +132,7 @@ export default {
 .mine-main-head {
   display: flex;
   align-items: center;
-  background-image: url("./img/head-bg.png");
+  background-image: url("/images/head-bg.png");
   background-size: cover;
   padding: 0.4em 0.8em 1.6em 0.8em;
 }
@@ -157,7 +157,7 @@ export default {
 .mine-user-img {
   width: 20vw;
   height: 20vw;
-  /* background-image: url("./img/user.png"); */
+  /* background-image: url("images/user.png"); */
   /* background-size: cover; */
   border: 0.3em solid #fff;
   border-radius: 50%;

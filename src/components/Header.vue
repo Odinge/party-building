@@ -49,6 +49,4 @@ export default {
   font-size: 1.3rem;
   font-weight: normal;
 }
-.share {
-}
 </style>

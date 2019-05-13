@@ -1,6 +1,6 @@
 <template>
   <div id="news">
-
+    新闻
   </div>
 </template>
 <script>
