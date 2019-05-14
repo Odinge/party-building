@@ -22,16 +22,17 @@ router.beforeEach((to, form, next) => {
   // 当本地存储中没有数据时返回null ，保证数据使用默认值
   let token = sessionStorage.getItem("token");
 
-  if (token && !store.getters.token) {
-    store.dispatch("setToken", token);
+  if (token && !store.state.token) {
+    store.commit("SET_TOKEN", token);
   }
+
   if (store.state.token) {
     if (to.path === "/login") {
       next({
         path: "/"
       });
     } else {
-      if (!store.state.userInfo.username) {
+      if (store.state.userInfo.username) {
       } else {
         //当有用户权限的时候，说明所有可访问路由已生成 如访问没权限的全面会自动进入404页面
         next();

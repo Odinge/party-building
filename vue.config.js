@@ -11,7 +11,7 @@ module.exports = {
         // 目标 API 地址
         target: "http://117.50.73.238:8080/",
         // 如果要代理 websockets
-        ws: true,
+        ws: true, // 防止控制台报错
         // 将主机标头的原点更改为目标URL
         changeOrigin: false,
         pathRewrite: {

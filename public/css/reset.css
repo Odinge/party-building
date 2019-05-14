@@ -104,9 +104,21 @@ nav,
 section {
   display: block;
 }
-
+button {
+  border: none;
+}
 body {
   line-height: 1;
+}
+button,
+input,
+optgroup,
+select,
+textarea {
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  outline: none;
 }
 
 blockquote,
