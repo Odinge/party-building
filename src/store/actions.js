@@ -1,5 +1,5 @@
 // 异步方法
-import { login, register } from "../api/login";
+import { login, register, logout } from "../api/login";
 import { SET_TOKEN, SET_USERINFO } from "./type";
 import { setToken, delToken } from "../util/token";
 export default {
@@ -13,7 +13,10 @@ export default {
     return res;
   },
   async logout() {
+    await logout();
     delToken();
+    // 刷新浏览器
+    location.reload();
   },
   async getUserInfo({ commit }) {}
 };

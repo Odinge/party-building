@@ -1,6 +1,6 @@
 <template>
   <div class="mine">
-    <Header class="mine-head" :isBack="false">
+    <Header class="mine-head" :noBack="true">
       <span class="mine-head-text">设置</span>
     </Header>
     <div class="mine-main">
@@ -118,7 +118,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .mine-head {
   background-color: #fff;
   color: #000;

@@ -32,7 +32,12 @@ export default new Router({
         {
           path: "home",
           name: "home",
-          meta: { showNav: true, showHead: true, title: "首页" },
+          meta: {
+            title: "首页",
+            showNav: true,
+            showHead: true,
+            noBack: true
+          },
           component: () =>
             import(/* webpackChunkName: "home" */ "../views/home/Home.vue")
         },
@@ -59,7 +64,7 @@ export default new Router({
         {
           path: "mine",
           name: "mine",
-          meta: { showNav: true, title: "设置" },
+          meta: { showNav: true, title: "设置", noBack: true },
           component: () =>
             import(/* webpackChunkName: "mime" */ "../views/mine/Mine.vue")
         },
@@ -79,7 +84,7 @@ export default new Router({
     },
     {
       path: "*",
-      redirect: "/login"
+      redirect: "/"
     }
   ]
 });

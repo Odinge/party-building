@@ -1,5 +1,5 @@
 <template>
-  <div class="register">
+  <section class="register">
     <header class="reg-head">
       <a href="javascript:;" @touchstart="back">返回</a>
       <h2>用户注册</h2>
@@ -36,25 +36,29 @@
         </div>
         <div class="reg-text">
           <label for="password">密 码</label>
-          <input type="text" placeholder="请输入密码" class="input" name="password" id="password" v-model="regInfo.password" />
+          <input type="password" placeholder="请输入密码" class="input" name="password" id="password" v-model="regInfo.password" />
         </div>
         <div class="reg-text">
           <label for="password1">确认密码</label>
-          <input type="text" placeholder="请输入确认密码" class="input" name="password1" id="password1" v-model="password" />
+          <input type="password" placeholder="请输入确认密码" class="input reg-psd" name="password1" id="password1" v-model="password" />
+          <span class="psd-err">{{psdErrMsg}}</span>
         </div>
 
         <!-- 时间填写 -->
-        <div class="reg-text date-picker" v-if="[0, 1, 2, 3].includes(regInfo.identity)">
+        <!-- <div class="reg-text date-picker" v-if="['0', '1', '2', '3'].includes(regInfo.identity)"> -->
+        <div class="reg-text date-picker" v-if="isShowTime('0123')">
           <label for="applicationTime">递交入党申请时间</label>
           <input type="date" class="input" name="applicationTime" id="applicationTime" v-model="time.applicationTime" />
         </div>
 
-        <div class="reg-text date-picker" v-if="[1, 2, 3].includes(regInfo.identity)">
+        <!-- <div class="reg-text date-picker" v-if="['1', '2', '3'].includes(regInfo.identity)"> -->
+        <div class="reg-text date-picker" v-if="isShowTime('123')">
           <label for="activistTime">确定为积极分子时间</label>
           <input type="date" class="input" name="activistTime" id="activistTime" v-model="time.activistTime" />
         </div>
 
-        <template v-if="[2, 3].includes(regInfo.identity)">
+        <!-- <template v-if="['2', '3'].includes(regInfo.identity)"> -->
+        <template v-if="isShowTime('23')">
           <div class="reg-text date-picker">
             <label for="probationaryTime">确定为发展对象时间</label>
             <input type="date" class="input" name="probationaryTime" id="probationaryTime" v-model="time.probationaryTime" />
@@ -65,18 +69,21 @@
           </div>
         </template>
 
-        <div class="reg-text date-picker" v-if="regInfo.identity == 3">
+        <!-- <div class="reg-text date-picker" v-if="regInfo.identity == '3'"> -->
+        <div class="reg-text date-picker" v-if="isShowTime('3')">
           <label for="fullpartyTime">确定为正式党员时间</label>
           <input type="date" class="input" name="fullpartyTime" id="fullpartyTime" v-model="time.fullpartyTime" />
         </div>
 
         <div class="reg-tip">
-          <input type="checkbox" checked id="plain"><label for="plain">同意注册条款</label>
+          <input type="checkbox" checked id="plain" v-model="agree"><label for="plain">同意注册条款</label>
         </div>
-        <div class="reg-btn"><button @touchstart="register">注 册</button></div>
+        <div class="reg-btn">
+          <button @touchstart.prevent="register" :class="states[regState]" :disabled="!regState">{{ regState === 1 ? "注 册成 功": "注 册" }}</button>
+        </div>
       </form>
     </div>
-  </div>
+  </section>
 </template>
 <script>
 // import "./register.css";
@@ -85,51 +92,105 @@ export default {
   data() {
     return {
       identitys: [
-        { value: 0, label: "入党申请人" },
-        { value: 1, label: "入党积极分子" },
-        { value: 2, label: "中共预备党员" },
-        { value: 3, label: "中共党员" },
+        { value: "0", label: "入党申请人" },
+        { value: "1", label: "入党积极分子" },
+        { value: "2", label: "中共预备党员" },
+        { value: "3", label: "中共党员" },
       ], // 身份列表
       regInfo: {
-        account: "", // 账号
+        account: "ddd", // 账号
         password: "", // 密码
         sname: "", // 姓名
         sclass: "", // 班级
         phone: "", // 电话
         email: "", // 邮箱
         identity: "", // 当前身份
-        // applicationTime: "", // 入党申请书递交时间
-        // activistTime: "", // 确定为积极分子时间
-        // probationaryTime: "", // 确定为考察对象时间
-        // potentialTime: "", // 确定为预备党员时间
-        // fullpartyTime: "", // 确定为正式党员时间
       },
-      password: "",
+      password: "", // 第二次密码，验证密码
+      psdErrMsg: "", // 密码错误信息
+      agree: true, // 同意注册协议
       time: {
         applicationTime: "", // 入党申请书递交时间
         activistTime: "", // 确定为积极分子时间
         probationaryTime: "", // 确定为考察对象时间
         potentialTime: "", // 确定为预备党员时间
         fullpartyTime: "", // 确定为正式党员时间
-      }
+      }, // 时间
+      timeMap: [
+        ["0123", "applicationTime"],
+        ["123", "activistTime"],
+        ["23", "probationaryTime"],
+        ["23", "potentialTime"],
+        ["3", "fullpartyTime"],
+      ], // 时间权限映射
+      regState: 0 // 注册表单状态
     }
   },
   computed: {
+    // 注册时间
     regTime() {
-      const map = {
-        0: [],
-        1: [],
+      // 根据身份选择时间
+      const timeArr = [];
+      this.timeMap.forEach(item => {
+        const [key, value] = item;
+        if (this.isShowTime(key)) {
+          timeArr.push(value);
+        }
+      });
+      // 筛选时间属性
+      const time = {};
+      timeArr.forEach(item => {
+        time[item] = this.time[item]
+      });
+      return time;
+    },
+    allInfo() {
+      return { ...this.regInfo, ...this.regTime, password1: this.password };
+    }
+  },
+  watch: {
+    allInfo: {
+      handler(newVal) {
+        // 判断必须的是否已填写
+        const keys = Object.keys(newVal);
+        let disabled = false;
+        for (const key of keys) {
+          if (!newVal[key].trim()) {
+            disabled = true;
+            break;
+          }
+        }
+        // 判断密码是否确认正确
+        if (newVal.password1 && newVal.password && newVal.password1 !== newVal.password) {
+          disabled = true;
+          this.psdErrMsg = "密码不一致";
+        } else {
+          this.psdErrMsg = "";
+        }
+        // 判断是否同意协议
+        if (!this.agree) {
+          disabled = true;
+        }
 
-      };
-
-      return timeArr.filter((vla, index) => index <= this.regInfo.identity);
+        this.regState = disabled ? 0 : 2;
+      }, deep: true
     }
   },
   methods: {
+    // 返回
     back() {
       this.$router.back();
     },
+    // 显示注册时间
+    isShowTime(option) {
+      if (typeof option === "string") {
+        option = option.split("");
+      }
+      return option.includes(this.regInfo.identity);
+    },
+    // 提交注册
     register() {
+      // 结合信息
       let regInfo = { ...this.regInfo, ...this.regTime };
       register(regInfo).then(res => {
         console.log(res);
@@ -142,7 +203,7 @@ export default {
   }
 };
 </script>
-<style scoped>
+<style>
 .register {
   display: flex;
   flex-direction: column;
@@ -165,6 +226,7 @@ export default {
   overflow: auto;
 }
 .reg-text {
+  position: relative;
   display: flex;
   align-items: center;
   vertical-align: middle;
@@ -173,13 +235,14 @@ export default {
   border-bottom: 1px solid #ddd;
 }
 .reg-text label {
-  width: 25vw;
+  width: 29%;
   text-align: center;
   line-height: 1.2rem;
 }
 .reg-text .input {
   flex: 1;
   height: 10vw;
+  width: 100%;
   border: none;
   margin-left: 1rem;
   color: #858585;
@@ -216,8 +279,11 @@ export default {
   width: 30%;
 }
 .date-picker .input {
-  /* width: 40%; */
-  /* flex: auto; */
-  margin-left: 20vw;
+  margin-left: 18vw;
+}
+.psd-err {
+  color: #de442c;
+  font-size: 0.7rem;
+  width: 5em;
 }
 </style>

@@ -1,9 +1,14 @@
 import axios from "axios";
+
+// 获取token
+import { getToken } from "../util/token";
+// 路由
+import router from "../router";
+
 // 创建axios实例
 const service = axios.create({
   // baseURL: process.env.BASE_API, // api的base_url
   baseURL: "/api"
-  // baseURL: "http://39.108.184.192:8888/" // api的base_url
   // timeout: 5000 // 请求超时时间
 });
 
@@ -12,17 +17,15 @@ service.interceptors.request.use(
   config => {
     config.headers["Content-Type"] = "application/json;charset=UTF-8";
     config.headers.Accept = "application/json;";
-    // let token = getToken();
+    let token = getToken();
 
-    // if (token) {
-    //   config.headers.token = token;
-    // }
+    if (token) {
+      config.headers.token = token;
+    }
     return config;
   },
   err => {
     // Do something with request error
-    console.log("request");
-
     return Promise.reject(err);
   }
 );
@@ -32,14 +35,7 @@ service.interceptors.response.use(
     console.log(response);
     let status = response.status;
     let data = response.data;
-    // switch (data.status) {
-    //   // 成功
-    //   case 1:
-    //     return data;
-    //   // 失败 跳转路由等等
-    //   default:
-    //     break;
-    // }
+    // 对响应的信息做处理
     const { url } = response.config;
     if (status === 200) {
       if (/login/.test(url)) {
@@ -72,22 +68,22 @@ service.interceptors.response.use(
       const resMap = {
         201: "已登录,不能重复登录",
         400: "请求参数有误",
-        401: "未登录",
+        401: "需认证，未登录",
         404: "请求地址出错",
-        405: "请求方法不允许",
-        500: "服务器错误",
+        405: "http请求类型错误",
+        500: "服务端错误",
         502: "无效响应",
-        503: "服务器错误",
+        503: "服务器错误不可用或暂停",
         504: "请求数据超时，请刷新页面重试"
       };
-      err.message = resMap[err.response.status] || "请求失败";
+      err.msg = resMap[err.response.status] || "请求失败";
     }
     return Promise.reject(err);
   }
 );
 
 // 封装请求
-const request = (method, url, params) => {
+const request = (method, url, params = {}, config = {}) => {
   if (method == "get") {
     return service({
       method,
@@ -102,23 +98,5 @@ const request = (method, url, params) => {
     });
   }
 };
-
-// 获取token
-// export const setToken = () => {
-//   request("get", "/getToken")
-//     .then(res => {
-//       sessionStorage.setItem("token", res.data);
-//     })
-//     .catch(err => {
-//       console.error(err);
-//       delToken();
-//     });
-// };
-
-// const getToken = () => sessionStorage.getItem("token");
-
-// const delToken = () => sessionStorage.removeItem("token");
-
-// setToken();
 
 export default request;

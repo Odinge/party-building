@@ -10,4 +10,13 @@
 img {
   content: normal !important;
 }
+/* 登录控制 */
+.disabled {
+  pointer-events: none;
+  background-color: #ddd8d8 !important;
+  cursor: wait;
+}
+.success {
+  background-color: #46dd88 !important;
+}
 </style>

@@ -1,11 +1,13 @@
 <template>
-  <header class="header">
-    <div class="back" @click="back" v-if="isBack">
+  <header class="app-header">
+    <div class="app-back" @click="back" v-show="!noBack">
       <i class="iconfont icon-return"></i>
     </div>
-    <slot>
-    </slot>
-    <div class="share" v-if="isShare">
+    <div class="app-title">
+      <slot>
+      </slot>
+    </div>
+    <div class="app-share" v-show="isShare">
       <i class="iconfont"></i>
     </div>
   </header>
@@ -14,9 +16,9 @@
 <script>
 export default {
   props: {
-    isBack: {
+    noBack: {
       type: Boolean,
-      default: true
+      default: false
     },
     isShare: {
       type: Boolean,
@@ -31,19 +33,24 @@ export default {
 }
 </script>
 
-<style scoped>
-.header {
+<style>
+.app-header {
   position: relative;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   background: #ff8053;
   color: #fff;
   padding: 15px 0;
   font-size: 0.9rem;
   font-weight: bold;
 }
-.back {
+.app-back {
   padding: 0 20px;
+}
+
+.app-title {
+  flex: 1;
 }
 .icon-return {
   font-size: 1.3rem;

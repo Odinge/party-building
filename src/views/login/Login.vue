@@ -49,7 +49,6 @@ export default {
         account: "",
         password: ""
       },
-      states: ["disabled", "success", "unlogin"],
       loginState: 0,
       errMsg: ""
     }
@@ -59,21 +58,15 @@ export default {
       handler(nuser) {
         let account = nuser.account.trim();
         let password = nuser.password.trim();
-        if (account || password) {
-          this.errMsg = "";
-        }
-        // this.errMsg = "";
+
+        // 清除错误信息
+        if (account || password) this.errMsg = "";
+        // 判断是否新输入
         let disable = account && password;
-        if (!disable) {
-          this.loginState = 0;
-        } else {
-          this.loginState = 2;
-        }
+        this.loginState = disable ? 2 : 0;
+
       }, deep: true
     }
-  },
-  computed: {
-
   },
   methods: {
     clear() {
@@ -98,14 +91,6 @@ export default {
 }
 </script>
 <style>
-/* 登录控制 */
-.disabled {
-  pointer-events: none;
-  background-color: #d1caca !important;
-}
-.success {
-  background-color: #46dd88 !important;
-}
 .err {
   position: absolute;
   width: 100%;

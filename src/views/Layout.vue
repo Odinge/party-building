@@ -1,7 +1,7 @@
 <template>
-  <section class="container">
-    <Header class="pub-head" v-if="meta.showHead">{{ meta.title }}</Header>
-    <router-view class="content"></router-view>
+  <section class="app-container">
+    <Header class="pub-header" v-if="meta.showHead" :noBack="meta.noBack">{{ meta.title }}</Header>
+    <router-view class="app-content"></router-view>
     <Nav v-if="meta.showNav"></Nav>
   </section>
 </template>
@@ -21,17 +21,17 @@ export default {
   },
 };
 </script>
-<style scoped>
-.container {
+<style>
+.app-container {
   overflow: hidden;
   display: flex;
   flex-direction: column;
   height: 100%;
 }
-.pub-head {
+.pub-header {
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.4);
 }
-.content {
+.app-content {
   overflow: auto;
   flex: 1;
 }
