@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // 获取token
-import { getToken } from "../util/token";
+import { getToken } from "../utils/token";
 // 路由
 import router from "../router";
 

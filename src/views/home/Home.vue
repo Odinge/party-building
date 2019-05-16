@@ -1,27 +1,71 @@
 <template>
-  <div id="home">
-    <div class="home-swiper">
-      <!-- <swiper :options="swiperOption" v-if="showSwiper">
-        <swiper-slide v-for="item of list" :key="item.id">
-          <img class="swiper-img" :src="item.imgUrl" alt="">
-        </swiper-slide>
-        <div class="swiper-pagination" slot="pagination"></div>
-      </swiper> -->
+  <section id="home" class="app-container">
+    <Header class="pub-header search-header" :noBack="true">
+      <div class="app-search">
+        <van-icon name="search" />
+        <input type="text" placeholder="请输入搜索的内容" v-model="searchVal">
+        <a href="" @touchstart="onSearch">搜索</a>
+      </div>
+    </Header>
+    <div class="app-content">
+      <div class="home-swiper">
+
+      </div>
     </div>
-  </div>
+  </section>
 </template>
 <script>
+
 export default {
+  components: {},
   data() {
     return {
+      searchVal: "",
+    }
+  },
+  methods: {
+    onSearch() {
 
     }
   }
 }
 </script>
 <style scoped>
-#home {
+.app-search {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(223, 206, 206, 0.5);
+  padding: 1.5vw;
+  border-radius: 5vw;
 }
-.con {
+.app-search input {
+  width: 60%;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  background-color: transparent;
+  -web-kit-appearance: none;
+  -moz-appearance: none;
+}
+.search-header {
+  padding-top: 2.5vw;
+  padding-bottom: 2.5vw;
+}
+
+input::-webkit-input-placeholder {
+  /* WebKit, Blink, Edge */
+  color: rgb(235, 230, 230);
+}
+input:-moz-placeholder {
+  /* Mozilla Firefox 4 to 18 */
+  color: rgb(235, 230, 230);
+}
+input::-moz-placeholder {
+  /* Mozilla Firefox 19+ */
+  color: rgb(235, 230, 230);
+}
+input:-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  color: rgb(235, 230, 230);
 }
 </style>

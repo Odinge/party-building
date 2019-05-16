@@ -4,17 +4,12 @@ import router from "./router";
 import store from "./store";
 
 // 获取token
-import { getToken } from "./util/token";
+import { getToken } from "./utils/token";
 
-import VueAwesomeSwiper from "vue-awesome-swiper";
 import "../public/css/reset.css";
-import "swiper/dist/css/swiper.css";
 
 // 全局配置
 import "./global";
-
-// 轮播插件
-Vue.use(VueAwesomeSwiper);
 
 Vue.config.productionTip = false;
 
@@ -32,7 +27,15 @@ router.beforeEach((to, form, next) => {
       next("/");
     } else {
       // 拉去用户基本信息
-      if (store.state.userInfo.sname) {
+      if (!store.state.userInfo.sname) {
+        store
+          .dispatch("getUserInfo")
+          .then(res => {
+            next();
+          })
+          .catch(err => {
+            next("/login");
+          });
       } else {
         //当有用户权限的时候，说明所有可访问路由已生成 如访问没权限的全面会自动进入登录页面
         next();

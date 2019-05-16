@@ -1,10 +1,30 @@
 // 异步方法
 import { login, register, logout } from "../api/login";
-import { SET_TOKEN, SET_USERINFO } from "./type";
-import { setToken, delToken } from "../util/token";
+import { SET_TOKEN, SET_USERINFO, SET_USERAVATAR } from "./type";
+import { setToken, delToken } from "../utils/token";
+
 export default {
   async login({ commit }, user) {
-    const res = await login(user);
+    // 访问后台获取登录
+    // const res = await login(user);
+
+    // 用于测试
+    let res = {};
+    const users = [{ account: "user", password: "123456" }];
+    const findUser = users.find(u => u.account === user.account);
+
+    if (findUser) {
+      if (user.password === findUser.password) {
+        res = { status: 0, msg: "登录成功" };
+      } else {
+        res = { status: 1, msg: "密码不正确" };
+        throw res;
+      }
+    } else {
+      res = { status: 2, msg: "账号不存在" };
+      throw res;
+    }
+
     // 登录成功
     // 保存token
     const token = setToken();
@@ -13,10 +33,28 @@ export default {
     return res;
   },
   async logout() {
-    await logout();
+    // const res = await logout();
+    const res = {};
     delToken();
     // 刷新浏览器
     location.reload();
+    return res;
   },
-  async getUserInfo({ commit }) {}
+  // 从数据库获取信息
+  async getUserInfo({ commit }) {
+    const userInfo = {
+      sname: "张山山",
+      clockNum: 10,
+      userAvatar: "/images/user.png"
+    };
+
+    commit(SET_USERINFO, userInfo);
+    return userInfo;
+  },
+  // 设置头像
+  async setUserAvatar({ commit }, userAvatar) {
+    const res = {};
+    commit(SET_USERAVATAR, userAvatar);
+    return res;
+  }
 };

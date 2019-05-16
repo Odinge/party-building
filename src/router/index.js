@@ -35,7 +35,6 @@ export default new Router({
           meta: {
             title: "首页",
             showNav: true,
-            showHead: true,
             noBack: true
           },
           component: () =>
@@ -50,23 +49,32 @@ export default new Router({
         {
           path: "video",
           name: "video",
-          meta: { showHead: true, title: "学习视频" },
+          meta: { title: "学习视频", showHead: true },
           component: () =>
             import(/* webpackChunkName: "video" */ "../views/video/Video.vue")
         },
         {
           path: "test",
           name: "test",
-          meta: { showHead: true, title: "学习测评" },
+          meta: { title: "学习测评", showHead: true, showMore: true },
           component: () =>
             import(/* webpackChunkName: "test" */ "../views/test/Test.vue")
         },
         {
           path: "mine",
           name: "mine",
-          meta: { showNav: true, title: "设置", noBack: true },
+          meta: { title: "设置", showNav: true, noBack: true },
           component: () =>
             import(/* webpackChunkName: "mime" */ "../views/mine/Mine.vue")
+        },
+        {
+          path: "setting",
+          name: "setting",
+          meta: { title: "设置", showHead: true },
+          component: () =>
+            import(
+              /* webpackChunkName: "setting" */ "../views/mine/Setting.vue"
+            )
         },
         {
           path: "more",
@@ -78,7 +86,7 @@ export default new Router({
           path: "detail",
           name: "detail",
           component: () =>
-            import(/* webpackChunkName: "more" */ "../views/home/Detail.vue")
+            import(/* webpackChunkName: "detail" */ "../views/home/Detail.vue")
         }
       ]
     },

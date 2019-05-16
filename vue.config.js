@@ -1,5 +1,6 @@
 // 作为配置文件，直接导出配置对象即可
 module.exports = {
+  // 开发环境配置
   devServer: {
     // 设置主机地址
     host: "localhost",
@@ -16,6 +17,19 @@ module.exports = {
         changeOrigin: false,
         pathRewrite: {
           "^/api": ""
+        }
+      }
+    }
+  },
+  // ui主题定制
+  css: {
+    loaderOptions: {
+      less: {
+        modifyVars: {
+          red: "#03a9f4",
+          blue: "#f44",
+          orange: "#f08d49",
+          "text-color": "#111"
         }
       }
     }

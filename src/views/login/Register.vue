@@ -9,10 +9,15 @@
       <form name="register" action="" method="post" onsubmit="return false">
         <div class="reg-text">
           <label for="identity">注册身份</label>
-          <select name="identity" class="input" id="identity" v-model="regInfo.identity">
-            <option value="" selected disabled>请选择申请人类型</option>
-            <option v-for="item in identitys" :value="item.value" :key="item.value">{{item.label}}</option>
-          </select>
+
+          <div @touchstart.prevent.stop="showId=!showId" class="reg-select">
+            <input type="text" placeholder="请选择申请人类型" name="identity" id="identity" class="input" :value="identitys[regInfo.identity]" disabled>
+            <van-icon name="arrow" />
+          </div>
+          <van-actionsheet v-model="showId">
+            <van-picker :columns="identitys" title="省份选择" show-toolbar @cancel="onCancel" @confirm="onidchange" />
+          </van-actionsheet>
+
         </div>
         <div class="reg-text">
           <label for="sname">姓名</label>
@@ -45,19 +50,16 @@
         </div>
 
         <!-- 时间填写 -->
-        <!-- <div class="reg-text date-picker" v-if="['0', '1', '2', '3'].includes(regInfo.identity)"> -->
         <div class="reg-text date-picker" v-if="isShowTime('0123')">
           <label for="applicationTime">递交入党申请时间</label>
           <input type="date" class="input" name="applicationTime" id="applicationTime" v-model="time.applicationTime" />
         </div>
 
-        <!-- <div class="reg-text date-picker" v-if="['1', '2', '3'].includes(regInfo.identity)"> -->
         <div class="reg-text date-picker" v-if="isShowTime('123')">
           <label for="activistTime">确定为积极分子时间</label>
           <input type="date" class="input" name="activistTime" id="activistTime" v-model="time.activistTime" />
         </div>
 
-        <!-- <template v-if="['2', '3'].includes(regInfo.identity)"> -->
         <template v-if="isShowTime('23')">
           <div class="reg-text date-picker">
             <label for="probationaryTime">确定为发展对象时间</label>
@@ -69,7 +71,6 @@
           </div>
         </template>
 
-        <!-- <div class="reg-text date-picker" v-if="regInfo.identity == '3'"> -->
         <div class="reg-text date-picker" v-if="isShowTime('3')">
           <label for="fullpartyTime">确定为正式党员时间</label>
           <input type="date" class="input" name="fullpartyTime" id="fullpartyTime" v-model="time.fullpartyTime" />
@@ -79,26 +80,32 @@
           <input type="checkbox" checked id="plain" v-model="agree"><label for="plain">同意注册条款</label>
         </div>
         <div class="reg-btn">
-          <button @touchstart.prevent="register" :class="states[regState]" :disabled="!regState">{{ regState === 1 ? "注 册成 功": "注 册" }}</button>
+          <button @touchstart.prevent="register" :class="states[regState]" :disabled="!regState">{{ regState === 1 ? "注册成功": "注 册" }}</button>
         </div>
       </form>
     </div>
   </section>
 </template>
 <script>
-// import "./register.css";
 import { register } from "../../api/login";
 export default {
   data() {
     return {
+      // identitys: [
+      //   { value: "0", label: "入党申请人" },
+      //   { value: "1", label: "入党积极分子" },
+      //   { value: "2", label: "中共预备党员" },
+      //   { value: "3", label: "中共党员" },
+      // ], // 身份列表
+      showId: false,
       identitys: [
-        { value: "0", label: "入党申请人" },
-        { value: "1", label: "入党积极分子" },
-        { value: "2", label: "中共预备党员" },
-        { value: "3", label: "中共党员" },
+        "入党申请人",
+        "入党积极分子",
+        "中共预备党员",
+        "中共党员",
       ], // 身份列表
       regInfo: {
-        account: "ddd", // 账号
+        account: "", // 账号
         password: "", // 密码
         sname: "", // 姓名
         sclass: "", // 班级
@@ -199,6 +206,14 @@ export default {
         console.error(err);
 
       });
+    },
+
+    onidchange(value, index) {
+      this.regInfo.identity = index + "";
+      this.showId = false;
+    },
+    onCancel() {
+      this.showId = false;
     }
   }
 };
@@ -246,6 +261,7 @@ export default {
   border: none;
   margin-left: 1rem;
   color: #858585;
+  background-color: transparent;
 }
 .reg-text select.input {
   margin-left: 0.8rem;
@@ -285,5 +301,12 @@ export default {
   color: #de442c;
   font-size: 0.7rem;
   width: 5em;
+}
+.reg-select {
+  display: flex;
+  align-items: center;
+}
+.reg-select input {
+  background-color: transparent;
 }
 </style>

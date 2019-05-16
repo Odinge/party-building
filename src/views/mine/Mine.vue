@@ -1,90 +1,91 @@
 <template>
   <div class="mine">
-    <Header class="mine-head" :noBack="true">
-      <span class="mine-head-text">设置</span>
+    <Header class="mine-head" :showMore="true" :center="true">
+      <span slot="left">我的</span>
+      <router-link to="/setting" class="mine-head-text" slot="right">
+        设置
+      </router-link>
     </Header>
     <div class="mine-main">
       <div class="mine-main-head">
         <div class="mine-user-text">
-          <h2>{{ userInfo.username }}</h2>
-          <h3>本月打卡{{ userInfo.count }}天</h3>
+          <h2>{{ userInfo.sname }}同学</h2>
+          <h3>本月打卡{{ userInfo.clockNum }}天</h3>
         </div>
-        <div class="mine-user-img">
-          <router-link to="/">
-            <img src="images/user.png">
-          </router-link>
+        <div class="mine-user-avatar">
+          <img :src="userInfo.userAvatar">
         </div>
       </div>
       <div class="mine-main-content">
         <ul class="mime-content-grid">
           <li>
             <router-link to="/">
-              <img src="images/icon-ge-002.png">
+              <img src="/images/icon-ge-002.png">
               <h3>智慧党建</h3>
             </router-link>
           </li>
           <li>
             <router-link to="/">
-              <img src="images/icon-ge-003.png">
+              <img src="/images/icon-ge-003.png">
               <h3>我的评价</h3>
             </router-link>
           </li>
           <li>
             <router-link to="/">
-              <img src="images/icon-ge-005.png">
+              <img src="/images/icon-ge-005.png">
               <h3>常用下载</h3>
             </router-link>
           </li>
         </ul>
         <div class="mime-content-mv">
-          <img src="images/06.jpg">
+          <img src="/images/06.jpg">
         </div>
         <ul class="mime-content-list">
           <li>
             <router-link to="/">
-              <img src="images/icon-qe-005.png">
+              <img src="/images/icon-qe-005.png">
               <span>我的消息</span>
             </router-link>
           </li>
           <li>
             <router-link to="/">
-              <img src="images/icon-qe-006.png">
+              <img src="/images/icon-qe-006.png">
               <span>我的竞赛</span>
             </router-link>
           </li>
           <li>
             <router-link to="/">
-              <img src="images/icon-qe-007.png">
+              <img src="/images/icon-qe-007.png">
               <span>学习情况</span>
             </router-link>
           </li>
           <li>
             <router-link to="/">
-              <img src="images/icon-qe-008.png">
+              <img src="/images/icon-qe-008.png">
               <span>我的组织</span>
             </router-link>
           </li>
           <li>
             <router-link to="/">
-              <img src="images/icon-qe-009.png">
+              <img src="/images/icon-qe-009.png">
               <span>我的笔记</span>
             </router-link>
           </li>
           <li>
             <router-link to="/">
-              <img src="images/icon-qe-010.png">
+              <img src="/images/icon-qe-010.png">
               <span>我的公益</span>
             </router-link>
           </li>
           <li>
             <router-link to="/">
-              <img src="images/icon-qe-011.png">
+              <img src="/images/icon-qe-011.png">
               <span>我的收藏</span>
             </router-link>
           </li>
           <li>
             <router-link to="/">
-              <img src="images/icon-qe-012.png">
+              <img src="/images/icon-qe-012.png">
               <span>意见反馈</span>
             </router-link>
           </li>
@@ -95,20 +96,17 @@
 </template>
 
 <script>
-import Header from "@/components/Header";
+import { mapState } from "vuex";
 export default {
-  components: { Header },
   data() {
     return {
-      userInfo: {
-        username: "张山山同学",
-        count: 13,
-        headImg: "images/user.png"
-      }
     }
   },
   mounted() {
     this.loadData();
+  },
+  computed: {
+    ...mapState(["userInfo"])
   },
   methods: {
     loadData() {
@@ -125,7 +123,6 @@ export default {
   box-shadow: none;
 }
 .mine-head-text {
-  padding-left: 2rem;
   font-size: 0.9rem;
   font-weight: bold;
 }
@@ -154,15 +151,14 @@ export default {
   color: #fff;
   text-align: center;
 }
-.mine-user-img {
+.mine-user-avatar {
+  overflow: hidden;
   width: 20vw;
   height: 20vw;
-  /* background-image: url("images/user.png"); */
-  /* background-size: cover; */
   border: 0.3em solid #fff;
   border-radius: 50%;
 }
-.mine-user-img img {
+.mine-user-avatar img {
   width: 100%;
 }
 .mine-main-content {
