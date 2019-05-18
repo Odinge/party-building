@@ -9,23 +9,15 @@
       <form name="register" action="" method="post" onsubmit="return false">
         <div class="reg-text">
           <label for="identity">注册身份</label>
-
-          <div @touchstart.prevent.stop="showId=!showId" class="reg-select">
-            <input type="text" placeholder="请选择申请人类型" name="identity" id="identity" class="input" :value="identitys[regInfo.identity]" disabled>
-            <van-icon name="arrow" />
-          </div>
-          <van-actionsheet v-model="showId">
-            <van-picker :columns="identitys" title="省份选择" show-toolbar @cancel="onCancel" @confirm="onidchange" />
-          </van-actionsheet>
-
+          <picker v-model="regInfo.identity" :columns="identitys" placeholder="请选择申请人类型" title="身份选择" class="input"></picker>
         </div>
         <div class="reg-text">
           <label for="sname">姓名</label>
           <input type="text" placeholder="请输入姓名" class="input" name="sname" id="sname" v-model="regInfo.sname">
         </div>
         <div class="reg-text">
-          <label for="sid">学号</label>
-          <input type="text" placeholder="请输入学号" class="input" name="sid" id="sid" v-model="regInfo.sid">
+          <label for="account">学号</label>
+          <input type="text" placeholder="请输入学号" class="input" name="account" id="account" v-model="regInfo.account">
         </div>
         <div class="reg-text">
           <label for="sclass">班级</label>
@@ -40,47 +32,51 @@
           <input type="text" placeholder="请输入邮箱" class="input" name="email" id="email" v-model="regInfo.email" />
         </div>
         <div class="reg-text">
-          <label for="password">密 码</label>
-          <input type="password" placeholder="请输入密码" class="input" name="password" id="password" v-model="regInfo.password" />
+          <label for="password" required>
+            <van-icon name="question-o" class="info" @click="$toast('6~16位字母、数字或者字符')"></van-icon>
+            密 码
+          </label>
+          <input type="password" placeholder="请输入密码" class="input" name="password" id="password" v-model="regInfo.password" ref="password" />
+          <van-icon :name="psdStatus?'eye-o':'closed-eye'" @click="showPsd"></van-icon>
         </div>
         <div class="reg-text">
           <label for="password1">确认密码</label>
-          <input type="password" placeholder="请输入确认密码" class="input reg-psd" name="password1" id="password1" v-model="password" />
+          <input type="password" placeholder="请输入确认密码" class="input reg-psd" name="password1" ref="password1" v-model="password" />
           <span class="psd-err">{{psdErrMsg}}</span>
         </div>
 
         <!-- 时间填写 -->
         <div class="reg-text date-picker" v-if="isShowTime('0123')">
           <label for="applicationTime">递交入党申请时间</label>
-          <input type="date" class="input" name="applicationTime" id="applicationTime" v-model="time.applicationTime" />
+          <date-picker v-model="time.applicationTime" class="input" title="递交入党申请时间"></date-picker>
         </div>
 
         <div class="reg-text date-picker" v-if="isShowTime('123')">
           <label for="activistTime">确定为积极分子时间</label>
-          <input type="date" class="input" name="activistTime" id="activistTime" v-model="time.activistTime" />
+          <date-picker v-model="time.activistTime" class="input" title="确定为积极分子时间"></date-picker>
         </div>
 
         <template v-if="isShowTime('23')">
           <div class="reg-text date-picker">
             <label for="probationaryTime">确定为发展对象时间</label>
-            <input type="date" class="input" name="probationaryTime" id="probationaryTime" v-model="time.probationaryTime" />
+            <date-picker v-model="time.probationaryTime" class="input" title="确定为发展对象时间"></date-picker>
           </div>
           <div class="reg-text date-picker">
             <label for="potentialTime">确定为预备党员时间</label>
-            <input type="date" class="input" name="potentialTime" id="potentialTime" v-model="time.potentialTime" />
+            <date-picker v-model="time.potentialTime" class="input" title="确定为预备党员时间"></date-picker>
           </div>
         </template>
 
         <div class="reg-text date-picker" v-if="isShowTime('3')">
           <label for="fullpartyTime">确定为正式党员时间</label>
-          <input type="date" class="input" name="fullpartyTime" id="fullpartyTime" v-model="time.fullpartyTime" />
+          <date-picker v-model="time.fullpartyTime" class="input" title="确定为正式党员时间"></date-picker>
         </div>
 
         <div class="reg-tip">
           <input type="checkbox" checked id="plain" v-model="agree"><label for="plain">同意注册条款</label>
         </div>
         <div class="reg-btn">
-          <button @touchstart.prevent="register" :class="states[regState]" :disabled="!regState">{{ regState === 1 ? "注册成功": "注 册" }}</button>
+          <button @click.prevent="register" :class="states[regState]" :disabled="!regState">{{ regState === 1 ? "注册成功": "注 册" }}</button>
         </div>
       </form>
     </div>
@@ -91,13 +87,6 @@ import { register } from "../../api/login";
 export default {
   data() {
     return {
-      // identitys: [
-      //   { value: "0", label: "入党申请人" },
-      //   { value: "1", label: "入党积极分子" },
-      //   { value: "2", label: "中共预备党员" },
-      //   { value: "3", label: "中共党员" },
-      // ], // 身份列表
-      showId: false,
       identitys: [
         "入党申请人",
         "入党积极分子",
@@ -130,7 +119,9 @@ export default {
         ["23", "potentialTime"],
         ["3", "fullpartyTime"],
       ], // 时间权限映射
-      regState: 0 // 注册表单状态
+      regState: 0, // 注册表单状态
+
+      psdStatus: 0, // 密码显示状态
     }
   },
   computed: {
@@ -152,33 +143,48 @@ export default {
       return time;
     },
     allInfo() {
-      return { ...this.regInfo, ...this.regTime, password1: this.password };
+      return { ...this.regInfo, ...this.regTime, password1: this.password, agree: this.agree };
     }
   },
   watch: {
     allInfo: {
       handler(newVal) {
+        const { agree, ...info } = newVal;
+
         // 判断必须的是否已填写
-        const keys = Object.keys(newVal);
+        const keys = Object.keys(info);
         let disabled = false;
         for (const key of keys) {
-          if (!newVal[key].trim()) {
+          if (!info[key].trim()) {
             disabled = true;
             break;
           }
         }
+
+        // 密码检验
+        const { password, password1 } = info;
         // 判断密码是否确认正确
-        if (newVal.password1 && newVal.password && newVal.password1 !== newVal.password) {
-          disabled = true;
-          this.psdErrMsg = "密码不一致";
+        if (password) {
+          const psdReg = /^.{6,16}$/;
+          if (password1 && password1 !== password) {
+            disabled = true;
+            this.psdErrMsg = "密码不一致";
+          } else if (!psdReg.test(password)) {
+            disabled = true;
+            this.psdErrMsg = "密码格式不对";
+          } else {
+            this.psdErrMsg = "";
+          }
         } else {
           this.psdErrMsg = "";
         }
+
         // 判断是否同意协议
-        if (!this.agree) {
+        if (!agree) {
           disabled = true;
         }
 
+        // 改变状态
         this.regState = disabled ? 0 : 2;
       }, deep: true
     }
@@ -197,23 +203,40 @@ export default {
     },
     // 提交注册
     register() {
+      // 加载
+      const load = this.$toast.loading({
+        mask: true,
+        duration: 0,
+        message: '加载中...'
+      });
       // 结合信息
       let regInfo = { ...this.regInfo, ...this.regTime };
+      regInfo.identity = this.identitys[regInfo.identity];
+      // 发送请求
       register(regInfo).then(res => {
         console.log(res);
-
+        // this.regState = 1;
+        load.clear();
+        // 倒计时
+        this.countDown({ content: "  跳到登录", type: "success" }, () => {
+          // 注册成功跳到登录页
+          this.$router.push({ path: "/login" });
+        });
       }).catch(err => {
         console.error(err);
-
+        load.clear();
+        this.$dialog.alert({
+          title: '提示',
+          message: err.msg,
+          confirmButtonColor: "#f44"
+        });
       });
     },
-
-    onidchange(value, index) {
-      this.regInfo.identity = index + "";
-      this.showId = false;
-    },
-    onCancel() {
-      this.showId = false;
+    // 密码显示
+    showPsd() {
+      const { password, password1 } = this.$refs;
+      this.psdStatus = !this.psdStatus;
+      password.type = password1.type = this.psdStatus ? "text" : "password";
     }
   }
 };
@@ -300,7 +323,7 @@ export default {
 .psd-err {
   color: #de442c;
   font-size: 0.7rem;
-  width: 5em;
+  width: 6em;
 }
 .reg-select {
   display: flex;
@@ -308,5 +331,8 @@ export default {
 }
 .reg-select input {
   background-color: transparent;
+}
+.info {
+  color: #e54e31;
 }
 </style>

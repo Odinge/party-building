@@ -8,7 +8,7 @@
         <form onsubmit="return false">
           <div class="aui-flex">
             <div class="aui-form-item">
-              <img src="images/iphone.png" alt="">
+              <img src="images/login/iphone.png" alt="">
             </div>
             <div class="aui-flex-box">
               <input type="text" placeholder="请输入学号/工号" v-model="user.account">
@@ -16,7 +16,7 @@
           </div>
           <div class="aui-flex">
             <div class="aui-form-item">
-              <img src="images/psd.png" alt="">
+              <img src="images/login/psd.png" alt="">
             </div>
             <div class="aui-flex-box">
               <input type="password" placeholder="请输入您的密码" v-model="user.password">
@@ -27,12 +27,12 @@
             </div>
           </div>
           <div class="aui-form-button">
-            <button @touchstart.prevent="login" :class="states[loginState]" :disabled="!loginState">{{ loginState === 1 ? "登录成功": "登录" }}</button>
+            <button @click.prevent="login" :class="states[loginState]" :disabled="!loginState">{{ loginState === 1 ? "登录成功": "登录" }}</button>
           </div>
           <div class="register-text">
             <router-link to="/register">立即注册</router-link>
           </div>
-          <div class="err">{{ errMsg }}</div>
+          <!-- <div class="err" id="msg">{{ errMsg }}</div> -->
         </form>
       </div>
     </section>
@@ -76,15 +76,30 @@ export default {
       };
     },
     login() {
+      const load = this.$toast.loading({
+        mask: true,
+        duration: 0,
+        message: '加载中...'
+      });
+
       this.$store
         .dispatch("login", this.user)
         .then(res => {
-          this.loginState = 1;
+          // this.loginState = 1;
           // 登录成功，登入首页
           this.$router.push({ path: "/" });
+          load.clear();
         }).catch(err => {
           this.errMsg = err.msg;
-          this.clear();
+          load.clear();
+          this.$dialog.alert({
+            title: '提示',
+            message: err.msg,
+            confirmButtonColor: "#f44"
+          }).then(() => {
+            // on close
+            this.clear();
+          });
         });
     }
   }
@@ -137,8 +152,7 @@ export default {
 }
 
 .aui-flex-box {
-  /* flex: 1; */
-  min-width: 0;
+  flex: 1;
   font-size: 14px;
   color: #333;
 }

@@ -45,7 +45,7 @@ export default {
     const userInfo = {
       sname: "张山山",
       clockNum: 10,
-      userAvatar: "/images/user.png"
+      userAvatar: "/images/mine/user.png"
     };
 
     commit(SET_USERINFO, userInfo);

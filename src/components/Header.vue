@@ -11,7 +11,7 @@
       <slot>
       </slot>
     </div>
-    <div class="app-header-right" v-show="!hideRight" @touchstart="onMore">
+    <div class="app-header-right center" v-show="!hideRight" @touchstart="onMore">
       <template v-if="showMore">
         <slot name="right">
           <van-icon name="ellipsis"></van-icon>
@@ -35,7 +35,7 @@ export default {
     },
     center: {
       type: Boolean,
-      default: false
+      default: true
     }
   },
   methods: {

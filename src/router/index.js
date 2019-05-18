@@ -77,10 +77,16 @@ export default new Router({
             )
         },
         {
-          path: "more",
+          path: "more/:compName/:title",
           name: "more",
+          meta: { showHead: true },
           component: () =>
-            import(/* webpackChunkName: "more" */ "../views/home/More.vue")
+            import(/* webpackChunkName: "more" */ "../views/home/More.vue"),
+          beforeEnter: (to, from, next) => {
+            const { title } = to.params;
+            to.meta.title = title;
+            next();
+          }
         },
         {
           path: "detail",

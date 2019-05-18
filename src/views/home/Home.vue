@@ -1,71 +1,53 @@
 <template>
   <section id="home" class="app-container">
-    <Header class="pub-header search-header" :noBack="true">
-      <div class="app-search">
-        <van-icon name="search" />
-        <input type="text" placeholder="请输入搜索的内容" v-model="searchVal">
-        <a href="" @touchstart="onSearch">搜索</a>
-      </div>
-    </Header>
+    <search></search>
     <div class="app-content">
-      <div class="home-swiper">
-
-      </div>
+      <!-- 轮播 -->
+      <van-swipe :autoplay="3000" heigh="100" class="swiper-box" indicator-color="#ea2930">
+        <van-swipe-item v-for="(image, index) in images" :key="index">
+          <router-link :to="{path:images.id}">
+            <img :src="image.imgUrl" v-lazy="image.imgUrl" />
+          </router-link>
+        </van-swipe-item>
+      </van-swipe>
+      <!-- 列表 -->
+      <Title class="home-title" moreTo="Dynamics" label="党建动态"></Title>
+      <dynamics :showNum="4"></dynamics>
+      <Title class="home-title" moreTo="Notice" label="党内通知"></Title>
+      <notice :showNum="2"></notice>
     </div>
   </section>
 </template>
 <script>
-
+import Title from "./Title";
+import Search from "./Search";
+import Dynamics from "./Dynamics";
+import Notice from "./Notice";
 export default {
-  components: {},
+  components: { Search, Title, Dynamics, Notice },
   data() {
     return {
-      searchVal: "",
+      images: [
+        { imgUrl: "images/home/01.jpg", id: "1" },
+        { imgUrl: "images/home/02.jpg", id: "2" },
+        { imgUrl: "images/home/03.jpg", id: "3" },
+        { imgUrl: "images/home/04.jpg", id: "4" },
+      ]
     }
   },
   methods: {
-    onSearch() {
 
-    }
   }
 }
 </script>
-<style scoped>
-.app-search {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: rgba(223, 206, 206, 0.5);
-  padding: 1.5vw;
-  border-radius: 5vw;
+<style>
+.swiper-box {
+  height: 50vw;
 }
-.app-search input {
-  width: 60%;
-  margin-left: 1rem;
-  margin-right: 1rem;
-  background-color: transparent;
-  -web-kit-appearance: none;
-  -moz-appearance: none;
+.swiper-box img {
+  width: 100%;
 }
-.search-header {
-  padding-top: 2.5vw;
-  padding-bottom: 2.5vw;
-}
-
-input::-webkit-input-placeholder {
-  /* WebKit, Blink, Edge */
-  color: rgb(235, 230, 230);
-}
-input:-moz-placeholder {
-  /* Mozilla Firefox 4 to 18 */
-  color: rgb(235, 230, 230);
-}
-input::-moz-placeholder {
-  /* Mozilla Firefox 19+ */
-  color: rgb(235, 230, 230);
-}
-input:-ms-input-placeholder {
-  /* Internet Explorer 10-11 */
-  color: rgb(235, 230, 230);
+.home-title {
+  margin: 5vw 0;
 }
 </style>

@@ -1,7 +1,9 @@
 <template>
   <section class="app-container">
     <Header class="pub-header" v-if="meta.showHead" :noBack="meta.noBack" :showMore="meta.showMore">{{ meta.title }}</Header>
-    <router-view class="app-content"></router-view>
+    <transition>
+      <router-view class="app-content"></router-view>
+    </transition>
     <Nav v-if="meta.showNav"></Nav>
   </section>
 </template>

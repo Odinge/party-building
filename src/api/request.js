@@ -15,6 +15,8 @@ const service = axios.create({
 // 请求拦截器
 service.interceptors.request.use(
   config => {
+    console.log(config);
+
     config.headers["Content-Type"] = "application/json;charset=UTF-8";
     config.headers.Accept = "application/json;";
     let token = getToken();
@@ -25,6 +27,8 @@ service.interceptors.request.use(
     return config;
   },
   err => {
+    console.log(err);
+
     // Do something with request error
     return Promise.reject(err);
   }
