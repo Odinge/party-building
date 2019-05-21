@@ -2,19 +2,21 @@
   <section id="home" class="app-container">
     <search></search>
     <div class="app-content">
-      <!-- 轮播 -->
-      <van-swipe :autoplay="3000" heigh="100" class="swiper-box" indicator-color="#ea2930">
-        <van-swipe-item v-for="(image, index) in images" :key="index">
-          <router-link :to="{path:images.id}">
-            <img :src="image.imgUrl" v-lazy="image.imgUrl" />
-          </router-link>
-        </van-swipe-item>
-      </van-swipe>
-      <!-- 列表 -->
-      <Title class="home-title" moreTo="Dynamics" label="党建动态"></Title>
-      <dynamics :list="dynamicsList"></dynamics>
-      <Title class="home-title" moreTo="Notice" label="党内通知"></Title>
-      <notice :list="noticeList"></notice>
+      <van-pull-refresh v-model="isRefresh" @refresh="onRefresh">
+        <!-- 轮播 -->
+        <van-swipe :autoplay="3000" heigh="100" class="swiper-box" indicator-color="#ea2930">
+          <van-swipe-item v-for="(image, index) in images" :key="index">
+            <router-link :to="{path:images.id}">
+              <img :src="image.imgUrl" v-lazy="image.imgUrl" />
+            </router-link>
+          </van-swipe-item>
+        </van-swipe>
+        <!-- 列表 -->
+        <Title class="home-title" moreTo="Dynamics" label="党建动态"></Title>
+        <dynamics :list="dynamicsList"></dynamics>
+        <Title class="home-title" moreTo="Notice" label="党内通知"></Title>
+        <notice :list="noticeList"></notice>
+      </van-pull-refresh>
     </div>
   </section>
 </template>
@@ -44,10 +46,22 @@ export default {
         { title: "响应长三角一体化发展布局 共谋儿童健康行动新篇", content: "响应长三角一体化发展布局 共谋儿童健康行动新篇", publisher: "信息工程学院", watchNum: 300, praiseNum: 105 },
         { title: "响应长三角一体化发展布局 共谋儿童健康行动新篇", content: "响应长三角一体化发展布局 共谋儿童健康行动新篇", publisher: "信息工程学院", watchNum: 21, praiseNum: 10 },
       ],
+      isRefresh: false,
     }
   },
+  mounted() {
+    this.loadData();
+  },
   methods: {
+    loadData() {
 
+    },
+    onRefresh() {
+      this.loadData();
+      setTimeout(() => {
+        this.isRefresh = false;
+      }, 1000);
+    },
   }
 }
 </script>

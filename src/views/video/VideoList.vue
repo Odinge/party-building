@@ -2,33 +2,26 @@
   <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad" class="">
     <van-pull-refresh v-model="isRefresh" @refresh="onRefresh">
       <ul class="app-content video-list">
-        <li v-for="(item, index) in datas" :key="index">
-          <router-link to="/video" class="list-item ">
-            <div class="video-play">
-              <!--  poster="/images/video/seal-001.jpg" -->
-              <video ref="video" preload="metadata">
-                <source :src="item.videoUrl" type="video/mp4">
-                <p>Your browser doesn't support HTML5 video. Here is
-                  a <a :href="item.videoUrl">link to the video</a> instead.</p>
-              </video>
-              <div ref="videoControls" class="controls">
-                <span class="tag-top">TOP{{index+1}}</span>
-                <!-- <span class="tag-playpause tag-play abs-center" @click="play(index)"></span> -->
-                <span class="tag-playpause tag-pause abs-center" @click="play($event,index)"></span>
-                <span class="tag-comment"></span>
-                <span class="tag-msg van-ellipsis">{{item.msg}}</span>
-              </div>
+        <li v-for="(item, index) in datas" :key="index" class="list-item">
+          <!-- 视屏控制区 -->
+          <div class="video-play">
+            <video-controls :src="item.videoUrl"></video-controls>
+            <span class="tag-top">TOP{{index+1}}</span>
+            <span class="tag-comment"></span>
+            <span class="tag-msg van-ellipsis">{{item.msg}}</span>
+          </div>
+          <!-- 视屏信息区 -->
+          <router-link to="/" class="video-info">
+            <!-- 主题 -->
+            <div class="app-flex">
+              <h4 class="van-ellipsis">{{item.title}}</h4>
+              <span class="app-flex">
+                <em class="collect" :class="{collected:item.isCollect}">收藏</em>
+                <em class="read-num">阅读量：{{item.readNum}}</em>
+              </span>
             </div>
-            <div class="video-info">
-              <div class="app-flex">
-                <h4 class="van-ellipsis">{{item.title}}</h4>
-                <span class="app-flex">
-                  <em class="collect" :class="{collected:item.isCollect}">收藏</em>
-                  <em class="read-num">阅读量：{{item.readNum}}</em>
-                </span>
-              </div>
-              <p class="van-ellipsis">{{item.content}}</p>
-            </div>
+            <!-- 内容 -->
+            <p class="van-ellipsis">{{item.content}}</p>
           </router-link>
         </li>
       </ul>
@@ -103,9 +96,17 @@ export default {
       }, 500);
     },
     play(e, index) {
+      const target = e.target;
       const video = this.$refs.video[index];
-      if (video.paused || video.ended) video.play();
-      else video.pause();
+      if (video.paused || video.ended) {
+        target.classList.remove("tag-play");
+        target.classList.add("tag-pause");
+        video.play();
+      } else {
+        target.classList.remove("tag-pause");
+        target.classList.add("tag-play");
+        video.pause();
+      }
     }
   }
 }
@@ -113,11 +114,7 @@ export default {
 
 <style>
 .video-list {
-  /* background-color: #f5f5f5; */
   font-size: 4vw;
-}
-em {
-  font-style: normal;
 }
 .list-item {
   display: block;
@@ -131,13 +128,7 @@ em {
   width: 100%;
   height: 45vw;
 }
-.video-play video {
-  width: 100%;
-  height: 100%;
-  vertical-align: middle;
-  outline: none;
-  object-fit: fill;
-}
+/* 显示组件 */
 .tag-top {
   position: absolute;
   top: 0;
@@ -148,34 +139,7 @@ em {
   background-color: #e54a00;
   color: #fff;
 }
-.tag-playpause {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  width: 2.5em;
-  height: 2.5em;
-  background-color: rgba(0, 0, 0, 0.6);
-  border-radius: 50%;
-  border: 0.13em solid #fff;
-  box-shadow: 0 0 2px #000;
-}
-.tag-play::before {
-  content: "";
-  border: 0.5em solid transparent;
-  border-left-color: #fff;
-  border-right: none;
-  border-left-width: 0.8em;
-  margin-left: 10%;
-}
-.tag-pause::before {
-  content: "";
-  width: 0.4em;
-  height: 1em;
-  border-left: 0.3em solid #fff;
-  border-right: 0.3em solid #fff;
-  border-radius: 0.1em;
-}
+/* 评论 */
 .tag-comment {
   position: absolute;
   bottom: 4%;
@@ -186,6 +150,7 @@ em {
     no-repeat;
   border-radius: 50%;
 }
+/* 弹幕信息 */
 .tag-msg {
   position: absolute;
   bottom: 3%;
@@ -198,11 +163,12 @@ em {
   border-radius: 1em;
   max-width: 75%;
 }
+/* 视屏简介 */
 .video-info {
-  line-height: 1.1em;
+  display: block;
 }
 .video-info div {
-  margin: 5vw 0 2vw;
+  margin: 5vw 0 2.5vw;
   display: flex;
 }
 .video-info h4 {
@@ -234,8 +200,8 @@ em {
   background: #e7f7fd;
   color: #5d9ce5;
 }
-.van-tabs__wrap {
+/* .van-tabs__wrap {
   top: 46px !important;
   margin-top: -46px;
-}
+} */
 </style>
