@@ -3,11 +3,12 @@
     <div class="app-header-left" v-show="!hideRight">
       <template v-if="!noBack">
         <slot name="left">
-          <i class="iconfont icon-return" @click="back"></i>
+          <!-- <i class="iconfont icon-return" @click="back"></i> -->
+          <van-icon name="arrow-left" @click="back"></van-icon>
         </slot>
       </template>
     </div>
-    <div class="app-header-title" :class="{ center }">
+    <div class="app-header-title figcaption-1" :class="{ center }">
       <slot>
       </slot>
     </div>
@@ -59,14 +60,15 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 15px 8%;
+  padding: 0.9em 8%;
   background-color: #ff8053;
   color: #fff;
-  font-size: 1rem;
+  font-size: 1em;
   font-weight: bold;
+  font-size: 4.5vw;
 }
 .app-header-left {
-  font-size: 1rem;
+  font-size: 1em;
   width: 12%;
 }
 .app-header-title {
@@ -76,13 +78,13 @@ export default {
   width: 12%;
 }
 .app-header-right .van-icon-ellipsis {
-  font-size: 1.5rem;
+  font-size: 1.5em;
   line-height: 0;
   font-weight: bold !important;
   transform: translateY(1.6vw);
 }
 .icon-return {
-  font-size: 1rem;
+  font-size: 1em;
   font-weight: normal;
 }
 .center {

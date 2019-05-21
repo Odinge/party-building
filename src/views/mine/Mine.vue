@@ -31,7 +31,7 @@
             </router-link>
           </li>
           <li>
-            <router-link to="/">
+            <router-link to="/download">
               <img src="/images/mine/icon-ge-005.png">
               <h3>常用下载</h3>
             </router-link>
@@ -117,13 +117,16 @@ export default {
 </script>
 
 <style>
+.mine {
+  font-size: 4.5vw;
+}
 .mine-head {
   background-color: #fff;
   color: #000;
   box-shadow: none;
 }
 .mine-head-text {
-  font-size: 0.9rem;
+  font-size: 0.9em;
   font-weight: bold;
 }
 .mine-main-head {
@@ -139,15 +142,15 @@ export default {
 .mine-user-text h2 {
   color: #fff;
   font-weight: bold;
-  margin-bottom: 0.5rem;
-  font-size: 1.5rem;
+  margin-bottom: 0.5em;
+  font-size: 1.5em;
 }
 .mine-user-text h3 {
   display: inline-block;
-  font-size: 0.85rem;
-  padding: 0.3rem;
+  font-size: 0.85em;
+  padding: 0.3em;
   background-color: #fab7ab;
-  border-radius: 0.2rem;
+  border-radius: 0.2em;
   color: #fff;
   text-align: center;
 }
@@ -163,7 +166,7 @@ export default {
 }
 .mine-main-content {
   width: 92vw;
-  margin: 1rem auto 0;
+  margin: 1em auto 0;
 }
 
 .mime-content-grid,
@@ -172,7 +175,7 @@ export default {
   justify-content: space-around;
   text-align: center;
   align-content: space-around;
-  padding: 1.2rem 0;
+  padding: 1.2em 0;
 }
 .mime-content-grid a,
 .mime-content-list a {
@@ -183,8 +186,8 @@ export default {
   width: 70%;
 }
 .mime-content-grid h3 {
-  font-size: 0.85rem;
-  margin-top: 0.3rem;
+  font-size: 0.85em;
+  margin-top: 0.3em;
 }
 .mime-content-mv {
   height: 30vw;
@@ -193,7 +196,7 @@ export default {
 .mime-content-mv img {
   width: 100%;
   height: 100%;
-  /* object-fit: cover; */
+  object-fit: fill;
 }
 .mime-content-list {
   flex-wrap: wrap;
@@ -201,9 +204,9 @@ export default {
 }
 .mime-content-list span {
   display: block;
-  margin-top: 0.5rem;
+  margin-top: 0.5em;
   color: #333333;
-  font-size: 0.85rem;
+  font-size: 0.85em;
 }
 .mime-content-list img {
   width: 40%;

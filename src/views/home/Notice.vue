@@ -1,8 +1,8 @@
 <template>
   <ul class="con-notice">
-    <li v-for="item in datas" :key="item.imgUrl">
+    <li v-for="item in list" :key="item.imgUrl">
       <router-link to="/" class="notice-box">
-        <h4>{{item.title}}</h4>
+        <h4 class="figcaption">{{item.title}}</h4>
         <p class="notice-content figcaption-1 ">{{item.content}}</p>
         <div class="notice-footer app-flex">
           <span>{{item.publisher}}</span>
@@ -25,24 +25,18 @@
 <script>
 export default {
   props: {
-    showNum: {
-      default: -1
+    list: {
+      type: Array,
+      default: []
     }
   },
   data() {
     return {
-      list: [
-        { title: "响应长三角一体化发展布局 共谋儿童健康行动新篇", content: "响应长三角一体化发展布局 共谋儿童健康行动新篇", publisher: "信息工程学院", watchNum: 541, praiseNum: 115 },
-        { title: "响应长三角一体化发展布局 共谋儿童健康行动新篇", content: "响应长三角一体化发展布局 共谋儿童健康行动新篇", publisher: "信息工程学院", watchNum: 300, praiseNum: 105 },
-        { title: "响应长三角一体化发展布局 共谋儿童健康行动新篇", content: "响应长三角一体化发展布局 共谋儿童健康行动新篇", publisher: "信息工程学院", watchNum: 21, praiseNum: 10 },
-        { title: "响应长三角一体化发展布局 共谋儿童健康行动新篇", content: "响应长三角一体化发展布局 共谋儿童健康行动新篇", publisher: "信息工程学院", watchNum: 10, praiseNum: 1 },
-      ]
+
     }
   },
   computed: {
-    datas() {
-      return this.showNum == -1 ? this.list : this.list.slice(0, this.showNum);
-    }
+
   }
 }
 </script>
@@ -60,6 +54,7 @@ export default {
   flex-direction: column;
   padding: 4vw;
   background-color: #fff;
+  font-size: 4.5vw;
 }
 .notice-box h4 {
   font-weight: bold;

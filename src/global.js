@@ -16,7 +16,11 @@ import {
   DatetimePicker,
   Swipe,
   SwipeItem,
-  Lazyload
+  Lazyload,
+  Tab,
+  Tabs,
+  PullRefresh,
+  List
 } from "vant";
 
 Vue.use(Icon)
@@ -31,6 +35,10 @@ Vue.use(Icon)
   .use(DatetimePicker)
   .use(Swipe)
   .use(SwipeItem)
+  .use(Tab)
+  .use(Tabs)
+  .use(List)
+  .use(PullRefresh)
   .use(CellGroup);
 
 Vue.use(Lazyload, {
@@ -41,7 +49,7 @@ Vue.use(Lazyload, {
 });
 
 // 注册全局组件
-import components from "./utils/components";
+import components from "./components/components";
 Vue.use(components);
 
 // 注册全局axios
@@ -88,3 +96,5 @@ Vue.prototype.countDown = function(option = {}, callback) {
   // 添加body清除器
   document.body.addEventListener("click", bodyClear);
 };
+
+export default Vue;

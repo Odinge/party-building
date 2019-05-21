@@ -1,4 +1,6 @@
-import Vue from "vue";
+// import Vue from "vue";
+// 全局配置
+import Vue from "./global";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
@@ -7,9 +9,6 @@ import store from "./store";
 import { getToken } from "./utils/token";
 
 import "../public/css/reset.css";
-
-// 全局配置
-import "./global";
 
 Vue.config.productionTip = false;
 

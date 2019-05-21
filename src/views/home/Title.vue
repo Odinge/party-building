@@ -17,7 +17,7 @@ export default {
     to() {
       return {
         name: 'more',
-        params: { title: this.label, compName: this.moreTo }
+        params: { title: encodeURI(this.label), compName: this.moreTo }
       };
 
     }
@@ -33,6 +33,7 @@ export default {
   align-items: center;
   padding: 5vw 4vw;
   background-color: #f8f8f8;
+  font-size: 4.5vw;
 }
 
 .con-title::before {
@@ -49,7 +50,7 @@ export default {
 }
 .con-title h3 {
   font-weight: bold;
-  font-size: 4.5vw;
+  font-size: 1em;
 }
 .con-more {
   display: flex;
@@ -58,6 +59,6 @@ export default {
   color: rgb(145, 142, 142);
 }
 .con-more span {
-  font-size: 0.8rem;
+  font-size: 0.8em;
 }
 </style>

@@ -61,6 +61,7 @@ export default {
 <style>
 .setting {
   background-color: #f2f3f5;
+  font-size: 4.3vw;
 }
 .setting-content {
   margin: 3vw 0;
@@ -83,11 +84,16 @@ export default {
   align-items: center;
   min-height: 15vw;
   width: 100%;
+  font-size: 4.3vw;
 }
 .user-avatar {
   width: 25%;
   height: 25%;
   vertical-align: middle;
   border-radius: 50%;
+}
+.van-cell__left-icon,
+.van-cell__right-icon {
+  font-size: inherit;
 }
 </style>

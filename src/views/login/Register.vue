@@ -245,6 +245,7 @@ export default {
 .register {
   display: flex;
   flex-direction: column;
+  font-size: 4.5vw;
 }
 .reg-head {
   display: flex;
@@ -255,7 +256,7 @@ export default {
   color: #fff;
 }
 .reg-head h2 {
-  font-size: 1.2rem;
+  font-size: 1.2em;
 }
 .reg-main {
   flex: 1;
@@ -275,29 +276,31 @@ export default {
 .reg-text label {
   width: 29%;
   text-align: center;
-  line-height: 1.2rem;
+  line-height: 1.2em;
 }
 .reg-text .input {
   flex: 1;
   height: 10vw;
   width: 100%;
   border: none;
-  margin-left: 1rem;
+  margin-left: 1em;
   color: #858585;
   background-color: transparent;
 }
 .reg-text select.input {
-  margin-left: 0.8rem;
+  margin-left: 0.8em;
 }
 .reg-tip {
   text-align: right;
   padding: 5vw 5vw 10vw;
-  font-size: 0.9rem;
+  font-size: 0.9em;
   color: #de442c;
 }
 .reg-tip input {
-  vertical-align: -2px;
-  margin-right: 0.2rem;
+  vertical-align: middle;
+  margin-right: 0.2em;
+  width: 1em;
+  height: 1em;
 }
 .reg-btn {
   text-align: center;
@@ -307,8 +310,8 @@ export default {
   padding: 3.5vw 0;
   cursor: pointer;
   background-color: #de442c;
-  border-radius: 5px;
-  font-size: 16px;
+  border-radius: 0.3em;
+  font-size: 1em;
   color: #fff;
 }
 .date-picker {
@@ -322,7 +325,7 @@ export default {
 }
 .psd-err {
   color: #de442c;
-  font-size: 0.7rem;
+  font-size: 0.7em;
   width: 6em;
 }
 .reg-select {

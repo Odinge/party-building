@@ -12,9 +12,9 @@
       </van-swipe>
       <!-- 列表 -->
       <Title class="home-title" moreTo="Dynamics" label="党建动态"></Title>
-      <dynamics :showNum="4"></dynamics>
+      <dynamics :list="dynamicsList"></dynamics>
       <Title class="home-title" moreTo="Notice" label="党内通知"></Title>
-      <notice :showNum="2"></notice>
+      <notice :list="noticeList"></notice>
     </div>
   </section>
 </template>
@@ -32,7 +32,18 @@ export default {
         { imgUrl: "images/home/02.jpg", id: "2" },
         { imgUrl: "images/home/03.jpg", id: "3" },
         { imgUrl: "images/home/04.jpg", id: "4" },
-      ]
+      ],
+      dynamicsList: [
+        { imgUrl: "images/home/ad-item001.png", title: "信息工程学院信信息工程学院开展学习雷锋系列活动息工程学院开展学习雷锋系列活动开展学习雷锋系列活动", date: "2017-21-8", like: false },
+        { imgUrl: "images/home/ad-item002.png", title: "信息工程学院开展学习雷锋系列活动", date: "2018-2-10", like: false },
+        { imgUrl: "images/home/ad-item003.png", title: "信息工程学院开展学习雷锋系列活动", date: "2018-08-4", like: true },
+        { imgUrl: "images/home/ad-item004.png", title: "信息工程学院开展学习雷锋系列活动", date: "2019-5-8", like: true },
+      ],
+      noticeList: [
+        { title: "响应长三角一体化发展布局 共谋儿童健康行动新篇", content: "响应长三角一体化发展布局 共谋儿童健康行动新篇", publisher: "信息工程学院", watchNum: 541, praiseNum: 115 },
+        { title: "响应长三角一体化发展布局 共谋儿童健康行动新篇", content: "响应长三角一体化发展布局 共谋儿童健康行动新篇", publisher: "信息工程学院", watchNum: 300, praiseNum: 105 },
+        { title: "响应长三角一体化发展布局 共谋儿童健康行动新篇", content: "响应长三角一体化发展布局 共谋儿童健康行动新篇", publisher: "信息工程学院", watchNum: 21, praiseNum: 10 },
+      ],
     }
   },
   methods: {

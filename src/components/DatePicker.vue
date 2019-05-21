@@ -46,8 +46,7 @@ export default {
       this.show = false;
     },
     onConfirm() {
-      // .replace(/\//g, "-")
-      const date = this.currentDate.toLocaleDateString();
+      const date = this.currentDate.toLocaleDateString().replace(/\//g, "-");
       this.$emit("input", date);
       this.cloes();
     },

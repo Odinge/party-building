@@ -106,12 +106,15 @@ export default {
 }
 </script>
 <style>
+.aui-flexView {
+  font-size: 4.5vw;
+}
 .err {
   position: absolute;
   width: 100%;
-  margin-left: -1rem;
-  bottom: 1.5rem;
-  font-size: 1.2rem;
+  margin-left: -1em;
+  bottom: 1.5em;
+  font-size: 1.2em;
   color: #2c9dde;
   text-align: center;
 }
@@ -124,10 +127,10 @@ export default {
   background-color: #e54e31;
   height: 56vw;
   color: #fff;
-  font-size: 0.95rem;
+  font-size: 0.95em;
 }
 .aui-jop-head h2 {
-  font-size: 20px;
+  font-size: 1.4em;
   font-weight: bold;
 }
 
@@ -140,7 +143,7 @@ export default {
 }
 .register-text a {
   color: #de442c;
-  font-size: 0.9rem;
+  font-size: 0.9em;
 }
 
 .aui-flex {
@@ -153,7 +156,7 @@ export default {
 
 .aui-flex-box {
   flex: 1;
-  font-size: 14px;
+  font-size: 0.87em;
   color: #333;
 }
 
@@ -178,14 +181,14 @@ export default {
 .aui-jop-top {
   position: relative;
   margin: -38vw 3vw 0;
-  padding: 4rem 1rem;
+  padding: 4em 1em;
   background-color: #fff;
   border-radius: 3px;
 }
 
 .aui-form-item {
-  width: 25px;
-  height: 25px;
+  width: 1.5em;
+  height: 1.5em;
 }
 
 .aui-form-item img {
@@ -196,24 +199,24 @@ export default {
 .aui-flex-box input {
   width: 100%;
   height: auto;
-  padding: 0.3rem;
+  padding: 0.3em;
   color: #e54e31;
 }
 
 .aui-psd a {
   color: #646464;
-  font-size: 0.85rem;
+  font-size: 0.85em;
 }
 
 .aui-form-button {
-  padding: 2rem 0;
+  padding: 2em 0;
   text-align: center;
 }
 
 .aui-form-button button {
   background: #de442c;
   width: 90%;
-  padding: 0.5rem 0;
+  padding: 0.5em 0;
   border-radius: 20px;
   color: #fff;
 }
@@ -226,8 +229,8 @@ export default {
 .aui-footer-link a {
   color: #6a6a6a;
   display: block;
-  padding: 1rem 0;
-  font-size: 0.9rem;
+  padding: 1em 0;
+  font-size: 0.9em;
 }
 
 .aui-footer-link a em {

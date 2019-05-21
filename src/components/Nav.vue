@@ -31,9 +31,10 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  padding: 0.4rem 0;
+  padding: 0.4em 0;
   background: #f9f9f9;
   border-top: 1px solid #eee;
+  font-size: 4.8vw;
 }
 #nav a {
   display: flex;
@@ -42,11 +43,11 @@ export default {
   justify-content: space-around;
 }
 #nav .tabNav-icon {
-  font-size: 1.3rem;
+  font-size: 1.3em;
 }
 #nav .tabNav-text {
-  padding-top: 0.3rem;
-  font-size: 0.65rem;
+  padding-top: 0.3em;
+  font-size: 0.65em;
 }
 #nav .router-link-active {
   color: #ff8053;

@@ -49,7 +49,7 @@ export default new Router({
         {
           path: "video",
           name: "video",
-          meta: { title: "学习视频", showHead: true },
+          meta: { title: "学习视频", showHead: true, className: "white" },
           component: () =>
             import(/* webpackChunkName: "video" */ "../views/video/Video.vue")
         },
@@ -65,7 +65,17 @@ export default new Router({
           name: "mine",
           meta: { title: "设置", showNav: true, noBack: true },
           component: () =>
-            import(/* webpackChunkName: "mime" */ "../views/mine/Mine.vue")
+            import(/* webpackChunkName: "mime" */ "../views/mine/Mine.vue"),
+          children: []
+        },
+        {
+          path: "download",
+          name: "download",
+          meta: { title: "常用下载", showHead: true },
+          component: () =>
+            import(
+              /* webpackChunkName: "download" */ "../views/mine//common/Download.vue"
+            )
         },
         {
           path: "setting",
@@ -73,7 +83,7 @@ export default new Router({
           meta: { title: "设置", showHead: true },
           component: () =>
             import(
-              /* webpackChunkName: "setting" */ "../views/mine/Setting.vue"
+              /* webpackChunkName: "setting" */ "../views/mine/setting/Setting.vue"
             )
         },
         {
@@ -84,7 +94,7 @@ export default new Router({
             import(/* webpackChunkName: "more" */ "../views/home/More.vue"),
           beforeEnter: (to, from, next) => {
             const { title } = to.params;
-            to.meta.title = title;
+            to.meta.title = decodeURI(title);
             next();
           }
         },
