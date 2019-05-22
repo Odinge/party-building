@@ -4,8 +4,7 @@ import Layout from "../views/Layout.vue";
 
 Vue.use(Router);
 
-export default new Router({
-  routes: [
+const routes = [
     // 登录注册
     {
       path: "/login",
@@ -110,5 +109,8 @@ export default new Router({
       path: "*",
       redirect: "/"
     }
-  ]
+  ];
+
+export default new Router({
+  routes
 });
