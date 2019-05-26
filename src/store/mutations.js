@@ -12,5 +12,9 @@ export default {
   // 设置用户头像
   [SET_USERAVATAR](state, userAvatar) {
     state.userInfo.userAvatar = userAvatar;
+  },
+  // 设置头部标题
+  setHeaderTitle(state, title) {
+    state.headerTitle = title;
   }
 };

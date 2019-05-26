@@ -31,7 +31,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 5vw 4vw;
+  padding: 4.5vw 4vw;
   background-color: #f8f8f8;
   font-size: 4.5vw;
 }
@@ -42,7 +42,7 @@ export default {
   top: 0;
   bottom: 0;
   left: 0;
-  height: 40%;
+  height: 43%;
   width: 0.3em;
   margin: auto;
   background-color: #ff8053;
@@ -57,8 +57,8 @@ export default {
   justify-content: space-between;
   align-items: center;
   color: rgb(145, 142, 142);
+  font-size: 0.7em;
 }
-.con-more span {
-  font-size: 0.8em;
-}
+/* .con-more span {
+} */
 </style>

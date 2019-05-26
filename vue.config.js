@@ -1,5 +1,7 @@
 // 作为配置文件，直接导出配置对象即可
 module.exports = {
+  // publicPath:
+  // process.env.NODE_ENV === "production" ? "http://117.50.73.238:8080" : "/",
   // 开发环境配置
   devServer: {
     // 设置主机地址
@@ -12,7 +14,7 @@ module.exports = {
         // 目标 API 地址
         target: "http://117.50.73.238:8080/",
         // 如果要代理 websockets
-        ws: true, // 防止控制台报错
+        // ws: true, // 防止控制台报错
         // 将主机标头的原点更改为目标URL
         changeOrigin: false,
         pathRewrite: {

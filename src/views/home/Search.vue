@@ -46,22 +46,22 @@ export default {
   padding-bottom: 2.5vw;
 }
 
-input::-webkit-input-placeholder {
+.app-search input::-webkit-input-placeholder {
   /* WebKit, Blink, Edge */
   color: rgb(235, 230, 230);
   font-size: 0.9em;
 }
-input:-moz-placeholder {
+.app-search input:-moz-placeholder {
   /* Mozilla Firefox 4 to 18 */
   color: rgb(235, 230, 230);
   font-size: 0.9em;
 }
-input::-moz-placeholder {
+.app-search input::-moz-placeholder {
   /* Mozilla Firefox 19+ */
   color: rgb(235, 230, 230);
   font-size: 0.9em;
 }
-input:-ms-input-placeholder {
+.app-search input:-ms-input-placeholder {
   /* Internet Explorer 10-11 */
   color: rgb(235, 230, 230);
   font-size: 0.9em;

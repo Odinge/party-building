@@ -1,7 +1,7 @@
 <template>
   <ul class="con-notice">
-    <li v-for="item in list" :key="item.imgUrl">
-      <router-link to="/" class="notice-box">
+    <li v-for="(item,key) in list" :key="key">
+      <router-link :to="{name: 'airticle', params: {id: key}}" class="notice-box">
         <h4 class="figcaption">{{item.title}}</h4>
         <p class="notice-content figcaption-1 ">{{item.content}}</p>
         <div class="notice-footer app-flex">
@@ -12,7 +12,7 @@
               {{item.watchNum}}
             </span>
             <span class="app-flex">
-              <i class="van-icon icon-zan"></i>
+              <i class="iconfont icon-dianzan1"></i>
               {{item.praiseNum}}
             </span>
           </div>
@@ -27,7 +27,9 @@ export default {
   props: {
     list: {
       type: Array,
-      default: []
+      default() {
+        return []
+      }
     }
   },
   data() {
@@ -78,13 +80,5 @@ export default {
 }
 .notice-op i:first-of-type {
   margin-right: 0.2em;
-}
-
-.icon-zan::before {
-  content: "";
-  background: url("/images/home/icon-zan.png") center/cover;
-  width: 1.1em;
-  height: 0.9em;
-  transform: translateY(-0.15em);
 }
 </style>

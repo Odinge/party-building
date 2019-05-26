@@ -16,6 +16,7 @@ Vue.config.productionTip = false;
 const whiteList = ["/login", "/register"];
 
 router.beforeEach((to, form, next) => {
+  document.title = to.meta.title || "党建";
   // 验证token
   const token = getToken();
   // if (token && !store.state.token) {

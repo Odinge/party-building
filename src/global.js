@@ -42,7 +42,7 @@ Vue.use(Icon)
   .use(CellGroup);
 
 Vue.use(Lazyload, {
-  loading: "/images/comm/loading.jpg",
+  loading: "/images/comm/loading.gif",
   error: "/images/comm/error.png"
   // preLoad: 1.3
   // lazyComponent: true
@@ -54,6 +54,9 @@ Vue.use(components);
 
 // 注册全局axios
 Vue.prototype.$http = axios;
+
+// Vue.prototype.$baseUrl = process.env.BASE_URL;
+Vue.prototype.$baseUrl = "http://117.50.73.238:8080";
 
 // 注册全局状态
 Vue.prototype.states = ["disabled", "success", "unlogin"];

@@ -58,7 +58,4 @@ export default {
 </script>
 
 <style>
-/* .date-picker input {
-  background-color: transparent;
-} */
 </style>

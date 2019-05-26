@@ -10,6 +10,7 @@
     </div>
     <div class="app-header-title figcaption-1" :class="{ center }">
       <slot>
+        {{headerTitle}}
       </slot>
     </div>
     <div class="app-header-right center" v-show="!hideRight" @touchstart="onMore">
@@ -23,6 +24,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   name: "Header",
   props: {
@@ -50,7 +52,8 @@ export default {
   computed: {
     hideRight() {
       return !this.showMore && this.noBack;
-    }
+    },
+    ...mapState(["headerTitle"])
   }
 }
 </script>

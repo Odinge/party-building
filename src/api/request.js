@@ -7,8 +7,9 @@ import router from "../router";
 
 // 创建axios实例
 const service = axios.create({
-  // baseURL: process.env.BASE_API, // api的base_url
+  // baseURL: "http://117.50.73.238:8080"
   baseURL: "/api"
+  //   process.env.NODE_ENV === "production" ? "http://117.50.73.238:8080" : "/"
   // timeout: 5000 // 请求超时时间
 });
 

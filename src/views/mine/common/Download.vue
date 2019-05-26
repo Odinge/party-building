@@ -1,49 +1,72 @@
 <template>
-  <!-- <ul>
-    <li>
-      <span class="no">#</span>
-      <span></span>
-    </li>
-    <li>
-
-    </li>
-  </ul> -->
-  <div class="download">
-    <table class="download-table">
-      <thead>
-        <tr>
-          <th class="NO">#</th>
-          <th class="file-name">文件</th>
-          <th class="file-op">操作</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(file, index) in list">
-          <td>{{index+1}}</td>
-          <td><span class="van-ellipsis file-box">{{file.name}}</span></td>
-          <td>
-            <a :href="'#'">
-              <van-icon name="description"></van-icon>
-            </a>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <van-pull-refresh v-model="isRefresh" @refresh="loadData">
+    <div class="download">
+      <table class="download-table">
+        <thead>
+          <tr>
+            <th class="NO">#</th>
+            <th class="file-name">文件</th>
+            <th class="file-op">操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(file, index) in list" :key="index">
+            <td>{{index+1}}</td>
+            <td><span class="van-ellipsis file-box">{{file.fileName}}</span></td>
+            <td>
+              <a :href="url(file.fileId)">
+                <van-icon name="description"></van-icon>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </van-pull-refresh>
 </template>
 
 <script>
+import { getDowenfileList } from "../../../api/download";
 export default {
   data() {
     return {
       list: [
-        { name: "入党自愿书模板", url: "/" },
-        { name: "入党申请书模板模板", url: "/" },
-        { name: "党报告模板", url: "/" },
-        { name: "党报告模板", url: "/" },
-        { name: "党报告模板", url: "/" },
-        { name: "党报告模板", url: "/" },
-      ]
+        // { fileName: "入党自愿书模板", fileId: "/" },
+        // { fileName: "入党申请书模板模板", fileId: "/" },
+        // { fileName: "党报告模板", fileId: "/" },
+        // { fileName: "党报告模板", fileId: "/" },
+        // { fileName: "党报告模板", fileId: "/" },
+        // { fileName: "党报告模板", fileId: "/" },
+      ],
+      isRefresh: false,
+    }
+  },
+  mounted() {
+    this.loadData();
+  },
+  methods: {
+    onRefresh() {
+      setTimeout(() => {
+        this.isRefresh = false;
+      }, 1000);
+    },
+    loadData() {
+      getDowenfileList().then(res => {
+        let data = res.match(/\[.+\]/);
+        data = JSON.parse(data);
+
+        this.list = data;
+        if (this.isRefresh) {
+          this.$toast("加载完成");
+          this.isRefresh = false;
+        }
+      }).catch(err => {
+        this.isRefresh = false;
+        this.$toast("加载失败");
+      });
+    },
+    url(fileId) {
+      return this.$baseUrl + "/downfile/downfile/" + fileId;
     }
   }
 }
@@ -80,5 +103,9 @@ export default {
 }
 .download a {
   color: rgb(34, 130, 255);
+  font-size: 1.3em;
+}
+.download a:visited {
+  color: rgb(255, 122, 34);
 }
 </style>

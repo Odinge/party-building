@@ -73,6 +73,6 @@ export default {
   width: 100%;
 }
 .home-title {
-  margin: 5vw 0;
+  margin: 4vw 0;
 }
 </style>

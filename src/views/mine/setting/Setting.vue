@@ -3,7 +3,9 @@
     <van-cell-group class="setting-content">
       <van-uploader :after-read="onRead" :before-read="onBeforeRead" name="avatar" accept="image/gif, image/jpeg" class="avatar-box">
         <van-cell value="内容" icon="manager-o" is-link title="头像" class="setting-cell">
+          <!-- <div > -->
           <img :src="userInfo.userAvatar" class="user-avatar">
+          <!-- </div> -->
         </van-cell>
       </van-uploader>
       <van-cell title="修改密码" icon="bookmark-o" is-link />
@@ -35,6 +37,12 @@ export default {
       // 使用blob创建连接
       // const blob = new Blob([file]);
       // const url = window.URL.createObjectURL(blob);
+      this.$toast.loading({
+        duration: 0,       // 持续展示 toast
+        forbidClick: true, // 禁用背景点击
+        loadingType: 'spinner',
+        message: '加载中...'
+      });
       this.setUserAvatar(url).then(res => {
         this.$toast.success('修改头像成功');
       }).catch(err => {
@@ -87,8 +95,9 @@ export default {
   font-size: 4.3vw;
 }
 .user-avatar {
-  width: 25%;
-  height: 25%;
+  display: inline-block;
+  width: 11vw;
+  height: 11vw;
   vertical-align: middle;
   border-radius: 50%;
 }

@@ -106,9 +106,6 @@ export default {
 }
 </script>
 <style>
-.aui-flexView {
-  font-size: 4.5vw;
-}
 .err {
   position: absolute;
   width: 100%;
@@ -167,6 +164,7 @@ export default {
   display: flex;
   flex-direction: column;
   background-color: #e6e6e6;
+  font-size: 4.5vw;
 }
 
 .aui-scrollView {

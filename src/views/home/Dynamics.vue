@@ -1,12 +1,13 @@
 <template>
   <ul class="con-dynamics">
     <li v-for="(item, key) in list" :key="key">
-      <router-link to="/" class="dy-thing">
+      <router-link :to="{name: 'airticle', params: {id: key}}" class="dy-thing">
         <img :src="item.imgUrl" v-lazy="item.imgUrl">
         <div class="dy-info">
           <h4 class="figcaption">{{item.title}}</h4>
           <div class="dy-op app-flex">
-            <van-icon :name="item.like?'like':'like-o'" @click="item.like=true" :class="{like:item.like}"></van-icon>
+            <!-- <van-icon :name="item.like?'like':'like-o'" @click.capture="item.like=!item.like" :class="{like:item.like}"></van-icon> -->
+            <van-icon :name="item.like?'like':'like-o'"></van-icon>
             <span>
               <van-icon name="clock-o"></van-icon>{{item.date}}
             </span>
@@ -22,7 +23,9 @@ export default {
   props: {
     list: {
       type: Array,
-      default: []
+      default() {
+        return []
+      }
     }
   },
   data() {
@@ -90,8 +93,5 @@ export default {
 }
 .dy-op > span i {
   margin-right: 2vw;
-}
-.like {
-  color: coral;
 }
 </style>

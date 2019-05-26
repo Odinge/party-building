@@ -88,4 +88,18 @@ img {
   color: #000 !important;
   background-color: #fff !important;
 }
+/* .icon-zan::before {
+  content: "";
+  background: url("/images/home/icon-zan.png") center/cover;
+  width: 1.1em;
+  height: 0.9em;
+  transform: translateY(-0.15em);
+} */
+.iconfont {
+  color: inherit;
+  font-size: inherit;
+}
+.van-icon-like {
+  color: coral;
+}
 </style>
