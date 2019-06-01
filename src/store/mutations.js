@@ -1,16 +1,16 @@
-import { SET_TOKEN, SET_USERINFO, SET_USERAVATAR } from "./type";
+import * as types from "./types";
 // 同步方法
 export default {
   // 设置用户基本信息
-  [SET_USERINFO](state, userInfo) {
+  [types.SET_USERINFO](state, userInfo) {
     state.userInfo = userInfo;
   },
   // 设置登录token
-  [SET_TOKEN](state, token) {
+  [types.SET_TOKEN](state, token) {
     state.token = token;
   },
   // 设置用户头像
-  [SET_USERAVATAR](state, userAvatar) {
+  [types.SET_USERAVATAR](state, userAvatar) {
     state.userInfo.userAvatar = userAvatar;
   },
   // 设置头部标题

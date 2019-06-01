@@ -1,7 +1,7 @@
 // 异步方法
 import { login, register, logout } from "../api/login";
-import { SET_TOKEN, SET_USERINFO, SET_USERAVATAR } from "./type";
-import { setToken, delToken } from "../utils/token";
+import * as types from "./types";
+import { setToken, delToken } from "../utils/auth";
 
 export default {
   async login({ commit }, user) {
@@ -15,20 +15,20 @@ export default {
 
     if (findUser) {
       if (user.password === findUser.password) {
-        res = { status: 0, msg: "登录成功" };
+        res = { status: 0, message: "登录成功" };
       } else {
-        res = { status: 1, msg: "密码不正确" };
+        res = { status: 1, message: "密码不正确" };
         throw res;
       }
     } else {
-      res = { status: 2, msg: "账号不存在" };
+      res = { status: 2, message: "账号不存在" };
       throw res;
     }
 
     // 登录成功
     // 保存token
     const token = setToken();
-    commit(SET_TOKEN, token);
+    commit(types.SET_TOKEN, token);
 
     return res;
   },
@@ -37,7 +37,7 @@ export default {
     const res = {};
     delToken();
     // 刷新浏览器
-    location.reload();
+    // location.reload();
     return res;
   },
   // 从数据库获取信息
@@ -48,13 +48,13 @@ export default {
       userAvatar: "/images/mine/user.png"
     };
 
-    commit(SET_USERINFO, userInfo);
+    commit(types.SET_USERINFO, userInfo);
     return userInfo;
   },
   // 设置头像
   async setUserAvatar({ commit }, userAvatar) {
     const res = {};
-    commit(SET_USERAVATAR, userAvatar);
+    commit(types.SET_USERAVATAR, userAvatar);
     return res;
   }
 };

@@ -1,7 +1,7 @@
 <template>
   <ul class="con-dynamics">
     <li v-for="(item, key) in list" :key="key">
-      <router-link :to="{name: 'airticle', params: {id: key}}" class="dy-thing">
+      <router-link :to="{name: 'article', params: {id: key}}" class="dy-thing">
         <img :src="item.imgUrl" v-lazy="item.imgUrl">
         <div class="dy-info">
           <h4 class="figcaption">{{item.title}}</h4>

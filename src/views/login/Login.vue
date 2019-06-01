@@ -53,6 +53,11 @@ export default {
       errMsg: ""
     }
   },
+  computed: {
+    redirect() {
+      return this.$route.query.redirect;
+    }
+  },
   watch: {
     user: {
       handler(nuser) {
@@ -87,17 +92,20 @@ export default {
         .then(res => {
           // this.loginState = 1;
           // 登录成功，登入首页
-          this.$router.push({ path: "/" });
+          if (this.redirect) {
+            this.$router.replace(this.redirect);
+          } else {
+            this.$router.replace("/");
+          }
           load.clear();
         }).catch(err => {
-          this.errMsg = err.msg;
+          this.errMsg = err.message;
           load.clear();
           this.$dialog.alert({
             title: '提示',
-            message: err.msg,
+            message: err.message,
             confirmButtonColor: "#f44"
           }).then(() => {
-            // on close
             this.clear();
           });
         });

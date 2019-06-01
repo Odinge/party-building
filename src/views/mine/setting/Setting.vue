@@ -11,9 +11,9 @@
       <van-cell title="修改密码" icon="bookmark-o" is-link />
     </van-cell-group>
     <div class="logout">
-      <a href="">
-        <button @touchstart="logout">退出登录</button>
-      </a>
+      <!-- <a href=""> -->
+      <button @touchstart="logout">退出登录</button>
+      <!-- </a> -->
     </div>
   </section>
 </template>
@@ -24,12 +24,16 @@ import { mapState, mapActions } from "vuex";
 export default {
   methods: {
     logout() {
+      const load = this.$toast.loading({
+        mask: true,
+        duration: 0,
+        message: '加载中...'
+      });
       this.$store.dispatch("logout").then(res => {
-        // this.$router.push("/login");
+        load.clear();
+        this.$router.push({ path: "/login" });
       }).catch(err => {
-        // this.$router.push("/login");
-        console.log(err);
-
+        this.$toast.fail(err.message);
       });
     },
     onRead(file, detail) {

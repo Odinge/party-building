@@ -24,6 +24,7 @@ const routes = [
     name: "index",
     redirect: "/home",
     component: Layout,
+    meta: { requireAuth: true },
     children: [
       // 导航
       {
@@ -90,23 +91,26 @@ const routes = [
           const { title } = to.params;
           to.meta.title = decodeURI(title);
           next();
-        }
+        },
+        props: true
       },
       // 页面详情
       {
         path: "detail/:id",
         name: "detail",
         component: () =>
-          import(/* webpackChunkName: "detail" */ "../views/home/Detail.vue")
+          import(/* webpackChunkName: "detail" */ "../views/home/Detail.vue"),
+        props: true
       },
       {
-        path: "airticle/:id",
-        name: "airticle",
+        path: "article/:id",
+        name: "article",
         // meta: { showHead: false },
         component: () =>
           import(
-            /* webpackChunkName: "airticle" */ "../views/airticle/Airticle.vue"
-          )
+            /* webpackChunkName: "airticle" */ "../views/article/Article.vue"
+          ),
+        props: true
       }
     ]
   },
@@ -115,6 +119,8 @@ const routes = [
     redirect: "/"
   }
 ];
+
+// const 
 
 export default new Router({
   // mode: "history",

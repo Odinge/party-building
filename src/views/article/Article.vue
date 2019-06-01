@@ -1,20 +1,20 @@
 <template>
-  <div class="airticle app-container" :class="{bg:!hasComment}">
-    <Header :showMore="true">{{airticle.title}}</Header>
+  <div class="article app-container" :class="{bg:!hasComment}">
+    <Header :showMore="true">{{article.title}}</Header>
     <div class="app-content">
-      <div class="a-content">
-        <h3>{{airticle.title}}</h3>
+      <article class="a-content">
+        <h3>{{article.title}}</h3>
         <div class="a-author">
-          <span>{{airticle.author}}</span>
-          <span class="a-time">{{airticle.time}}</span>
+          <span>{{article.author}}</span>
+          <span class="a-time">{{article.time}}</span>
         </div>
         <div class="a-main">
-          {{airticle.content}}
+          {{article.content}}
         </div>
         <div class="a-redactor">
-          负责编辑： {{airticle.redactor}}
+          负责编辑： {{article.redactor}}
         </div>
-      </div>
+      </article>
       <!-- 评价区域 -->
       <div class="comment-area">
         <h4 id="comment">观点</h4>
@@ -51,10 +51,10 @@
       <a href="#comment">
         <van-icon name="smile-comment-o"></van-icon>
       </a>
-      <div class="comment-ipt" @click="onComment(airticle, '欢迎发表你的观点')">欢迎发表你的观点</div>
+      <div class="comment-ipt" @click="onComment(article, '欢迎发表你的观点')">欢迎发表你的观点</div>
       <!-- <van-icon name="like-o"></van-icon> -->
-      <van-icon :name="airticle.isLike?'like':'like-o'" @click="collect(airticle)"></van-icon>
-      <i class="iconfont icon-zan" :class="airticle.isZan?'icon-dianzan1':'icon-zan'" @click="airticle.isZan=true"></i>
+      <van-icon :name="article.isLike?'like':'like-o'" @click="collect(article)"></van-icon>
+      <i class="iconfont icon-zan" :class="article.isZan?'icon-dianzan1':'icon-zan'" @click="article.isZan=true"></i>
     </div>
     <comment v-model="showComment" :placeholder="placeholder" :target="target"></comment>
   </div>
@@ -62,10 +62,10 @@
 
 <script>
 export default {
-  props: ["info"],
+  props: ["info", "id"],
   data() {
     return {
-      airticle: {
+      article: {
         title: "西湖的鸳鸯，还会亲近人吗",
         author: "“党建” 学习平台",
         time: "2019-5-24",
@@ -104,9 +104,6 @@ export default {
     this.$store.commit("setHeaderTitle", this.id);
   },
   computed: {
-    id() {
-      return this.$route.params.id;
-    },
     hasComment() {
       return this.comments.length;
     }
@@ -146,7 +143,7 @@ export default {
 </script>
 
 <style>
-.airticle {
+.article {
   position: relative;
   font-size: 4.5vw;
   font-family: "幼圆";
@@ -177,7 +174,7 @@ export default {
   outline: none;
   font-size: 1rem;
 }
-.airticle .app-content {
+.article .app-content {
   padding: 4vw;
   font-style: normal;
 }
@@ -268,7 +265,7 @@ export default {
 .no-comment img {
   width: 100%;
 }
-.airticle .icon-dianzan1 {
+.article .icon-dianzan1 {
   color: coral;
 }
 </style>

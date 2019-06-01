@@ -11,6 +11,7 @@ import Dynamics from "./Dynamics";
 import Notice from "./Notice";
 export default {
   components: { Dynamics, Notice },
+  props: ["compName"],
   data() {
     return {
       list: [],
@@ -27,9 +28,6 @@ export default {
     this.funcMap[this.compName]();
   },
   computed: {
-    compName() {
-      return this.$route.params.compName;
-    },
   },
   methods: {
     getNotice() {

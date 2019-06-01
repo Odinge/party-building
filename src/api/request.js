@@ -1,9 +1,10 @@
 import axios from "axios";
 
 // 获取token
-import { getToken } from "../utils/token";
+import { getToken, delToken } from "../utils/auth";
 // 路由
 import router from "../router";
+import { Dialog } from "vant";
 
 // 创建axios实例
 const service = axios.create({
@@ -38,36 +39,58 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   response => {
     console.log(response);
-    let status = response.status;
-    let data = response.data;
+    // let status = response.status;
+    let { data: res } = response;
+    let { code, data } = res;
     // 对响应的信息做处理
-    const { url } = response.config;
-    if (status === 200) {
-      if (/login/.test(url)) {
-        if (data === "failed login") {
-          let err = {
-            status: 1,
-            msg: "登录失败"
-          };
-          throw err;
-        }
-        if (data === "sccuess login") {
-          return {
-            status: 0,
-            msg: "登录成功！"
-          };
-        }
-      }
-      return data;
-    } else {
-      const err = new Error(data.msg);
-      err.data = data;
-      err.response = response;
-      throw err;
+    // const { url } = response.config;
+    // if (status === 200) {
+    //   if (/login/.test(url)) {
+    //     if (data === "failed login") {
+    //       let err = {
+    //         status: 1,
+    //         msg: "登录失败"
+    //       };
+    //       throw err;
+    //     }
+    //     if (data === "sccuess login") {
+    //       return {
+    //         status: 0,
+    //         msg: "登录成功！"
+    //       };
+    //     }
+    //   }
+    //   return data;
+    // } else {
+    //   const err = new Error(data.msg);
+    //   err.data = data;
+    //   err.response = response;
+    //   throw err;
+    // }
+    switch (code) {
+      case 20001:
+        return data;
+      case 40006:
+        Dialog.alert({
+          title: "提示",
+          message: "无权限操作，请登录",
+          confirmButtonColor: "#f44"
+        }).then(() => {
+          delToken();
+          router.replace({
+            path: "/login",
+            query: { redirect: router.currentRoute.fullPath }
+          });
+        });
+        break;
+      default:
+        break;
     }
+
+    throw res;
   },
   err => {
-    console.log(err.response.data);
+    console.log(err.response);
 
     if (err && err.response) {
       const resMap = {
@@ -81,7 +104,8 @@ service.interceptors.response.use(
         503: "服务器错误不可用或暂停",
         504: "请求数据超时，请刷新页面重试"
       };
-      err.msg = resMap[err.response.status] || "请求失败";
+      // err.message = resMap[err.response.status] || "请求失败";
+      err.message = err.response.statusText;
     }
     return Promise.reject(err);
   }

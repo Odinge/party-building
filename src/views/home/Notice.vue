@@ -1,7 +1,7 @@
 <template>
   <ul class="con-notice">
     <li v-for="(item,key) in list" :key="key">
-      <router-link :to="{name: 'airticle', params: {id: key}}" class="notice-box">
+      <router-link :to="{name: 'article', params: {id: key}}" class="notice-box">
         <h4 class="figcaption">{{item.title}}</h4>
         <p class="notice-content figcaption-1 ">{{item.content}}</p>
         <div class="notice-footer app-flex">

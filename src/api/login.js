@@ -2,10 +2,10 @@
 import request from "./request";
 
 // 用户登录api
-export const login = user => request("post", "/user/login", user);
+export const login = user => request("post", "/login", user);
 
 // 用户登出api
-export const logout = () => request("get", "/user/logout");
+export const logout = () => request("post", "/logout");
 
 // 用户注册api
-export const register = data => request("post", "/user/register", data);
+export const register = data => request("post", "/regist", data);

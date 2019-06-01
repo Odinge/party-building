@@ -6,7 +6,7 @@ import router from "./router";
 import store from "./store";
 
 // 获取token
-import { getToken } from "./utils/token";
+import { getToken } from "./utils/auth";
 
 import "../public/css/reset.css";
 
@@ -19,12 +19,12 @@ router.beforeEach((to, form, next) => {
   document.title = to.meta.title || "党建";
   // 验证token
   const token = getToken();
-  // if (token && !store.state.token) {
-  //   store.commit("SET_TOKEN", token);
-  // }
+  const requireAuth = to.matched.some(recode => recode.meta.requireAuth);
+  // const requireAuth = whiteList.includes(to.path);
+
   if (token) {
-    if (whiteList.includes(to.path)) {
-      next("/");
+    if (requireAuth) {
+      next({ path: form.path, replace: true });
     } else {
       // 拉去用户基本信息
       if (!store.state.userInfo.sname) {
@@ -34,19 +34,23 @@ router.beforeEach((to, form, next) => {
             next();
           })
           .catch(err => {
-            next("/login");
+            next({
+              path: "/login",
+              query: { redirect: to.fullPath }
+            });
           });
       } else {
         //当有用户权限的时候，说明所有可访问路由已生成 如访问没权限的全面会自动进入登录页面
         next();
       }
     }
+  } else if (!requireAuth) {
+    next(); // 在免登录白名单，直接进入
   } else {
-    if (whiteList.includes(to.path)) {
-      next(); // 在免登录白名单，直接进入
-    } else {
-      next("/login"); // 否则全部重定向到登录页
-    }
+    next({
+      path: "/login",
+      query: { redirect: to.fullPath }
+    }); // 否则全部重定向到登录页
   }
 });
 
