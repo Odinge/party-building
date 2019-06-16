@@ -1,23 +1,18 @@
 <template>
   <van-tabs type="card" animated swipeable v-model="mode" id="news" class="app-container">
-    <van-tab title="必学新闻">
-      <new-list :mode="mode"></new-list>
-    </van-tab>
-    <van-tab title="热点新闻">
-      <new-list :mode="mode"></new-list>
+    <van-tab :title="type" v-for="type in listType" :key="type">
+      <news-list :mode="mode"></news-list>
     </van-tab>
   </van-tabs>
 </template>
 <script>
-import NewList from "./NewList";
+import NewsList from "./NewsList";
 export default {
-  components: { NewList },
+  components: { NewsList },
   data() {
     return {
       mode: 0,
-      listType: [
-
-      ]
+      listType: ["必学新闻", "热点新闻"]
     }
   }
 }

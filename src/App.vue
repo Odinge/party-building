@@ -33,6 +33,9 @@ img {
 .van-pull-refresh__track {
   height: 100%;
 }
+.van-tabs__content {
+  height: 100%;
+}
 
 /* 公用布局 */
 .app-container {

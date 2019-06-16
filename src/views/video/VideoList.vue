@@ -1,27 +1,27 @@
 <template>
-  <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad" class="">
-    <van-pull-refresh v-model="isRefresh" @refresh="onRefresh">
+  <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+    <van-pull-refresh v-model="isRefresh" @refresh="onRefresh" success-text="加载成功">
       <ul class="app-content video-list">
-        <li v-for="(item, index) in datas" :key="index" class="list-item">
+        <li v-for="(item, index) in list" :key="index" class="list-item">
           <!-- 视屏控制区 -->
           <div class="video-play">
-            <video-controls :src="item.videoUrl"></video-controls>
+            <video-controls :src="item.url"></video-controls>
             <span class="tag-top">TOP{{index+1}}</span>
             <span class="tag-comment"></span>
-            <span class="tag-msg van-ellipsis">{{item.msg}}</span>
+            <!-- <span class="tag-msg van-ellipsis">{{item.msg}}</span> -->
           </div>
           <!-- 视屏信息区 -->
-          <router-link to="/" class="video-info">
+          <router-link :to="{name:'article', params:{id:item.articleId}}" class="video-info">
             <!-- 主题 -->
             <div class="app-flex">
               <h4 class="van-ellipsis">{{item.title}}</h4>
               <span class="app-flex">
                 <em class="collect" :class="{collected:item.isCollect}">收藏</em>
-                <em class="read-num">阅读量：{{item.readNum}}</em>
+                <em class="read-num">阅读量：{{item.viewCount}}</em>
               </span>
             </div>
             <!-- 内容 -->
-            <p class="van-ellipsis">{{item.content}}</p>
+            <p class="van-ellipsis" v-domtext="item.content"></p>
           </router-link>
         </li>
       </ul>
@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import { getVideos } from "../../api/article";
 export default {
   props: {
     mode: {
@@ -39,62 +40,68 @@ export default {
   data() {
     return {
       list: [
-        { title: "大运河智慧街区智慧街区慧街区", content: "清河-香山 建筑面积33~45㎡", videoUrl: "/videos/video-1.mp4", msg: "老***昨天收藏了大运河智慧街区", isCollect: true, readNum: 23 },
-        { title: "世界区域街区", content: "清河-香山 建筑面积33~45㎡", videoUrl: "/videos/video-2.mp4", msg: "老***昨天收藏了大运河智慧街区", isCollect: true, readNum: 2 },
-        { title: "杭州街区", content: "清河-香山 建筑面积33~45㎡", videoUrl: "/videos/video-3.mp4", msg: "老***昨天收藏了大运河智慧街区昨天收藏了大运河智慧街区昨天收藏了大运河智慧街区", isCollect: false, readNum: 101 },
+        // { title: "大运河智慧街区智慧街区慧街区", content: "清河-香山 建筑面积33~45㎡", url: "/videos/video-1.mp4", msg: "老***昨天收藏了大运河智慧街区", isCollect: true, viewCount: 23 },
+        // { title: "世界区域街区", content: "清河-香山 建筑面积33~45㎡", url: "/videos/video-2.mp4", msg: "老***昨天收藏了大运河智慧街区", isCollect: true, viewCount: 2 },
+        // { title: "杭州街区", content: "清河-香山 建筑面积33~45㎡", url: "/videos/video-3.mp4", msg: "老***昨天收藏了大运河智慧街区昨天收藏了大运河智慧街区昨天收藏了大运河智慧街区", isCollect: false, viewCount: 101 },
       ],
-      isRefresh: false,
-      loading: false,
-      finished: false,
+      isRefresh: false, // 下拉刷新
+      loading: false, // 页面数据加载
+      finished: false, // 全部完成加载
+      total: 0, // 数据总条数
+      page: 1, // 数据页数
+      size: 8, // 数据每页大小
     }
   },
   computed: {
-    datas() {
-      const dataMap = [
-        this.data1,
-        this.data2,
-        this.data3,
-        this.data4
-      ];
-      return dataMap[this.mode];
+    loadFun() {
+      // const funMap = [getLearnNews, getHotNews]; // 执行函数
+      // return funMap[this.mode];
+      return getVideos;
     },
-    data1() {
-      return this.list;
+    pages() {
+      return Math.ceil(this.total / this.size);
     },
-    data2() {
-      return this.list.slice(3);
-    },
-    data3() {
-      return this.list.slice(2);
-    },
-    data4() {
-      return this.list.slice(1);
-    }
   },
   methods: {
+    // 加载函数
     loadData() {
-
+      this.loadFun(this.page, this.size)
+        .then(data => {
+          // 是否处于刷新状态
+          if (this.isRefresh) {
+            this.list = data.rows;
+            this.isRefresh = false;
+            this.finished = false;
+          } else {
+            this.list.push(...data.rows);
+          }
+          // 加载状态
+          this.loading = false;
+          // 计算数据总数
+          this.total = data.total;
+          // 判断数据是否全部获取完毕
+          if (this.page >= this.pages) {
+            this.finished = true;
+          }
+          this.page++;
+        }).catch(err => {
+          this.$toast(err.message);
+          this.loading = false;
+        })
     },
+    // 下拉页面刷新加载函数
     onRefresh() {
-      setTimeout(() => {
-        this.isRefresh = false;
-      }, 1000);
+      // 初始化参数
+      this.page = 1;
+      this.loadData();
     },
+    // 上拉加载数据函数
     onLoad() {
       // 异步更新数据
-      setTimeout(() => {
-        for (let i = 0; i < 10; i++) {
-          this.list.push(this.list[i]);
-        }
-        // 加载状态结束
-        this.loading = false;
-
-        // 数据全部加载完成
-        if (this.list.length >= 20) {
-          this.finished = true;
-        }
-      }, 500);
+      this.loadData();
     },
+
+    // 播放
     play(e, index) {
       const target = e.target;
       const video = this.$refs.video[index];
@@ -185,6 +192,7 @@ export default {
 }
 .video-info p {
   font-size: 0.9em;
+  margin-bottom: 2vw;
 }
 .collect {
   color: #918e8d;

@@ -1,6 +1,6 @@
 <template>
-  <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-    <van-pull-refresh v-model="isRefresh" @refresh="onRefresh" success-text="加载成功">
+  <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad" class="app-content">
+    <van-pull-refresh v-model="isRefresh" @refresh="onRefresh" success-text="加载成功" class="news-refresh">
       <ul class="con-news">
         <li v-for="(item, key) in list" :key="key">
           <router-link :to="{name:'article', params:{id:item.articleId}}" class="news-thing">
@@ -13,7 +13,7 @@
                 </span>
                 <span>
                   <van-icon name="clock-o"></van-icon>
-                  {{item.updatetime}}
+                  {{item.updatetime | dateFormat}}
                 </span>
               </div>
             </div>
@@ -34,16 +34,7 @@ export default {
   },
   data() {
     return {
-      list: [
-        // { title: "全国青联：建议明确禁止未成年人担任网络主播", updatetime: "2018-11-02", viewCount: 1554, url: "/images/news/news-001.png" },
-        // { title: "习近平：做实体经济要实实在在、心无旁骛做主业", updatetime: "2019-1-02", viewCount: 800, url: "/images/news/news-002.png" },
-        // { title: "【两会财经快评】建设国家公园 生态经和生意经都要“念”好", updatetime: "2018-01-12", viewCount: 54, url: "/images/news/news-003.png" },
-        // { title: "团中央部署开展\"青春心向党·建功新时代\"主题宣传教育实践活动", updatetime: "2018-09-05", viewCount: 4, url: "/images/news/news-004.png" },
-        // { title: "划重点！“两高”报告中这些内容与青少年息息相关", updatetime: "2019-5-4", viewCount: 30, url: "/images/news/news-001.png" },
-        // { title: "【两会大家谈】政协委员共话快递小哥权益保护及快递发展之路", updatetime: "2018-02-18", viewCount: 104, url: "/images/news/news-002.png" },
-        // { title: "【两会青年说】从“月光族”到“月欠族” ，年轻人，你的钱袋子被掏空了吗？", updatetime: "2019-11-02", viewCount: 500, url: "/images/news/news-003.png" },
-        // { title: "【两会青年说】从“月光族”到“月欠族” ，年轻人，你的钱袋子被掏空了吗？", updatetime: "2018-1-02", viewCount: 240, url: "/images/news/news-004.png" },
-      ],
+      list: [],
       isRefresh: false, // 下拉刷新
       loading: false, // 页面数据加载
       finished: false, // 全部完成加载
@@ -153,5 +144,9 @@ export default {
 }
 .news-op span i {
   margin-right: 2vw;
+}
+
+.news-refresh {
+  overflow: initial;
 }
 </style>

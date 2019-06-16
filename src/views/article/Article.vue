@@ -176,14 +176,21 @@ export default {
     },
   }
 }
-</script>
 
+// window["contenttext"].innerHTML.replace(/"/g,"'");
+// window["article"].innerHTML.replace(/"/g,"'").replace(/\n|\t/g,"")
+
+</script>
 <style>
 .article {
   position: relative;
   font-size: 4.5vw;
   font-family: "幼圆";
   /* background-color: #fafbfd; */
+}
+.article img {
+  width: 100%;
+  height: 100%;
 }
 .bg {
   background-color: #fafbfd;
