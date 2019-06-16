@@ -9,3 +9,6 @@ export const logout = () => request("post", "/logout");
 
 // 用户注册api
 export const register = data => request("post", "/regist", data);
+
+// 获取用户信息
+export const getUserInfo = () => request("get", "/getDetail");

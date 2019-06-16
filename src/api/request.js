@@ -19,8 +19,8 @@ service.interceptors.request.use(
   config => {
     console.log(config);
 
-    config.headers["Content-Type"] = "application/json;charset=UTF-8";
-    config.headers.Accept = "application/json;";
+    // config.headers["Content-Type"] = "application/json;charset=UTF-8";
+    // config.headers.Accept = "application/json;";
     let token = getToken();
 
     if (token) {
@@ -43,30 +43,6 @@ service.interceptors.response.use(
     let { data: res } = response;
     let { code, data } = res;
     // 对响应的信息做处理
-    // const { url } = response.config;
-    // if (status === 200) {
-    //   if (/login/.test(url)) {
-    //     if (data === "failed login") {
-    //       let err = {
-    //         status: 1,
-    //         msg: "登录失败"
-    //       };
-    //       throw err;
-    //     }
-    //     if (data === "sccuess login") {
-    //       return {
-    //         status: 0,
-    //         msg: "登录成功！"
-    //       };
-    //     }
-    //   }
-    //   return data;
-    // } else {
-    //   const err = new Error(data.msg);
-    //   err.data = data;
-    //   err.response = response;
-    //   throw err;
-    // }
     switch (code) {
       case 20001:
         return data;
@@ -110,20 +86,21 @@ service.interceptors.response.use(
     return Promise.reject(err);
   }
 );
-
 // 封装请求
 const request = (method, url, params = {}, config = {}) => {
-  if (method == "get") {
+  if (method.toUpperCase() === "GET") {
     return service({
       method,
       url,
-      params
+      params,
+      config
     });
   } else {
     return service({
       method,
       url,
-      data: params
+      data: params,
+      config
     });
   }
 };

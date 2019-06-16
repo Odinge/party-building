@@ -1,15 +1,15 @@
 <template>
   <ul class="con-dynamics">
     <li v-for="(item, key) in list" :key="key">
-      <router-link :to="{name: 'article', params: {id: key}}" class="dy-thing">
-        <img :src="item.imgUrl" v-lazy="item.imgUrl">
+      <router-link :to="{name: 'article', params: {id: item.articleId}}" class="dy-thing">
+        <img :src="item.url" v-lazy="item.url">
         <div class="dy-info">
           <h4 class="figcaption">{{item.title}}</h4>
           <div class="dy-op app-flex">
             <!-- <van-icon :name="item.like?'like':'like-o'" @click.capture="item.like=!item.like" :class="{like:item.like}"></van-icon> -->
             <van-icon :name="item.like?'like':'like-o'"></van-icon>
             <span>
-              <van-icon name="clock-o"></van-icon>{{item.date}}
+              <van-icon name="clock-o"></van-icon>{{item.updatetime | dateFormat}}
             </span>
           </div>
         </div>
@@ -37,7 +37,6 @@ export default {
 
   },
   mounted() {
-    // ajax请求数据
     this.loadData();
   },
   methods: {
@@ -67,10 +66,10 @@ export default {
 }
 .dy-thing img {
   width: 35%;
-  /* height: 35%; */
+  height: 100%;
   border-radius: 2vw;
   margin-right: 5vw;
-  /* object-fit: cover; */
+  /* object-fit: contain; */
 }
 .dy-info {
   display: flex;
@@ -95,3 +94,5 @@ export default {
   margin-right: 2vw;
 }
 </style>
+
+// window["pc-content"].innerHTML.replace(/"/g,"'")

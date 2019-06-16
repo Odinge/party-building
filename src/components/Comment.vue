@@ -5,7 +5,8 @@
         <span @click="close">取消</span>
         <span @click="publish">发布</span>
       </div>
-      <input type="text" v-model="comment" class="comment-ipt" :placeholder="placeholder" ref="comIpt">
+      <!-- <input type="text" v-model="comment" class="comment-ipt" :placeholder="placeholder" ref="comIpt"> -->
+      <textarea v-model="comment" class="comment-ipt" :placeholder="placeholder" ref="comIpt"></textarea>
     </div>
   </van-popup>
 </template>
@@ -67,8 +68,12 @@ export default {
 .comment-wrap {
   padding: 5vw;
 }
-.comment-ipt {
-  width: 100%;
+.comment-wrap .comment-ipt {
   box-sizing: border-box;
+  width: 100%;
+  height: 30vw;
+  border-radius: 5vw;
+  border-color: #ccc;
+  overflow: auto;
 }
 </style>

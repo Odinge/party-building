@@ -3,10 +3,10 @@
     <ul class="test-list">
       <li v-for="(item, key) in list" :key="key">
         <a href="#" class="test-item app-flex">
-          <img :src="item.imgUrl" alt="">
+          <img src="/images/test/dangqi.png" alt="问卷">
           <div class="test-info">
             <h4 class="van-ellipsis">{{item.title}}</h4>
-            <p class="van-ellipsis">{{item.content}}</p>
+            <p class="van-ellipsis">{{item.updatetime}}</p>
           </div>
           <div class="test-state app-flex-col">
             <i class="test-icon" :class="answerMap[item.answerState].class"></i>
@@ -22,15 +22,15 @@ export default {
   data() {
     return {
       list: [
-        { imgUrl: "/images/test/dangqi.png", title: "第九周学习测评", content: "同学们多看新闻,好好答题", answerState: 1 },
-        { imgUrl: "/images/test/dangqi.png", title: "第八周学习测评", content: "同学们多看新闻,好好答题", answerState: 1 },
-        { imgUrl: "/images/test/dangqi.png", title: "第七周学习测评", content: "同学们多看新闻,好好答题", answerState: 1 },
-        { imgUrl: "/images/test/dangqi.png", title: "第六周学习测评", content: "同学们多看新闻,好好答题", answerState: 1 },
-        { imgUrl: "/images/test/dangqi.png", title: "第五周学习测评", content: "同学们多看新闻,好好答题", answerState: 0 },
-        { imgUrl: "/images/test/dangqi.png", title: "第四周学习测评", content: "同学们多看新闻,好好答题", answerState: 2 },
-        { imgUrl: "/images/test/dangqi.png", title: "第三周学习测评", content: "同学们多看新闻,好好答题", answerState: 0 },
-        { imgUrl: "/images/test/dangqi.png", title: "第二周学习测评", content: "同学们多看新闻,好好答题", answerState: 0 },
-        { imgUrl: "/images/test/dangqi.png", title: "第一周学习测评", content: "同学们多看新闻,好好答题", answerState: 0 },
+        { url: "/images/test/dangqi.png", title: "第九周学习测评", updatetime: "同学们多看新闻,好好答题", answerState: 1 },
+        { url: "/images/test/dangqi.png", title: "第八周学习测评", updatetime: "同学们多看新闻,好好答题", answerState: 1 },
+        { url: "/images/test/dangqi.png", title: "第七周学习测评", updatetime: "同学们多看新闻,好好答题", answerState: 1 },
+        { url: "/images/test/dangqi.png", title: "第六周学习测评", updatetime: "同学们多看新闻,好好答题", answerState: 1 },
+        { url: "/images/test/dangqi.png", title: "第五周学习测评", updatetime: "同学们多看新闻,好好答题", answerState: 0 },
+        { url: "/images/test/dangqi.png", title: "第四周学习测评", updatetime: "同学们多看新闻,好好答题", answerState: 2 },
+        { url: "/images/test/dangqi.png", title: "第三周学习测评", updatetime: "同学们多看新闻,好好答题", answerState: 0 },
+        { url: "/images/test/dangqi.png", title: "第二周学习测评", updatetime: "同学们多看新闻,好好答题", answerState: 0 },
+        { url: "/images/test/dangqi.png", title: "第一周学习测评", updatetime: "同学们多看新闻,好好答题", answerState: 0 },
       ],
       answerMap: [
         { class: "answer-finished", text: "已答题" },

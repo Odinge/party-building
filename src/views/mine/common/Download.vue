@@ -1,72 +1,95 @@
 <template>
-  <van-pull-refresh v-model="isRefresh" @refresh="loadData">
-    <div class="download">
-      <table class="download-table">
-        <thead>
-          <tr>
-            <th class="NO">#</th>
-            <th class="file-name">文件</th>
-            <th class="file-op">操作</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(file, index) in list" :key="index">
-            <td>{{index+1}}</td>
-            <td><span class="van-ellipsis file-box">{{file.fileName}}</span></td>
-            <td>
-              <a :href="url(file.fileId)">
-                <van-icon name="description"></van-icon>
-              </a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </van-pull-refresh>
+  <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+    <van-pull-refresh v-model="isRefresh" @refresh="onRefresh" success-text="加载成功">
+      <div class="download">
+        <table class="download-table">
+          <thead>
+            <tr>
+              <th class="No">#</th>
+              <th class="file-name">文件</th>
+              <th class="file-op">操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(file, index) in list" :key="index">
+              <td>{{index+1}}</td>
+              <td>
+                <span class="van-ellipsis file-box">{{file.fileName}}</span>
+              </td>
+              <td>
+                <a :href="getDowenloadUrl(file.fileId)">
+                  <van-icon name="description"></van-icon>
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </van-pull-refresh>
+  </van-list>
 </template>
 
 <script>
-import { getDowenfileList } from "../../../api/download";
+import { getDocumentFiles } from "../../../api/file";
 export default {
   data() {
     return {
-      list: [
-        // { fileName: "入党自愿书模板", fileId: "/" },
-        // { fileName: "入党申请书模板模板", fileId: "/" },
-        // { fileName: "党报告模板", fileId: "/" },
-        // { fileName: "党报告模板", fileId: "/" },
-        // { fileName: "党报告模板", fileId: "/" },
-        // { fileName: "党报告模板", fileId: "/" },
-      ],
+      list: [],
+      loading: false,
+      finished: false,
       isRefresh: false,
+      total: 0,
+      page: 1,
+      size: 8
     }
   },
   mounted() {
-    this.loadData();
+    // this.loadData();
+  },
+  computed: {
+    pages() {
+      return Math.ceil(this.total / this.size);
+    }
   },
   methods: {
+    // 下拉刷新
     onRefresh() {
-      setTimeout(() => {
-        this.isRefresh = false;
-      }, 1000);
+      // 初始化参数
+      this.page = 1;
+      this.loadData();
     },
+    onLoad() {
+      this.loadData();
+    },
+    // 加载下载文件数据
     loadData() {
-      getDowenfileList().then(res => {
-        let data = res.match(/\[.+\]/);
-        data = JSON.parse(data);
-
-        this.list = data;
-        if (this.isRefresh) {
-          this.$toast("加载完成");
-          this.isRefresh = false;
-        }
-      }).catch(err => {
-        this.isRefresh = false;
-        this.$toast("加载失败");
-      });
+      getDocumentFiles(this.page, this.size)
+        .then(data => {
+          // 是否处于刷新状态
+          if (this.isRefresh) {
+            this.list = data.rows;
+            this.isRefresh = false;
+            this.finished = false;
+          } else {
+            this.list.push(...data.rows);
+          }
+          // 加载状态
+          this.loading = false;
+          // 计算数据总数
+          this.total = data.total;
+          // 判断数据是否全部获取完毕
+          if (this.page >= this.pages) {
+            this.finished = true;
+          }
+          this.page++;
+        }).catch(err => {
+          this.$toast(err.message);
+          this.loading = false;
+        })
     },
-    url(fileId) {
-      return this.$baseUrl + "/downfile/downfile/" + fileId;
+    // 下载链接
+    getDowenloadUrl(fileId) {
+      return this.$baseUrl + "/file/download?fileId=" + fileId;
     }
   }
 }
@@ -91,7 +114,7 @@ export default {
   vertical-align: middle;
   font-weight: bold;
 }
-.download-table .NO {
+.download-table .No {
   width: 14vw;
 }
 .download-table .file-op {

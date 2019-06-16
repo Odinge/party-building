@@ -30,6 +30,10 @@ img {
   color: #f44;
 }
 
+.van-pull-refresh__track {
+  height: 100%;
+}
+
 /* 公用布局 */
 .app-container {
   display: flex;
@@ -43,6 +47,9 @@ img {
 .app-content {
   overflow: auto;
   height: 100%;
+  flex: 1;
+}
+.flex-1 {
   flex: 1;
 }
 .abs-center {

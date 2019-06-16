@@ -13,18 +13,18 @@ import "../public/css/reset.css";
 Vue.config.productionTip = false;
 
 // 创建白名单
-const whiteList = ["/login", "/register"];
+// const whiteList = ["/login", "/register"];
 
 router.beforeEach((to, form, next) => {
   document.title = to.meta.title || "党建";
   // 验证token
   const token = getToken();
-  const requireAuth = to.matched.some(recode => recode.meta.requireAuth);
+  const noRequireAuth = !to.matched.some(record => record.meta.requiresAuth);
   // const requireAuth = whiteList.includes(to.path);
 
   if (token) {
-    if (requireAuth) {
-      next({ path: form.path, replace: true });
+    if (to.path === "/login") {
+      next({ path: form.path });
     } else {
       // 拉去用户基本信息
       if (!store.state.userInfo.sname) {
@@ -34,17 +34,17 @@ router.beforeEach((to, form, next) => {
             next();
           })
           .catch(err => {
-            next({
-              path: "/login",
-              query: { redirect: to.fullPath }
-            });
+            // next({
+            //   path: "/login",
+            //   query: { redirect: to.fullPath }
+            // });
           });
       } else {
         //当有用户权限的时候，说明所有可访问路由已生成 如访问没权限的全面会自动进入登录页面
         next();
       }
     }
-  } else if (!requireAuth) {
+  } else if (noRequireAuth) {
     next(); // 在免登录白名单，直接进入
   } else {
     next({

@@ -24,7 +24,7 @@ const routes = [
     name: "index",
     redirect: "/home",
     component: Layout,
-    meta: { requireAuth: true },
+    meta: { requiresAuth: true },
     children: [
       // 导航
       {
@@ -120,7 +120,7 @@ const routes = [
   }
 ];
 
-// const 
+// const
 
 export default new Router({
   // mode: "history",

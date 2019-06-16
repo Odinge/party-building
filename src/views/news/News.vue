@@ -1,10 +1,10 @@
 <template>
   <van-tabs type="card" animated swipeable v-model="mode" id="news" class="app-container">
     <van-tab title="必学新闻">
-      <new-list :mode="mode" v-if="mode==0"></new-list>
+      <new-list :mode="mode"></new-list>
     </van-tab>
     <van-tab title="热点新闻">
-      <new-list :mode="mode" v-if="mode==1"></new-list>
+      <new-list :mode="mode"></new-list>
     </van-tab>
   </van-tabs>
 </template>
@@ -14,7 +14,10 @@ export default {
   components: { NewList },
   data() {
     return {
-      mode: 0
+      mode: 0,
+      listType: [
+
+      ]
     }
   }
 }

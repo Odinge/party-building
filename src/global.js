@@ -100,4 +100,14 @@ Vue.prototype.countDown = function(option = {}, callback) {
   document.body.addEventListener("click", bodyClear);
 };
 
+// 返回dom文本指令
+Vue.directive("domtext", (ele, { value }) => {
+  const content = document.createElement("div");
+  content.innerHTML = value;
+  ele.innerHTML = content.innerText;
+});
+
+// 统一日期格式
+Vue.filter("dateFormat", val => val.split(" ")[0]);
+
 export default Vue;

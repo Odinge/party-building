@@ -1,15 +1,15 @@
 <template>
   <ul class="con-notice">
     <li v-for="(item,key) in list" :key="key">
-      <router-link :to="{name: 'article', params: {id: key}}" class="notice-box">
+      <router-link :to="{name: 'article', params: {id: item.articleId}}" class="notice-box">
         <h4 class="figcaption">{{item.title}}</h4>
-        <p class="notice-content figcaption-1 ">{{item.content}}</p>
+        <p class="notice-content van-ellipsis " v-domtext="item.content"></p>
         <div class="notice-footer app-flex">
-          <span>{{item.publisher}}</span>
+          <span>{{item.author}}</span>
           <div class="app-flex notice-op">
             <span class="app-flex">
               <van-icon name="eye"></van-icon>
-              {{item.watchNum}}
+              {{item.viewCount}}
             </span>
             <span class="app-flex">
               <i class="iconfont icon-dianzan1"></i>

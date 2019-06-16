@@ -119,8 +119,8 @@ export default {
         ["23", "potentialTime"],
         ["3", "fullpartyTime"],
       ], // 时间权限映射
-      regState: 0, // 注册表单状态
 
+      regState: 0, // 注册表单状态
       psdStatus: 0, // 密码显示状态
     }
   },

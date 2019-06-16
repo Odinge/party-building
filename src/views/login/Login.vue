@@ -8,18 +8,18 @@
         <form onsubmit="return false">
           <div class="aui-flex">
             <div class="aui-form-item">
-              <img src="images/login/iphone.png" alt="">
+              <img src="/images/login/iphone.png" alt="账号">
             </div>
             <div class="aui-flex-box">
-              <input type="text" placeholder="请输入学号/工号" v-model="user.account">
+              <input type="text" placeholder="请输入学号/工号" v-model="user.account" ref="account">
             </div>
           </div>
           <div class="aui-flex">
             <div class="aui-form-item">
-              <img src="images/login/psd.png" alt="">
+              <img src="/images/login/psd.png" alt="密码">
             </div>
             <div class="aui-flex-box">
-              <input type="password" placeholder="请输入您的密码" v-model="user.password">
+              <input type="password" placeholder="请输入您的密码" v-model="user.password" ref="password">
             </div>
             <div class="aui-psd">
               <router-link to="/register">忘记密码</router-link>
@@ -106,7 +106,13 @@ export default {
             message: err.message,
             confirmButtonColor: "#f44"
           }).then(() => {
-            this.clear();
+            if (/密码/.test(err.message)) {
+              this.user.password = "";
+              this.$refs.password.focus();
+            } else {
+              this.clear();
+              this.$refs.account.focus();
+            }
           });
         });
     }
@@ -203,7 +209,7 @@ export default {
 }
 
 .aui-flex-box input {
-  width: 100%;
+  /* width: 100%; */
   height: auto;
   padding: 0.3em;
   color: #e54e31;
