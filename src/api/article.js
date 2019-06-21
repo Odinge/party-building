@@ -34,5 +34,10 @@ export const studyFinish = articleId => {
 };
 
 // 文章搜索
-export const searchArticle = (key, page, size = baseSize) =>
-  request("post", "/searchArticle", { key, page, size });
+export const searchArticle = (key, page, size = baseSize) => {
+  const data = new FormData();
+  data.append("key", key);
+  data.append("size", size);
+  data.append("page", page);
+  return request("post", "/searchArticle", data);
+};

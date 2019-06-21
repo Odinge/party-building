@@ -9,7 +9,7 @@
     <div class="mine-main">
       <div class="mine-main-head">
         <div class="mine-user-text">
-          <h2>{{ userInfo.sname }}同学</h2>
+          <h2>{{ userInfo.name }}同学</h2>
           <h3>本月打卡{{ userInfo.clockNum }}天</h3>
         </div>
         <div class="mine-user-avatar">
@@ -96,7 +96,8 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
+import * as types from "../../store/types";
 export default {
   data() {
     return {
@@ -104,9 +105,11 @@ export default {
   },
   mounted() {
     this.loadData();
+    // 设置头部信息
+    this.$store.commit("setHeaderTitle", "");
   },
   computed: {
-    ...mapState(["userInfo"])
+    ...mapState(["userInfo"]),
   },
   methods: {
     loadData() {

@@ -111,6 +111,15 @@ const routes = [
             /* webpackChunkName: "airticle" */ "../views/article/Article.vue"
           ),
         props: true
+      },
+      {
+        path: "search",
+        name: "search",
+        meta: { keepAlive: true },
+        component: () =>
+          import(
+            /* webpackChunkName: "airticle" */ "../views/home/SearchList.vue"
+          )
       }
     ]
   },

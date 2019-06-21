@@ -36,13 +36,8 @@ export default {
   computed: {
 
   },
-  mounted() {
-    this.loadData();
-  },
   methods: {
-    loadData() {
 
-    },
   }
 }
 </script>
@@ -71,6 +66,10 @@ export default {
   margin-right: 5vw;
   /* object-fit: contain; */
 }
+/* .prestrain .dy-thing img {
+  background-color: #f8f8f8;
+} */
+
 .dy-info {
   display: flex;
   flex-direction: column;
@@ -82,6 +81,10 @@ export default {
   line-height: 1.3;
   font-size: 0.93em;
 }
+/* .prestrain .dy-info h4 {
+  background-color: #f8f8f8;
+} */
+
 .dy-op {
   color: #868686;
   font-size: 0.9em;
@@ -90,9 +93,12 @@ export default {
   display: flex;
   margin-left: 3vw;
 }
+
+/* .prestrain .dy-op > span {
+  background-color: #f8f8f8;
+} */
+
 .dy-op > span i {
   margin-right: 2vw;
 }
 </style>
-
-// window["pc-content"].innerHTML.replace(/"/g,"'")

@@ -6,7 +6,7 @@ import router from "./router";
 import store from "./store";
 
 // 获取token
-import { getToken } from "./utils/auth";
+// import { getToken } from "./utils/auth";
 
 import "../public/css/reset.css";
 
@@ -18,26 +18,24 @@ Vue.config.productionTip = false;
 router.beforeEach((to, form, next) => {
   document.title = to.meta.title || "党建";
   // 验证token
-  const token = getToken();
+  // const token = getToken();
+  const token = store.state.token;
   const noRequireAuth = !to.matched.some(record => record.meta.requiresAuth);
   // const requireAuth = whiteList.includes(to.path);
 
   if (token) {
     if (to.path === "/login") {
-      next({ path: form.path });
+      next("/");
     } else {
       // 拉去用户基本信息
-      if (!store.state.userInfo.sname) {
+      if (to.path === "/mine" && !store.state.userInfo.sname) {
         store
           .dispatch("getUserInfo")
           .then(res => {
             next();
           })
           .catch(err => {
-            // next({
-            //   path: "/login",
-            //   query: { redirect: to.fullPath }
-            // });
+            next();
           });
       } else {
         //当有用户权限的时候，说明所有可访问路由已生成 如访问没权限的全面会自动进入登录页面

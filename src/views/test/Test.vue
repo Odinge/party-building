@@ -1,23 +1,21 @@
 <template>
-  <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-    <van-pull-refresh v-model="isRefresh" @refresh="onRefresh" success-text="加载成功">
-      <ul class="test-list">
-        <li v-for="(item, key) in list" :key="key">
-          <a href="#" class="test-item app-flex">
-            <img src="/images/test/dangqi.png" alt="问卷">
-            <div class="test-info">
-              <h4 class="van-ellipsis">{{item.title}}</h4>
-              <p class="van-ellipsis">{{item.updatetime}}</p>
-            </div>
-            <div class="test-state app-flex-col">
-              <i class="test-icon" :class="answerMap[item.answerState].class"></i>
-              <span>{{answerMap[item.answerState].text}}</span>
-            </div>
-          </a>
-        </li>
-      </ul>
-    </van-pull-refresh>
-  </van-list>
+  <list-load v-model="list" :funMap="funMap">
+    <ul class="test-list">
+      <li v-for="(item, key) in list" :key="key">
+        <a href="#" class="test-item app-flex">
+          <img src="/images/test/dangqi.png" alt="问卷">
+          <div class="test-info">
+            <h4 class="van-ellipsis">{{item.title}}</h4>
+            <p class="van-ellipsis">{{item.updatetime}}</p>
+          </div>
+          <div class="test-state app-flex-col">
+            <i class="test-icon" :class="answerMap[item.answerState].class"></i>
+            <span>{{answerMap[item.answerState].text}}</span>
+          </div>
+        </a>
+      </li>
+    </ul>
+  </list-load>
 </template>
 <script>
 import { getQuestionnaire } from "../../api/questionnaire";
@@ -40,58 +38,12 @@ export default {
         { class: "answer-no", text: "未解答" },
         { class: "answer-past", text: "已过期" },
       ],
-      isRefresh: false, // 下拉刷新
-      loading: false, // 页面数据加载
-      finished: false, // 全部完成加载
-      total: 0, // 数据总条数
-      page: 1, // 数据页数
-      size: 8, // 数据每页大小
+      funMap: [getQuestionnaire]
     }
   },
   computed: {
-    pages() {
-      return Math.ceil(this.total / this.size);
-    },
   },
   methods: {
-    // 加载函数
-    loadData() {
-      getQuestionnaire(this.page, this.size)
-        .then(data => {
-          // 是否处于刷新状态
-          if (this.isRefresh) {
-            this.list = data.rows;
-            this.isRefresh = false;
-            this.finished = false;
-          } else {
-            this.list.push(...data.rows);
-          }
-          // 加载状态
-          this.loading = false;
-          // 计算数据总数
-          this.total = data.total;
-          // 判断数据是否全部获取完毕
-          if (this.page >= this.pages) {
-            this.finished = true;
-          }
-          this.page++;
-        }).catch(err => {
-          this.$toast(err.message);
-          this.loading = false;
-        })
-    },
-    // 下拉页面刷新加载函数
-    onRefresh() {
-      // 初始化参数
-      this.page = 1;
-      this.loadData();
-    },
-    // 上拉加载数据函数
-    onLoad() {
-      // 异步更新数据
-      this.loadData();
-    },
-
   }
 }
 </script>

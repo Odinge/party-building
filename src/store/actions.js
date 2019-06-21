@@ -43,14 +43,8 @@ export default {
   // 从数据库获取信息
   async getUserInfo({ commit }) {
     const userInfo = await getUserInfo();
-    // console.log();
 
-    // const userInfo = {
-    //   sname: "张山山",
-    //   clockNum: 10,
-    //   userAvatar: "/images/mine/user.png"
-    // };
-    userInfo.sname = "张山山";
+    userInfo.name = "张山山";
     userInfo.userAvatar = "/images/mine/user.png";
     userInfo.clockNum = 10;
 

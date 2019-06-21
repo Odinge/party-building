@@ -30,6 +30,10 @@ img {
   color: #f44;
 }
 
+.van-pull-refresh {
+  overflow: initial;
+}
+
 .van-pull-refresh__track {
   height: 100%;
 }

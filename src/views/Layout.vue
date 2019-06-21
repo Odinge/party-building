@@ -2,14 +2,17 @@
   <section class="app-container">
     <Header class="pub-header" v-if="meta.showHead" :noBack="meta.noBack" :showMore="meta.showMore" :class="meta.className">{{ meta.title }}</Header>
     <!-- <transition :name="transitionName"> -->
-    <router-view class="app-content"></router-view>
+    <keep-alive>
+      <router-view v-if="meta.keepAlive" class="app-content" :class="{prestrain}"></router-view>
+    </keep-alive>
+    <router-view v-if="!meta.keepAlive" class="app-content" :class="{prestrain}"></router-view>
     <!-- </transition> -->
     <Nav v-if="meta.showNav"></Nav>
   </section>
 </template>
 
 <script>
-
+import { mapState } from "vuex";
 export default {
   name: "home",
   data() {
@@ -20,7 +23,8 @@ export default {
   computed: {
     meta() {
       return this.$route.meta;
-    }
+    },
+    ...mapState(["prestrain"])
   },
   watch: {
     $route(to, from) {

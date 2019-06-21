@@ -1,14 +1,14 @@
 <template>
   <van-tabs type="card" animated swipeable v-model="mode" id="news" class="app-container">
     <van-tab :title="type" v-for="type in listType" :key="type">
-      <news-list :mode="mode"></news-list>
+      <news-view :mode="mode"></news-view>
     </van-tab>
   </van-tabs>
 </template>
 <script>
-import NewsList from "./NewsList";
+import NewsView from "./NewsView";
 export default {
-  components: { NewsList },
+  components: { NewsView },
   data() {
     return {
       mode: 0,

@@ -75,5 +75,6 @@ export default {
   border-radius: 5vw;
   border-color: #ccc;
   overflow: auto;
+  font-size: 1em;
 }
 </style>

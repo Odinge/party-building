@@ -1,24 +1,61 @@
 <template>
-  <Header class="pub-header search-header" :noBack="true">
+  <Header class="pub-header search-header" :onHideRight="!mode" :noBack="!mode">
     <div class="app-search">
       <van-icon name="search" />
-      <input type="text" placeholder="请输入搜索的内容" v-model="searchVal">
-      <a href="" @touchstart="onSearch">搜索</a>
+      <input v-if="mode" class="ipt" type="text" placeholder="请输入搜索的内容" v-model="searchVal" ref="ipt">
+      <template v-else>
+        <div @click="toSearch" class="ipt ipt-rep">请输入搜索的内容</div>
+        <button @click="toSearch" class="btn-search">搜索</button>
+      </template>
+      <van-icon name="close" v-show="showClear" class="btn-clear" @click="clear"></van-icon>
     </div>
   </Header>
-
 </template>
 
 <script>
+import { searchArticle } from "../../api/article";
 export default {
+  props: {
+    mode: {
+      default: 1
+    },
+    value: {
+      default: ""
+    }
+  },
   data() {
     return {
-      searchVal: "",
+      searchVal: "" // 查询值做中间值
+    }
+  },
+  // 进入页面获取焦点
+  activated() {
+    this.mode && this.getFocus();
+  },
+  watch: {
+    searchVal(val) {
+      this.$emit("input", val);
+    }
+  },
+  computed: {
+    // 是否显示清除文字
+    showClear() {
+      return this.searchVal.trim();
     }
   },
   methods: {
-    onSearch() {
-
+    // 清除搜索文字
+    clear() {
+      this.searchVal = "";
+      this.getFocus();
+    },
+    // 获取焦点
+    getFocus() {
+      this.$refs.ipt.focus();
+    },
+    // 进入查询页面
+    toSearch() {
+      this.$emit('toSearch');
     }
   }
 }
@@ -26,6 +63,7 @@ export default {
 
 <style>
 .app-search {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -33,7 +71,10 @@ export default {
   padding: 1.5vw;
   border-radius: 5vw;
 }
-.app-search input {
+.search-box {
+  display: flex;
+}
+.app-search .ipt {
   width: 60%;
   margin-left: 1rem;
   margin-right: 1rem;
@@ -41,11 +82,22 @@ export default {
   -web-kit-appearance: none;
   -moz-appearance: none;
 }
+.btn-clear {
+  position: absolute;
+  right: 1rem;
+}
+.app-search .ipt-rep {
+  color: rgb(235, 230, 230);
+  font-size: 0.9em;
+  text-align: left;
+}
 .search-header {
   padding-top: 2.5vw;
   padding-bottom: 2.5vw;
 }
-
+.btn-search {
+  background: none;
+}
 .app-search input::-webkit-input-placeholder {
   /* WebKit, Blink, Edge */
   color: rgb(235, 230, 230);

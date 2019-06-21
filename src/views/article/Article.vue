@@ -81,7 +81,7 @@ export default {
       isRefresh: false, // 页面刷新
       loading: false, // 加载评价数据
       finished: false, // 加载评价全部加载完
-      pageLoading: false, // 加载页面
+      pageLoad: null, // 加载页面
       haveRead: true, // 是否已经阅读
       isOne: true, // 第一次访问页面
 
@@ -92,6 +92,8 @@ export default {
     }
   },
   mounted() {
+    // 加载提示
+    this.pageLoad = this.$toast.loading({ duration: 0, forbidClick: true, message: "疯狂加载中..." });
     this.loadData();
   },
   computed: {
@@ -114,8 +116,9 @@ export default {
 
           // 设置头部信息
           this.$store.commit("setHeaderTitle", this.article.title);
-          this.pageLoading = true;
           this.isRefresh = false;
+          this.pageLoad.clear();
+
 
           // 进入页面时查询文章状态
           this.finishRead();
@@ -182,6 +185,9 @@ export default {
 
 </script>
 <style>
+.article .van-pull-refresh {
+  overflow: hidden;
+}
 .article {
   position: relative;
   font-size: 4.5vw;
@@ -214,7 +220,7 @@ export default {
   background-color: #fafbfd;
   border-radius: 20vw;
   overflow: hidden;
-  font-size: 1rem;
+  font-size: 0.7em;
 }
 .article .app-content {
   box-sizing: border-box;

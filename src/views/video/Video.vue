@@ -1,17 +1,17 @@
 <template>
   <div id="video">
-    <img src="/images/video/05.jpg" alt="">
+    <img src="/images/video/05.jpg" alt="视频">
     <van-tabs animated swipeable sticky v-model="mode">
       <van-tab :title="type" v-for="type in listType" :key="type">
-        <video-list :mode="mode"></video-list>
+        <video-view :mode="mode"></video-view>
       </van-tab>
     </van-tabs>
   </div>
 </template>
 <script>
-import VideoList from "./VideoList";
+import VideoView from "./VideoView";
 export default {
-  components: { VideoList },
+  components: { VideoView },
   data() {
     return {
       mode: 0,

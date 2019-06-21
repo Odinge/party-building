@@ -16,5 +16,13 @@ export default {
   // 设置头部标题
   setHeaderTitle(state, title) {
     state.headerTitle = title;
+  },
+  // 设置页面预加载状态
+  [types.SET_PAGE_LOADING](state, loadState) {
+    state.prestrain = loadState;
+  },
+  // 设置页面配置信息
+  [types.SET_PAGE_CONFIG](state, config) {
+    state.pageConfig = config;
   }
 };

@@ -22,7 +22,6 @@ import {
   PullRefresh,
   List
 } from "vant";
-
 Vue.use(Icon)
   .use(Picker)
   .use(Actionsheet)
@@ -41,6 +40,7 @@ Vue.use(Icon)
   .use(PullRefresh)
   .use(CellGroup);
 
+// 图片懒加载
 Vue.use(Lazyload, {
   loading: "/images/comm/loading.gif",
   error: "/images/comm/error.png"
@@ -55,6 +55,7 @@ Vue.use(components);
 // 注册全局axios
 Vue.prototype.$http = axios;
 
+// 接口域名地址
 // Vue.prototype.$baseUrl = process.env.BASE_URL;
 Vue.prototype.$baseUrl = "http://117.50.73.238:8080";
 

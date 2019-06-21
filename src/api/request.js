@@ -80,6 +80,29 @@ service.interceptors.response.use(
         503: "服务器错误不可用或暂停",
         504: "请求数据超时，请刷新页面重试"
       };
+      const data = err.response.data;
+      const { code } = data;
+      switch (code) {
+        case 40006:
+          Dialog.alert({
+            title: "提示",
+            message: "无权限操作，请登录",
+            confirmButtonColor: "#f44"
+          }).then(() => {
+            delToken();
+            router.replace({
+              path: "/login",
+              query: { redirect: router.currentRoute.fullPath }
+            });
+          });
+          // return Promise.reject(data);
+          return;
+          break;
+
+        default:
+          break;
+      }
+
       // err.message = resMap[err.response.status] || "请求失败";
       err.message = err.response.statusText;
     }
