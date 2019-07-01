@@ -4,6 +4,8 @@ import Vue from "./global";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
+// ui组件注册
+import { Toast } from "vant";
 
 // 获取token
 // import { getToken } from "./utils/auth";
@@ -16,6 +18,7 @@ Vue.config.productionTip = false;
 // const whiteList = ["/login", "/register"];
 
 router.beforeEach((to, form, next) => {
+  Toast.clear();
   document.title = to.meta.title || "党建";
   // 验证token
   // const token = getToken();

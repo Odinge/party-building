@@ -16,7 +16,8 @@ export const getOtherFiles = (page, size = baseSize) =>
   request("get", `/file/3/${size}/${page}`);
 
 // 下载文件
-export const dowenfile = fileId => request("get", "/file/download", { fileId });
+export const downloadFile = fileId =>
+  request("get", "/file/download", { fileId });
 
 // 获取资源
 export const getSource = fileName => request("get", `/file/update/${fileName}`);

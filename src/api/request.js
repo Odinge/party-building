@@ -6,11 +6,11 @@ import { getToken, delToken } from "../utils/auth";
 import router from "../router";
 import { Dialog } from "vant";
 
+const pubBaseURL = "http://117.50.73.238:8080";
 // 创建axios实例
 const service = axios.create({
-  // baseURL: "http://117.50.73.238:8080"
   baseURL: "/api"
-  //   process.env.NODE_ENV === "production" ? "http://117.50.73.238:8080" : "/"
+  // baseURL: process.env.NODE_ENV === "production" ? pubBaseURL : "/api"
   // timeout: 5000 // 请求超时时间
 });
 

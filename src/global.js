@@ -57,7 +57,9 @@ Vue.prototype.$http = axios;
 
 // 接口域名地址
 // Vue.prototype.$baseUrl = process.env.BASE_URL;
-Vue.prototype.$baseUrl = "http://117.50.73.238:8080";
+// Vue.prototype.$baseUrl = "http://117.50.73.238:8080";
+Vue.prototype.$baseUrl = "/api";
+// Vue.prototype.$baseUrl = "/";
 
 // 注册全局状态
 Vue.prototype.states = ["disabled", "success", "unlogin"];

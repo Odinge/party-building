@@ -16,9 +16,10 @@
               <span class="van-ellipsis file-box">{{file.fileName}}</span>
             </td>
             <td>
-              <a :href="getDowenloadUrl(file.fileId)">
-                <van-icon name="description"></van-icon>
-              </a>
+              <!-- <a :href="getDowenloadUrl(file.fileId)"> -->
+
+              <van-icon name="description" class="btn-download" @click="downloadFile(file.fileId)"></van-icon>
+              <!-- </a> -->
             </td>
           </tr>
         </tbody>
@@ -28,7 +29,7 @@
 </template>
 
 <script>
-import { getDocumentFiles } from "../../../api/file";
+import { getDocumentFiles, downloadFile } from "../../../api/file";
 export default {
   data() {
     return {
@@ -43,6 +44,13 @@ export default {
     // 下载链接
     getDowenloadUrl(fileId) {
       return this.$baseUrl + "/file/download?fileId=" + fileId;
+    },
+    downloadFile(fileId) {
+      downloadFile(fileId).then(data => {
+        window.location.href = this.getDowenloadUrl(fileId);
+      }).catch(err => {
+        this.$toast.fail(err.message);
+      });
     }
   }
 }
@@ -77,11 +85,11 @@ export default {
   display: block;
   width: 66vw;
 }
-.download a {
+.download .btn-download {
   color: rgb(34, 130, 255);
   font-size: 1.3em;
 }
-.download a:visited {
+.download .btn-download:visited {
   color: rgb(255, 122, 34);
 }
 </style>

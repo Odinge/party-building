@@ -35,7 +35,6 @@ export default {
   },
   computed: {
     loadFun() {
-      console.log("DADWAD");
       return this.funMap[this.mode];
     },
     pages() {
