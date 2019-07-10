@@ -9,7 +9,7 @@
     <div class="mine-main">
       <div class="mine-main-head">
         <div class="mine-user-text">
-          <h2>{{ userInfo.name }}同学</h2>
+          <h2>{{ userInfo.name? userInfo.name+"同学" : "未设置姓名" }}</h2>
           <h3>本月打卡{{ userInfo.clockNum }}天</h3>
         </div>
         <div class="mine-user-avatar">
@@ -25,7 +25,7 @@
             </router-link>
           </li>
           <li>
-            <router-link to="/">
+            <router-link to="/myComment">
               <img src="/images/mine/icon-ge-003.png">
               <h3>我的评价</h3>
             </router-link>
@@ -42,7 +42,7 @@
         </div>
         <ul class="mime-content-list">
           <li>
-            <router-link to="/">
+            <router-link to="/message">
               <img src="/images/mine/icon-qe-005.png">
               <span>我的消息</span>
             </router-link>
@@ -54,7 +54,7 @@
             </router-link>
           </li>
           <li>
-            <router-link to="/">
+            <router-link to="/learn">
               <img src="/images/mine/icon-qe-007.png">
               <span>学习情况</span>
             </router-link>
@@ -78,13 +78,13 @@
             </router-link>
           </li>
           <li>
-            <router-link to="/">
+            <router-link to="/collect">
               <img src="/images/mine/icon-qe-011.png">
               <span>我的收藏</span>
             </router-link>
           </li>
           <li>
-            <router-link to="/">
+            <router-link to="/feedback">
               <img src="/images/mine/icon-qe-012.png">
               <span>意见反馈</span>
             </router-link>

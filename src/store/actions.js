@@ -32,21 +32,21 @@ export default {
 
     return res;
   },
-  async logout() {
+  async logout({ commit }) {
     const res = await logout();
-    // const res = {};
     delToken();
     // 刷新浏览器
     // location.reload();
+    commit(types.SET_USERINFO, {});
     return res;
   },
   // 从数据库获取信息
   async getUserInfo({ commit }) {
     const userInfo = await getUserInfo();
 
-    userInfo.name = "张山山";
-    userInfo.userAvatar = "/images/mine/user.png";
-    userInfo.clockNum = 10;
+    // userInfo.name = userInfo.name || "未设置";
+    userInfo.userAvatar = userInfo.userAvatar || "/images/mine/user.png";
+    userInfo.clockNum = userInfo.clockNum || 0;
 
     commit(types.SET_USERINFO, userInfo);
     return userInfo;

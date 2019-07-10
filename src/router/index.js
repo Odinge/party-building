@@ -4,6 +4,95 @@ import Layout from "../views/Layout.vue";
 
 Vue.use(Router);
 
+// 我的常用
+const common = [
+  {
+    path: "download",
+    name: "download",
+    meta: { title: "常用下载", showHead: true },
+    component: () =>
+      import(
+        /* webpackChunkName: "download" */ "../views/mine/common/Download.vue"
+      )
+  },
+  {
+    path: "myComment",
+    name: "myComment",
+    meta: { title: "我的评价", showHead: true },
+    component: () =>
+      import(
+        /* webpackChunkName: "myComment" */ "../views/mine/common/MyComment.vue"
+      )
+  }
+];
+// 用户设置
+const setting = [
+  {
+    path: "setting",
+    name: "setting",
+    meta: { title: "设置", showHead: true },
+    component: () =>
+      import(
+        /* webpackChunkName: "setting" */ "../views/mine/setting/Setting.vue"
+      )
+  },
+  {
+    path: "updateUserInfo",
+    name: "updateUserInfo",
+    meta: { title: "设置信息", showHead: true },
+    component: () =>
+      import(
+        /* webpackChunkName: "updateUserInfo" */ "../views/mine/setting/UpdateUserInfo.vue"
+      )
+  },
+  {
+    path: "updatePassword",
+    name: "updatePassword",
+    meta: { title: "修改密码", showHead: true },
+    component: () =>
+      import(
+        /* webpackChunkName: "updatePassword" */ "../views/mine/setting/UpdatePassword.vue"
+      )
+  }
+];
+// 我的功能
+const func = [
+  {
+    path: "collect",
+    name: "collect",
+    meta: { title: "我的收藏", showHead: true },
+    component: () =>
+      import(
+        /* webpackChunkName: "collect" */ "../views/mine/function/Collect.vue"
+      )
+  },
+  {
+    path: "feedback",
+    name: "feedback",
+    meta: { title: "意见反馈", showHead: true },
+    component: () =>
+      import(
+        /* webpackChunkName: "feedback" */ "../views/mine/function/Feedback.vue"
+      )
+  },
+  {
+    path: "learn",
+    name: "learn",
+    meta: { title: "学习情况", showHead: true },
+    component: () =>
+      import(/* webpackChunkName: "learn" */ "../views/mine/function/Learn.vue")
+  },
+  {
+    path: "message",
+    name: "message",
+    meta: { title: "我的消息", showHead: true },
+    component: () =>
+      import(
+        /* webpackChunkName: "message" */ "../views/mine/function/Message.vue"
+      )
+  }
+];
+
 const routes = [
   // 登录注册
   {
@@ -37,7 +126,7 @@ const routes = [
       {
         path: "news",
         name: "news",
-        meta: { title: "要闻" },
+        meta: { title: "要闻", showNav: true },
         component: () =>
           import(/* webpackChunkName: "news" */ "../views/news/News.vue")
       },
@@ -63,24 +152,9 @@ const routes = [
           import(/* webpackChunkName: "mime" */ "../views/mine/Mine.vue"),
         children: []
       },
-      {
-        path: "download",
-        name: "download",
-        meta: { title: "常用下载", showHead: true },
-        component: () =>
-          import(
-            /* webpackChunkName: "download" */ "../views/mine//common/Download.vue"
-          )
-      },
-      {
-        path: "setting",
-        name: "setting",
-        meta: { title: "设置", showHead: true },
-        component: () =>
-          import(
-            /* webpackChunkName: "setting" */ "../views/mine/setting/Setting.vue"
-          )
-      },
+      ...setting, // 设置
+      ...common, // 常用
+      ...func, // 用户功能
       {
         path: "more/:compName/:title",
         name: "more",
@@ -128,8 +202,6 @@ const routes = [
     redirect: "/"
   }
 ];
-
-// const
 
 export default new Router({
   mode: "history",

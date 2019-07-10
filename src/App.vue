@@ -15,6 +15,10 @@ img {
   object-fit: cover;
 }
 
+.unfinished {
+  background: url("/images/comm/unfinished.png") center / cover;
+}
+
 /* 登录控制 */
 .disabled,
 [disabled="disabled"] {

@@ -5,7 +5,7 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 // ui组件注册
-import { Toast } from "vant";
+import { Toast, Dialog } from "vant";
 
 // 获取token
 // import { getToken } from "./utils/auth";
@@ -30,15 +30,25 @@ router.beforeEach((to, form, next) => {
     if (to.path === "/login") {
       next("/");
     } else {
-      // 拉去用户基本信息
-      if (to.path === "/mine" && !store.state.userInfo.sname) {
+      // 拉取用户基本信息
+      if (
+        ["/mine", "/setting", "/updateUserInfo"].includes(to.fullPath) &&
+        !store.state.userInfo.name
+      ) {
         store
           .dispatch("getUserInfo")
           .then(res => {
             next();
           })
           .catch(err => {
-            next();
+            // 用户未设置信息
+            Dialog.alert({
+              title: "提示",
+              message: "请完善用户信息",
+              confirmButtonColor: "#f44"
+            }).then(res => {
+              next("/updateUserInfo?finish=0");
+            });
           });
       } else {
         //当有用户权限的时候，说明所有可访问路由已生成 如访问没权限的全面会自动进入登录页面

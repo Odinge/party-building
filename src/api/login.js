@@ -12,3 +12,6 @@ export const register = data => request("post", "/regist", data);
 
 // 获取用户信息
 export const getUserInfo = () => request("get", "/getDetail");
+
+// 修改用户信息
+export const updateDetail = data => request("post", "/updateDetail", data);

@@ -21,11 +21,11 @@ service.interceptors.request.use(
 
     // config.headers["Content-Type"] = "application/json;charset=UTF-8";
     // config.headers.Accept = "application/json;";
-    let token = getToken();
+    // let token = getToken();
 
-    if (token) {
-      config.headers.token = token;
-    }
+    // if (token) {
+    //   config.headers.token = token;
+    // }
     return config;
   },
   err => {

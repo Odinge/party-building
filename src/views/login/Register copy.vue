@@ -7,12 +7,30 @@
     </header>
     <div class="reg-main">
       <form name="register" action="" method="post" onsubmit="return false">
-        <!-- 账号 -->
+        <div class="reg-text">
+          <label for="identity">注册身份</label>
+          <picker v-model="regInfo.identity" :columns="identitys" placeholder="请选择申请人类型" title="身份选择" class="input"></picker>
+        </div>
+        <div class="reg-text">
+          <label for="sname">姓名</label>
+          <input type="text" placeholder="请输入姓名" class="input" name="sname" id="sname" v-model="regInfo.sname">
+        </div>
         <div class="reg-text">
           <label for="account">学号</label>
-          <input type="text" placeholder="请输入学号/工号" class="input" name="account" id="account" v-model="regInfo.account">
+          <input type="text" placeholder="请输入学号" class="input" name="account" id="account" v-model="regInfo.account">
         </div>
-        <!-- 密码 -->
+        <div class="reg-text">
+          <label for="sclass">班级</label>
+          <input type="text" placeholder="请输入班级" class="input" name="sclass" id="sclass" v-model="regInfo.sclass">
+        </div>
+        <div class="reg-text">
+          <label for="phone">手机号</label>
+          <input type="text" placeholder="请输入手机号" class="input" name="phone" id="phone" v-model="regInfo.phone" />
+        </div>
+        <div class="reg-text">
+          <label for="email">邮箱</label>
+          <input type="text" placeholder="请输入邮箱" class="input" name="email" id="email" v-model="regInfo.email" />
+        </div>
         <div class="reg-text">
           <label for="password" required>
             <van-icon name="question-o" class="info" @click="$toast('6~16位字母、数字或者字符')"></van-icon>
@@ -26,7 +44,34 @@
           <input type="password" placeholder="请输入确认密码" class="input reg-psd" name="password1" ref="password1" v-model="password" />
           <span class="psd-err">{{psdErrMsg}}</span>
         </div>
-        <!-- 提示信息 -->
+
+        <!-- 时间填写 -->
+        <div class="reg-text date-picker" v-if="isShowTime('0123')">
+          <label for="applicationTime">递交入党申请时间</label>
+          <date-picker v-model="time.applicationTime" class="input" title="递交入党申请时间"></date-picker>
+        </div>
+
+        <div class="reg-text date-picker" v-if="isShowTime('123')">
+          <label for="activistTime">确定为积极分子时间</label>
+          <date-picker v-model="time.activistTime" class="input" title="确定为积极分子时间"></date-picker>
+        </div>
+
+        <template v-if="isShowTime('23')">
+          <div class="reg-text date-picker">
+            <label for="probationaryTime">确定为发展对象时间</label>
+            <date-picker v-model="time.probationaryTime" class="input" title="确定为发展对象时间"></date-picker>
+          </div>
+          <div class="reg-text date-picker">
+            <label for="potentialTime">确定为预备党员时间</label>
+            <date-picker v-model="time.potentialTime" class="input" title="确定为预备党员时间"></date-picker>
+          </div>
+        </template>
+
+        <div class="reg-text date-picker" v-if="isShowTime('3')">
+          <label for="fullpartyTime">确定为正式党员时间</label>
+          <date-picker v-model="time.fullpartyTime" class="input" title="确定为正式党员时间"></date-picker>
+        </div>
+
         <div class="reg-tip">
           <input type="checkbox" checked id="plain" v-model="agree"><label for="plain">同意注册条款</label>
         </div>
@@ -42,22 +87,63 @@ import { register } from "../../api/login";
 export default {
   data() {
     return {
+      identitys: [
+        "入党申请人",
+        "入党积极分子",
+        "中共预备党员",
+        "中共党员",
+      ], // 身份列表
       regInfo: {
         account: "", // 账号
         password: "", // 密码
+        sname: "", // 姓名
+        sclass: "", // 班级
+        phone: "", // 电话
+        email: "", // 邮箱
+        identity: "", // 当前身份
       },
       password: "", // 第二次密码，验证密码
       psdErrMsg: "", // 密码错误信息
-
       agree: true, // 同意注册协议
+      time: {
+        applicationTime: "", // 入党申请书递交时间
+        activistTime: "", // 确定为积极分子时间
+        probationaryTime: "", // 确定为考察对象时间
+        potentialTime: "", // 确定为预备党员时间
+        fullpartyTime: "", // 确定为正式党员时间
+      }, // 时间
+      timeMap: [
+        ["0123", "applicationTime"],
+        ["123", "activistTime"],
+        ["23", "probationaryTime"],
+        ["23", "potentialTime"],
+        ["3", "fullpartyTime"],
+      ], // 时间权限映射
 
       regState: 0, // 注册表单状态
       psdStatus: 0, // 密码显示状态
     }
   },
   computed: {
+    // 注册时间
+    regTime() {
+      // 根据身份选择时间
+      const timeArr = [];
+      this.timeMap.forEach(item => {
+        const [key, value] = item;
+        if (this.isShowTime(key)) {
+          timeArr.push(value);
+        }
+      });
+      // 筛选时间属性
+      const time = {};
+      timeArr.forEach(item => {
+        time[item] = this.time[item]
+      });
+      return time;
+    },
     allInfo() {
-      return { ...this.regInfo, password1: this.password, agree: this.agree };
+      return { ...this.regInfo, ...this.regTime, password1: this.password, agree: this.agree };
     }
   },
   watch: {
@@ -108,19 +194,27 @@ export default {
     back() {
       this.$router.back();
     },
+    // 显示注册时间
+    isShowTime(option) {
+      if (typeof option === "string") {
+        option = option.split("");
+      }
+      return option.includes(this.regInfo.identity);
+    },
     // 提交注册
     register() {
       // 加载
       const load = this.$toast.loading({
         mask: true,
         duration: 0,
-        message: '注册中...'
+        message: '加载中...'
       });
       // 结合信息
-      let regInfo = { ...this.regInfo };
+      let regInfo = { ...this.regInfo, ...this.regTime };
+      regInfo.identity = this.identitys[regInfo.identity];
       // 发送请求
       register(regInfo).then(res => {
-        // console.log(res);
+        console.log(res);
         // this.regState = 1;
         load.clear();
         // 倒计时
@@ -129,7 +223,7 @@ export default {
           this.$router.push({ path: "/login" });
         });
       }).catch(err => {
-        // console.error(err);
+        console.error(err);
         load.clear();
         this.$dialog.alert({
           title: '提示',
@@ -170,7 +264,6 @@ export default {
   padding: 3vw 2vw 15vw;
   overflow: auto;
 }
-/* 注册行 */
 .reg-text {
   position: relative;
   display: flex;
@@ -194,7 +287,9 @@ export default {
   color: #858585;
   background-color: transparent;
 }
-/* 注册提示 */
+.reg-text select.input {
+  margin-left: 0.8em;
+}
 .reg-tip {
   text-align: right;
   padding: 5vw 5vw 10vw;
@@ -207,7 +302,6 @@ export default {
   width: 1em;
   height: 1em;
 }
-/* 注册按钮 */
 .reg-btn {
   text-align: center;
 }
@@ -220,11 +314,26 @@ export default {
   font-size: 1em;
   color: #fff;
 }
-/* 注册错误提示 */
+.date-picker {
+  padding: 2.2vw 5vw;
+}
+.date-picker label {
+  width: 30%;
+}
+.date-picker .input {
+  margin-left: 18vw;
+}
 .psd-err {
   color: #de442c;
   font-size: 0.7em;
   width: 6em;
+}
+.reg-select {
+  display: flex;
+  align-items: center;
+}
+.reg-select input {
+  background-color: transparent;
 }
 .info {
   color: #e54e31;

@@ -8,12 +8,11 @@
           <!-- </div> -->
         </van-cell>
       </van-uploader>
-      <van-cell title="修改密码" icon="bookmark-o" is-link />
+      <van-cell title="修改密码" icon="bookmark-o" is-link to="/updatePassword" />
+      <van-cell title="用户信息" icon="edit" is-link to="/updateUserInfo" />
     </van-cell-group>
     <div class="logout">
-      <!-- <a href=""> -->
       <button @touchstart="logout">退出登录</button>
-      <!-- </a> -->
     </div>
   </section>
 </template>
@@ -27,7 +26,7 @@ export default {
       const load = this.$toast.loading({
         mask: true,
         duration: 0,
-        message: '加载中...'
+        message: '退出中...'
       });
       this.$store.dispatch("logout").then(res => {
         load.clear();
