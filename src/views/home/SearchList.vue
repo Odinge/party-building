@@ -1,3 +1,10 @@
+<!--
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-06-19 15:38:42
+ * @LastEditTime: 2019-08-25 12:52:42
+ * @LastEditors: Please set LastEditors
+ -->
 <template>
   <div class="search-list app-container">
     <!-- 查询头部 -->
@@ -31,7 +38,7 @@ import NewsList from "../news/NewsList";
 import VideoList from "../video/VideoList";
 import Search from "./Search";
 
-import { searchArticle } from "../../api/article";
+import { searchArticle, getCollectionStatus } from "../../api/article";
 export default {
   components: { Dynamics, Notice, NewsList, VideoList, Search },
   data() {
@@ -107,6 +114,17 @@ export default {
     }
   },
   methods: {
+    changeList() {
+      this.list.forEach(article => {
+        if (article.articleId) {
+          getCollectionStatus(article.articleId).then(data => {
+            this.$set(article, "isCollect", data);
+          }).catch(err => {
+            this.$toast(err.message);
+          });
+        }
+      });
+    },
     init() {
       this.list = []; // 初始化数据
       this.total = 0; // 数据总条数
@@ -136,6 +154,8 @@ export default {
             } else {
               this.list.push(...data.rows);
             }
+
+            this.changeList();
 
             // 加载状态
             this.loading = false;

@@ -1,3 +1,10 @@
+<!--
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-05-12 13:12:27
+ * @LastEditTime: 2019-08-25 14:29:01
+ * @LastEditors: Please set LastEditors
+ -->
 <template>
   <router-view id="app" />
 </template>
@@ -16,7 +23,7 @@ img {
 }
 
 .unfinished {
-  background: url("/images/comm/unfinished.png") center / cover;
+  background: url("/images/comm/unfunction.png") center / cover;
 }
 
 /* 登录控制 */
@@ -59,6 +66,9 @@ img {
   overflow: auto;
   height: 100%;
   flex: 1;
+}
+.flex {
+  display: flex;
 }
 .flex-1 {
   flex: 1;
@@ -117,7 +127,69 @@ img {
   color: inherit;
   font-size: inherit;
 }
-.van-icon-like {
+#app .van-icon-like {
   color: coral;
+}
+.hide {
+  display: none;
+}
+.bg-#fff {
+  background-color: #fff;
+}
+
+/* =======================测试相关====================== */
+
+.test-list {
+  padding-bottom: 1em;
+}
+.test-item {
+  box-sizing: border-box;
+  width: 100%;
+  justify-content: space-between;
+  padding: 4.5vw;
+  border-bottom: 0.2vw solid #eee;
+  font-size: 4.5vw;
+}
+.test-item img {
+  width: 18%;
+  border-radius: 100%;
+}
+.test-a {
+  width: 78%;
+}
+.test-info {
+  margin-left: 1em;
+}
+.test-info h4 {
+  font-weight: bold;
+  color: #555;
+}
+.test-info p {
+  font-size: 0.8em;
+  margin-top: 1em;
+  color: rgb(133, 131, 131);
+}
+.test-state {
+  width: 17%;
+}
+.test-state span {
+  font-size: 0.8em;
+  margin-top: 0.4em;
+  color: #444;
+}
+.test-icon {
+  background-size: contain;
+  background-position: center;
+  width: 1.5em;
+  height: 1.5em;
+}
+.answer-finished {
+  background-image: url("/images/test/icon-follow-002.jpg");
+}
+.answer-no {
+  background-image: url("/images/test/icon-follow-001.jpg");
+}
+.answer-past {
+  background-image: url("/images/test/icon-follow-003.jpg");
 }
 </style>

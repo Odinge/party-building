@@ -1,3 +1,10 @@
+<!--
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-05-19 09:58:18
+ * @LastEditTime: 2019-08-24 23:19:10
+ * @LastEditors: Please set LastEditors
+ -->
 <template>
   <ul class="con-news">
     <li v-for="(item, key) in list" :key="key">
@@ -7,7 +14,7 @@
           <div class="news-op app-flex">
             <span>
               <van-icon name="fire-o"></van-icon>
-              {{item.viewCount}}
+              {{+item.viewCount}}
             </span>
             <span>
               <van-icon name="clock-o"></van-icon>
@@ -83,7 +90,7 @@ export default {
   display: flex;
 }
 .news-op span:first-child {
-  width: 14vw;
+  width: 16vw;
 }
 
 .news-op span + span {

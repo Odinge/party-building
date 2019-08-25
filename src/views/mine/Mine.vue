@@ -1,3 +1,10 @@
+<!--
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-05-12 16:45:12
+ * @LastEditTime: 2019-08-25 13:53:54
+ * @LastEditors: Please set LastEditors
+ -->
 <template>
   <div class="mine">
     <Header class="mine-head" :showMore="true" :center="true">
@@ -10,83 +17,31 @@
       <div class="mine-main-head">
         <div class="mine-user-text">
           <h2>{{ userInfo.name? userInfo.name+"同学" : "未设置姓名" }}</h2>
-          <h3>本月打卡{{ userInfo.clockNum }}天</h3>
+          <h3 :class="{red:pStatus}">{{punchInStatus}}</h3>
         </div>
         <div class="mine-user-avatar">
-          <img :src="userInfo.userAvatar">
+          <!-- <img :src="userInfo.userAvatar"> -->
+          <img :src="defaultAvatar">
         </div>
       </div>
       <div class="mine-main-content">
         <ul class="mime-content-grid">
-          <li>
-            <router-link to="/">
-              <img src="/images/mine/icon-ge-002.png">
-              <h3>智慧党建</h3>
-            </router-link>
-          </li>
-          <li>
-            <router-link to="/myComment">
-              <img src="/images/mine/icon-ge-003.png">
-              <h3>我的评价</h3>
-            </router-link>
-          </li>
-          <li>
-            <router-link to="/download">
-              <img src="/images/mine/icon-ge-005.png">
-              <h3>常用下载</h3>
+          <li v-for="item in common" :key="item.name">
+            <router-link :to="item.path">
+              <img :src="item.meta.icon">
+              <h3>{{item.meta.title}}</h3>
             </router-link>
           </li>
         </ul>
         <div class="mime-content-mv">
-          <img src="/images/mine/06.jpg">
+          <!-- <video-controls src="/videos/video-1.mp4"></video-controls> -->
+          <img src="/images/mine/mine-ad.png">
         </div>
         <ul class="mime-content-list">
-          <li>
-            <router-link to="/message">
-              <img src="/images/mine/icon-qe-005.png">
-              <span>我的消息</span>
-            </router-link>
-          </li>
-          <li>
-            <router-link to="/">
-              <img src="/images/mine/icon-qe-006.png">
-              <span>我的竞赛</span>
-            </router-link>
-          </li>
-          <li>
-            <router-link to="/learn">
-              <img src="/images/mine/icon-qe-007.png">
-              <span>学习情况</span>
-            </router-link>
-          </li>
-          <li>
-            <router-link to="/">
-              <img src="/images/mine/icon-qe-008.png">
-              <span>我的组织</span>
-            </router-link>
-          </li>
-          <li>
-            <router-link to="/">
-              <img src="/images/mine/icon-qe-009.png">
-              <span>我的笔记</span>
-            </router-link>
-          </li>
-          <li>
-            <router-link to="/">
-              <img src="/images/mine/icon-qe-010.png">
-              <span>我的公益</span>
-            </router-link>
-          </li>
-          <li>
-            <router-link to="/collect">
-              <img src="/images/mine/icon-qe-011.png">
-              <span>我的收藏</span>
-            </router-link>
-          </li>
-          <li>
-            <router-link to="/feedback">
-              <img src="/images/mine/icon-qe-012.png">
-              <span>意见反馈</span>
+          <li v-for="item in func" :key="item.name">
+            <router-link :to="item.path">
+              <img :src="item.meta.icon">
+              <span>{{item.meta.title}}</span>
             </router-link>
           </li>
         </ul>
@@ -96,14 +51,21 @@
 </template>
 
 <script>
+import { getPunchInStatus } from "../../api/mine";
 import { mapState, mapMutations } from "vuex";
+import { common, func } from "../../router";
 import * as types from "../../store/types";
 export default {
   data() {
     return {
+      punchInStatus: "未打卡，本日任务未完成",
+      pStatus: 1,
+      common,
+      func
     }
   },
   mounted() {
+
     this.loadData();
     // 设置头部信息
     this.$store.commit("setHeaderTitle", "");
@@ -113,7 +75,18 @@ export default {
   },
   methods: {
     loadData() {
+      getPunchInStatus().then(data => {
+        this.pStatus = 0;
+        this.punchInStatus = "已打卡，本日任务已完成";
+      }).catch(err => {
+        if (err.code === 400016) {
+          this.punchInStatus = err.message;
+          this.pStatus = 1;
+        } else {
+          this.$toast(err.message)
+        }
 
+      });
     }
   }
 }
@@ -157,6 +130,13 @@ export default {
   color: #fff;
   text-align: center;
 }
+
+.mine-user-text .red {
+  color: red;
+  font-weight: bold;
+  background-color: #fff;
+}
+
 .mine-user-avatar {
   overflow: hidden;
   width: 20vw;
@@ -196,7 +176,9 @@ export default {
 }
 .mime-content-mv {
   height: 30vw;
+  /* height: 40vw; */
   overflow: hidden;
+  border-radius: 2em;
 }
 .mime-content-mv img {
   width: 100%;

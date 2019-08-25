@@ -1,3 +1,10 @@
+/*
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-05-13 08:53:10
+ * @LastEditTime: 2019-08-24 14:24:27
+ * @LastEditors: Please set LastEditors
+ */
 import axios from "axios";
 
 // 获取token
@@ -42,8 +49,11 @@ service.interceptors.response.use(
     // let status = response.status;
     let { data: res } = response;
     let { code, data } = res;
+
     // 对响应的信息做处理
     switch (code) {
+      case undefined:
+      case 0:
       case 20001:
         return data;
       case 40006:
@@ -128,4 +138,5 @@ const request = (method, url, params = {}, config = {}) => {
   }
 };
 
+request.axios = axios;
 export default request;

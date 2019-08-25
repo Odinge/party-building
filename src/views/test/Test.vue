@@ -1,100 +1,78 @@
+<!--
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-05-12 15:32:28
+ * @LastEditTime: 2019-08-24 13:20:37
+ * @LastEditors: Please set LastEditors
+ -->
 <template>
-  <list-load v-model="list" :funMap="funMap">
+  <list-load v-model="list" :funMap="funMap" ref="load">
     <ul class="test-list">
-      <li v-for="(item, key) in list" :key="key">
-        <a href="#" class="test-item app-flex">
+      <li v-for="(item, key) in list" :key="key" class="test-item app-flex">
+        <a :href="item.url" class="app-flex test-a">
           <img src="/images/test/dangqi.png" alt="问卷">
-          <div class="test-info">
+          <div class="test-info test-a">
             <h4 class="van-ellipsis">{{item.title}}</h4>
             <p class="van-ellipsis">{{item.updatetime}}</p>
           </div>
-          <div class="test-state app-flex-col">
-            <i class="test-icon" :class="answerMap[item.answerState].class"></i>
-            <span>{{answerMap[item.answerState].text}}</span>
-          </div>
         </a>
+        <van-uploader :after-read="onRead" :before-read="onBeforeRead" :name="item.qid" accept="image/gif, image/jpeg" class="test-state app-flex-col">
+          <i class="test-icon answer-past"></i>
+          <span>上传结果</span>
+        </van-uploader>
       </li>
     </ul>
   </list-load>
 </template>
 <script>
-import { getQuestionnaire } from "../../api/questionnaire";
+import { getQuestionnaire, addQuestionnaireRecords } from "../../api/questionnaire";
+import { getFileUrl } from "../../api/file";
 export default {
   data() {
     return {
-      list: [
-        // { url: "/images/test/dangqi.png", title: "第九周学习测评", updatetime: "同学们多看新闻,好好答题", answerState: 1 },
-        // { url: "/images/test/dangqi.png", title: "第八周学习测评", updatetime: "同学们多看新闻,好好答题", answerState: 1 },
-        // { url: "/images/test/dangqi.png", title: "第七周学习测评", updatetime: "同学们多看新闻,好好答题", answerState: 1 },
-        // { url: "/images/test/dangqi.png", title: "第六周学习测评", updatetime: "同学们多看新闻,好好答题", answerState: 1 },
-        // { url: "/images/test/dangqi.png", title: "第五周学习测评", updatetime: "同学们多看新闻,好好答题", answerState: 0 },
-        // { url: "/images/test/dangqi.png", title: "第四周学习测评", updatetime: "同学们多看新闻,好好答题", answerState: 2 },
-        // { url: "/images/test/dangqi.png", title: "第三周学习测评", updatetime: "同学们多看新闻,好好答题", answerState: 0 },
-        // { url: "/images/test/dangqi.png", title: "第二周学习测评", updatetime: "同学们多看新闻,好好答题", answerState: 0 },
-        // { url: "/images/test/dangqi.png", title: "第一周学习测评", updatetime: "同学们多看新闻,好好答题", answerState: 0 },
-      ],
-      answerMap: [
-        { class: "answer-finished", text: "已答题" },
-        { class: "answer-no", text: "未解答" },
-        { class: "answer-past", text: "已过期" },
-      ],
-      funMap: [getQuestionnaire]
+      list: [],
+      funMap: [getQuestionnaire],
     }
   },
   computed: {
   },
   methods: {
+    uploadRecode(url, qid) {
+      addQuestionnaireRecords(url, qid).then(data => {
+        const load = this.$refs.load;
+        load.onRefresh(() => {
+          this.$toast.success("结果添加成功");
+        });
+      }).catch(err => { this.$toast.fail(err.message) });
+    },
+    onRead(files, detail) {
+      const { content: url, file } = files;
+      // 使用blob创建连接
+      // const blob = new Blob([file]);
+      // const url = window.URL.createObjectURL(blob);
+
+      this.$toast.loading({
+        duration: 0,       // 持续展示 toast
+        forbidClick: true, // 禁用背景点击
+        loadingType: 'spinner',
+        message: '加载中...'
+      });
+      getFileUrl(file).then(data => {
+        this.uploadRecode(data, detail.name);
+      }).catch(err => { this.$toast(err.message) });
+
+    },
+    onBeforeRead(file) {
+      const { type } = file;
+      if (/image/.test(type)) {
+        return true;
+      } else {
+        this.$toast.fail('     失败\n请上传图片');
+        return false;
+      }
+    },
   }
 }
 </script>
 <style>
-.test-list {
-  padding-bottom: 1em;
-}
-.test-item {
-  justify-content: space-between;
-  padding: 4.5vw;
-  border-bottom: 0.2vw solid #eee;
-  font-size: 4.5vw;
-}
-.test-item img {
-  width: 18%;
-  border-radius: 100%;
-}
-.test-info {
-  flex: 1;
-  margin-left: 1em;
-}
-.test-info h4 {
-  font-weight: bold;
-  color: #555;
-}
-.test-info p {
-  font-size: 0.8em;
-  margin-top: 1em;
-  color: rgb(133, 131, 131);
-}
-.test-state {
-  width: 15%;
-}
-.test-state span {
-  font-size: 0.8em;
-  margin-top: 0.4em;
-  color: #444;
-}
-.test-icon {
-  background-size: contain;
-  background-position: center;
-  width: 1.5em;
-  height: 1.5em;
-}
-.answer-finished {
-  background-image: url("/images/test/icon-follow-002.jpg");
-}
-.answer-no {
-  background-image: url("/images/test/icon-follow-001.jpg");
-}
-.answer-past {
-  background-image: url("/images/test/icon-follow-003.jpg");
-}
 </style>

@@ -1,3 +1,10 @@
+<!--
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-05-21 08:26:58
+ * @LastEditTime: 2019-08-24 23:24:36
+ * @LastEditors: Please set LastEditors
+ -->
 <template>
   <ul class="con-notice">
     <li v-for="(item,key) in list" :key="key">
@@ -9,11 +16,14 @@
           <div class="app-flex notice-op">
             <span class="app-flex">
               <van-icon name="eye"></van-icon>
-              {{item.viewCount}}
+              {{+item.viewCount}}
             </span>
-            <span class="app-flex">
+            <!-- <span class="app-flex">
               <i class="iconfont icon-dianzan1"></i>
               {{item.praiseNum}}
+            </span> -->
+            <span class="app-flex">
+              <van-icon name="clock-o"></van-icon>{{item.updatetime | dateFormat}}
             </span>
           </div>
         </div>
@@ -72,8 +82,8 @@ export default {
   font-size: 0.8em;
   justify-content: space-between;
 }
-.notice-op span {
-  width: 13vw;
+.notice-op span:first-child {
+  width: 16vw;
 }
 .notice-op i {
   font-size: 1.3em;

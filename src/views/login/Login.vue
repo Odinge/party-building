@@ -1,3 +1,10 @@
+<!--
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-05-12 15:14:18
+ * @LastEditTime: 2019-08-24 13:47:23
+ * @LastEditors: Please set LastEditors
+ -->
 <template>
   <section class="aui-flexView">
     <section class="aui-scrollView">
@@ -22,8 +29,7 @@
               <input type="password" placeholder="请输入您的密码" v-model="user.password" ref="password">
             </div>
             <div class="aui-psd">
-              <router-link to="/register">忘记密码</router-link>
-              <!-- <a href="javascript:;">忘记密码</a> -->
+              <router-link to="/forget">忘记密码</router-link>
             </div>
           </div>
           <div class="aui-form-button">

@@ -1,35 +1,19 @@
+/*
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-05-12 14:49:11
+ * @LastEditTime: 2019-08-25 13:16:20
+ * @LastEditors: Please set LastEditors
+ */
 // 异步方法
 import { login, register, logout, getUserInfo } from "../api/login";
 import * as types from "./types";
-import { setToken, delToken } from "../utils/auth";
+import { delToken, getToken } from "../utils/auth";
 
 export default {
   async login({ commit }, user) {
     // 访问后台获取登录
     const res = await login(user);
-
-    // 用于测试
-    // let res = {};
-    // const users = [{ account: "user", password: "123456" }];
-    // const findUser = users.find(u => u.account === user.account);
-
-    // if (findUser) {
-    //   if (user.password === findUser.password) {
-    //     res = { status: 0, message: "登录成功" };
-    //   } else {
-    //     res = { status: 1, message: "密码不正确" };
-    //     throw res;
-    //   }
-    // } else {
-    //   res = { status: 2, message: "账号不存在" };
-    //   throw res;
-    // }
-
-    // 登录成功
-    // 保存token
-    const token = setToken();
-    commit(types.SET_TOKEN, token);
-
     return res;
   },
   async logout({ commit }) {
@@ -44,9 +28,8 @@ export default {
   async getUserInfo({ commit }) {
     const userInfo = await getUserInfo();
 
-    // userInfo.name = userInfo.name || "未设置";
-    userInfo.userAvatar = userInfo.userAvatar || "/images/mine/user.png";
-    userInfo.clockNum = userInfo.clockNum || 0;
+    userInfo.userAvatar =
+      userInfo.userAvatar || "/images/mine/default-avatar.png";
 
     commit(types.SET_USERINFO, userInfo);
     return userInfo;

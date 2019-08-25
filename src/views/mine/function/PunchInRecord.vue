@@ -1,32 +1,30 @@
 <!--
- * @Description: In User Settings Edit
- * @Author: your name
+ * @Description: 我的打卡
+ * @Author: Odinge
  * @Date: 2019-07-10 15:45:34
- * @LastEditTime: 2019-08-24 09:33:05
+ * @LastEditTime: 2019-08-24 09:40:04
  * @LastEditors: Please set LastEditors
  -->
-<!-- 学习情况 -->
 <template>
   <list-load v-model="list" :funMap="funMap" ref="load">
     <ul class="learn">
-      <li v-for="item in list" :key="item.recordId">
-        <router-link :to="{name: 'article', params: {id: item.articleId}}" class="learn-item">
-          <h3 class="figcaption">{{item.articleTitle}}</h3>
-          <p><span class="learn-time">最近打开时间</span> {{item.openTime}}</p>
-          <p><span class="learn-time finish-time">阅读完成时间</span> {{item.accomplishTime}}</p>
-        </router-link>
+      <li v-for="item in list" :key="item.recordId" class="learn-item">
+        <!-- <router-link :to="{name: 'article', params: {id: item.articleId}}" > -->
+        <h3 class="figcaption">{{item.articleTitle}}</h3>
+        <p><span class="learn-time finish-time">打卡时间</span> {{item.punchInTime}}</p>
+        <!-- </router-link> -->
       </li>
     </ul>
   </list-load>
 </template>
 
 <script>
-import { getPunchInRecord, getStudyRecord } from "../../../api/mine";
+import { getPunchInRecord } from "../../../api/mine";
 export default {
   data() {
     return {
       list: [],
-      funMap: [getStudyRecord],
+      funMap: [getPunchInRecord],
     }
   },
 }

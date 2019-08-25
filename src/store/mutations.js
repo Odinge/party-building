@@ -6,9 +6,9 @@ export default {
     state.userInfo = userInfo;
   },
   // 设置登录token
-  [types.SET_TOKEN](state, token) {
-    state.token = token;
-  },
+  // [types.SET_TOKEN](state, token) {
+  //   state.token = token;
+  // },
   // 设置用户头像
   [types.SET_USERAVATAR](state, userAvatar) {
     state.userInfo.userAvatar = userAvatar;

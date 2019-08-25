@@ -1,3 +1,10 @@
+/*
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-05-12 13:12:27
+ * @LastEditTime: 2019-08-25 14:30:59
+ * @LastEditors: Please set LastEditors
+ */
 import Vue from "vue";
 import Router from "vue-router";
 import Layout from "../views/Layout.vue";
@@ -5,62 +12,156 @@ import Layout from "../views/Layout.vue";
 Vue.use(Router);
 
 // 我的常用
-const common = [
+export const common = [
   {
-    path: "download",
-    name: "download",
-    meta: { title: "常用下载", showHead: true },
+    path: "dproject",
+    name: "dproject",
+    meta: {
+      title: "智慧党建",
+      icon: "/images/mine/icon-ge-002.png",
+      showHead: true
+    },
     component: () =>
       import(
-        /* webpackChunkName: "download" */ "../views/mine/common/Download.vue"
+        /* webpackChunkName: "dproject" */ "../views/mine/common/Dproject.vue"
       )
   },
   {
     path: "myComment",
     name: "myComment",
-    meta: { title: "我的评价", showHead: true },
+    meta: {
+      title: "我的评价",
+      icon: "/images/mine/icon-ge-003.png",
+      showHead: true
+    },
     component: () =>
       import(
         /* webpackChunkName: "myComment" */ "../views/mine/common/MyComment.vue"
       )
+  },
+  {
+    path: "download",
+    name: "download",
+    meta: {
+      title: "常用下载",
+      icon: "/images/mine/icon-ge-005.png",
+      showHead: true
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "download" */ "../views/mine/common/Download.vue"
+      )
   }
 ];
 // 用户设置
-const setting = [
+export const setting = [
   {
-    path: "setting",
-    name: "setting",
-    meta: { title: "设置", showHead: true },
+    path: "setUserInfo",
+    name: "setUserInfo",
+    meta: { title: "用户信息", icon: "contact", showHead: true },
     component: () =>
       import(
-        /* webpackChunkName: "setting" */ "../views/mine/setting/Setting.vue"
+        /* webpackChunkName: "setUserInfo" */ "../views/mine/setting/SetUserInfo.vue"
       )
   },
   {
-    path: "updateUserInfo",
-    name: "updateUserInfo",
-    meta: { title: "设置信息", showHead: true },
+    path: "setPassword",
+    name: "setPassword",
+    meta: { title: "修改密码", icon: "bookmark-o", showHead: true },
     component: () =>
       import(
-        /* webpackChunkName: "updateUserInfo" */ "../views/mine/setting/UpdateUserInfo.vue"
-      )
-  },
-  {
-    path: "updatePassword",
-    name: "updatePassword",
-    meta: { title: "修改密码", showHead: true },
-    component: () =>
-      import(
-        /* webpackChunkName: "updatePassword" */ "../views/mine/setting/UpdatePassword.vue"
+        /* webpackChunkName: "setPassword" */ "../views/mine/setting/SetPassword.vue"
       )
   }
 ];
 // 我的功能
-const func = [
+export const func = [
+  {
+    path: "message",
+    name: "message",
+    meta: {
+      title: "我的消息",
+      icon: "/images/mine/icon-qe-005.png",
+      showHead: true
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "message" */ "../views/mine/function/Message.vue"
+      )
+  },
+  {
+    path: "myCompetition",
+    name: "myCompetition",
+    meta: {
+      title: "我的竞赛",
+      icon: "/images/mine/icon-qe-006.png",
+      showHead: true
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "myCompetition" */ "../views/mine/function/MyCompetition.vue"
+      )
+  },
+  {
+    path: "learn",
+    name: "learn",
+    meta: {
+      title: "学习情况",
+      icon: "/images/mine/icon-qe-007.png",
+      showHead: true
+    },
+    component: () =>
+      import(/* webpackChunkName: "learn" */ "../views/mine/function/Learn.vue")
+  },
+  {
+    path: "myOrganization",
+    name: "myOrganization",
+    meta: {
+      title: "我的组织",
+      icon: "/images/mine/icon-qe-008.png",
+      showHead: true
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "myOrganization" */ "../views/mine/function/MyOrganization.vue"
+      )
+  },
+  {
+    path: "myTest",
+    name: "myTest",
+    meta: {
+      title: "我的测试",
+      icon: "/images/mine/icon-qe-009.png",
+      showHead: true
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "myTest" */ "../views/mine/function/MyTest.vue"
+      )
+  },
+  {
+    path: "punchInRecord",
+    name: "punchInRecord",
+    meta: {
+      title: "我的打卡",
+      icon: "/images/mine/icon-qe-010.png",
+      showHead: true
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "punchInRecord" */ "../views/mine/function/PunchInRecord.vue"
+      )
+  },
+
   {
     path: "collect",
     name: "collect",
-    meta: { title: "我的收藏", showHead: true },
+    meta: {
+      title: "我的收藏",
+      icon: "/images/mine/icon-qe-011.png",
+      showHead: true,
+      keepAlive: true
+    },
     component: () =>
       import(
         /* webpackChunkName: "collect" */ "../views/mine/function/Collect.vue"
@@ -69,26 +170,14 @@ const func = [
   {
     path: "feedback",
     name: "feedback",
-    meta: { title: "意见反馈", showHead: true },
+    meta: {
+      title: "意见反馈",
+      icon: "/images/mine/icon-qe-012.png",
+      showHead: true
+    },
     component: () =>
       import(
         /* webpackChunkName: "feedback" */ "../views/mine/function/Feedback.vue"
-      )
-  },
-  {
-    path: "learn",
-    name: "learn",
-    meta: { title: "学习情况", showHead: true },
-    component: () =>
-      import(/* webpackChunkName: "learn" */ "../views/mine/function/Learn.vue")
-  },
-  {
-    path: "message",
-    name: "message",
-    meta: { title: "我的消息", showHead: true },
-    component: () =>
-      import(
-        /* webpackChunkName: "message" */ "../views/mine/function/Message.vue"
       )
   }
 ];
@@ -107,6 +196,13 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "register" */ "../views/login/Register.vue")
   },
+  {
+    path: "/forget",
+    name: "forget",
+    meta: { title: "忘记密码", showHead: true },
+    component: () =>
+      import(/* webpackChunkName: "forget" */ "../views/login/Forget.vue")
+  },
   // 主要内容
   {
     path: "/",
@@ -119,28 +215,33 @@ const routes = [
       {
         path: "home",
         name: "home",
-        meta: { title: "首页", showNav: true, noBack: true },
+        meta: { title: "首页", showNav: true, noBack: true, keepAlive: true },
         component: () =>
           import(/* webpackChunkName: "home" */ "../views/home/Home.vue")
       },
       {
         path: "news",
         name: "news",
-        meta: { title: "要闻", showNav: true },
+        meta: { title: "要闻", showNav: true, keepAlive: true },
         component: () =>
           import(/* webpackChunkName: "news" */ "../views/news/News.vue")
       },
       {
         path: "video",
         name: "video",
-        meta: { title: "学习视频", showHead: true, className: "white" },
+        meta: {
+          title: "学习视频",
+          showHead: true,
+          className: "white",
+          keepAlive: true
+        },
         component: () =>
           import(/* webpackChunkName: "video" */ "../views/video/Video.vue")
       },
       {
         path: "test",
         name: "test",
-        meta: { title: "学习测评", showHead: true, showMore: true },
+        meta: { title: "学习测评", showHead: true, keepAlive: true },
         component: () =>
           import(/* webpackChunkName: "test" */ "../views/test/Test.vue")
       },
@@ -151,6 +252,15 @@ const routes = [
         component: () =>
           import(/* webpackChunkName: "mime" */ "../views/mine/Mine.vue"),
         children: []
+      },
+      {
+        path: "setting",
+        name: "setting",
+        meta: { title: "设置", showHead: true },
+        component: () =>
+          import(
+            /* webpackChunkName: "setting" */ "../views/mine/setting/Setting.vue"
+          )
       },
       ...setting, // 设置
       ...common, // 常用
@@ -168,18 +278,10 @@ const routes = [
         },
         props: true
       },
-      // 页面详情
-      {
-        path: "detail/:id",
-        name: "detail",
-        component: () =>
-          import(/* webpackChunkName: "detail" */ "../views/home/Detail.vue"),
-        props: true
-      },
       {
         path: "article/:id",
         name: "article",
-        // meta: { showHead: false },
+        // meta: { keepAlive: true },
         component: () =>
           import(
             /* webpackChunkName: "airticle" */ "../views/article/Article.vue"
@@ -192,7 +294,7 @@ const routes = [
         meta: { keepAlive: true },
         component: () =>
           import(
-            /* webpackChunkName: "airticle" */ "../views/home/SearchList.vue"
+            /* webpackChunkName: "SearchList" */ "../views/home/SearchList.vue"
           )
       }
     ]

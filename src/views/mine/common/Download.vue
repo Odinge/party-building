@@ -1,3 +1,10 @@
+<!--
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-05-20 18:58:18
+ * @LastEditTime: 2019-08-23 15:09:44
+ * @LastEditors: Please set LastEditors
+ -->
 <template>
   <list-load v-model="list" :funMap="funMap">
     <div class="download">
@@ -16,10 +23,10 @@
               <span class="van-ellipsis file-box">{{file.fileName}}</span>
             </td>
             <td>
-              <!-- <a :href="getDowenloadUrl(file.fileId)"> -->
-
               <van-icon name="description" class="btn-download" @click="downloadFile(file.fileId)"></van-icon>
-              <!-- </a> -->
+              <!-- <a :href="getDowenloadUrl(file.fileId)">
+                <van-icon name="description" class="btn-download"></van-icon>
+              </a> -->
             </td>
           </tr>
         </tbody>
@@ -36,9 +43,6 @@ export default {
       list: [],
       funMap: [getDocumentFiles]
     }
-  },
-  mounted() {
-    // this.loadData();
   },
   methods: {
     // 下载链接
@@ -59,6 +63,7 @@ export default {
 <style>
 .download {
   padding: 2vw;
+  background-color: #fff;
 }
 .download-table {
   width: 100%;

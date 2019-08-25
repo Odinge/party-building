@@ -1,18 +1,24 @@
+<!--
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-05-16 03:40:11
+ * @LastEditTime: 2019-08-25 14:09:08
+ * @LastEditors: Please set LastEditors
+ -->
 <template>
   <section class="setting">
     <van-cell-group class="setting-content">
-      <van-uploader :after-read="onRead" :before-read="onBeforeRead" name="avatar" accept="image/gif, image/jpeg" class="avatar-box">
+      <!-- <van-uploader :after-read="onRead" :before-read="onBeforeRead" name="avatar" accept="image/gif, image/jpeg" class="avatar-box">
         <van-cell value="内容" icon="manager-o" is-link title="头像" class="setting-cell">
-          <!-- <div > -->
           <img :src="userInfo.userAvatar" class="user-avatar">
-          <!-- </div> -->
         </van-cell>
-      </van-uploader>
-      <van-cell title="修改密码" icon="bookmark-o" is-link to="/updatePassword" />
-      <van-cell title="用户信息" icon="edit" is-link to="/updateUserInfo" />
+      </van-uploader> -->
+      <van-cell v-for="set in setting" :key="set.name" :title="set.meta.title" :icon="set.meta.icon" is-link :to="set.path" />
+      <!-- <van-cell title="用户信息" icon="contact" is-link to="/setUserInfo" /> -->
+      <!-- <van-cell title="修改密码" icon="bookmark-o" is-link to="/setPassword" /> -->
     </van-cell-group>
     <div class="logout">
-      <button @touchstart="logout">退出登录</button>
+      <button @click="logout">退出登录</button>
     </div>
   </section>
 </template>
@@ -20,7 +26,13 @@
 <script>
 
 import { mapState, mapActions } from "vuex";
+import { setting } from "../../../router";
 export default {
+  data() {
+    return {
+      setting
+    }
+  },
   methods: {
     logout() {
       const load = this.$toast.loading({
@@ -93,9 +105,9 @@ export default {
 }
 .van-cell {
   align-items: center;
-  min-height: 15vw;
   width: 100%;
-  font-size: 4.3vw;
+  /* min-height: 15vw; */
+  /* font-size: 4.3vw; */
 }
 .user-avatar {
   display: inline-block;

@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-19 21:45:41
- * @LastEditTime: 2019-08-25 12:38:02
+ * @LastEditTime: 2019-08-25 11:00:34
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -15,29 +15,27 @@
         <!-- <span class="tag-comment"></span> -->
         <!-- <span class="tag-msg van-ellipsis">{{item.msg}}</span> -->
       </div>
-      <div class="flex">
-        <!-- 视屏信息区 -->
-        <router-link :to="{name:'article', params:{id:item.articleId}}" class="video-info">
-          <!-- 主题 -->
-          <div class="app-flex">
-            <h4 class="van-ellipsis">{{item.title}}</h4>
+      <!-- 视屏信息区 -->
+      <router-link :to="{name:'article', params:{id:item.articleId}}" class="video-info">
+        <!-- 主题 -->
+        <div class="app-flex">
+          <h4 class="van-ellipsis">{{item.title}}</h4>
+          <span class="app-flex flex-1">
+            <!-- <em class="collect" :class="{collected:item.isCollect}">收藏</em> -->
             <em class="read-num van-ellipsis">阅读量：{{item.viewCount}}</em>
-          </div>
-          <!-- 内容 -->
-          <p class="figcaption" v-domtext="item.content"></p>
-        </router-link>
-        <!-- 视频操作区 -->
-        <div class="video-op app-flex-col flex-1">
-          <van-icon class="collect" :name="item.isCollect?'like':'like-o'" @click="collect(item)"></van-icon>
-          <span class="tag-comment" @click="toComment(item)"></span>
+            <span class="tag-comment"></span>
+            <van-icon class="collect" :name="item.isCollect?'like':'like-o'" @click="collect(item)"></van-icon>
+          </span>
         </div>
-      </div>
+        <!-- 内容 -->
+        <p class="van-ellipsis" v-domtext="item.content"></p>
+      </router-link>
     </li>
   </ul>
 </template>
 
 <script>
-import { addCollection, cancelCollection, getCollectionStatus } from "../../api/article";
+import { addCollection, cancelCollection } from "../../api/article";
 export default {
   props: {
     list: {
@@ -50,24 +48,8 @@ export default {
     return {
     }
   },
-  watch: {
-    list() {
-      // this.changeList();
-    }
-  },
+  computed: {},
   methods: {
-    // 去评价
-    toComment(item) {
-      this.$router.push(
-        {
-          name: 'article',
-          params: { id: item.articleId },
-          query: { openComment: 1 }
-        }
-      );
-
-    },
-    // 收藏
     collect(article) {
       const obj = [
         { fun: addCollection, success: "已收藏" },
@@ -78,18 +60,6 @@ export default {
         this.toast1s(obj.success);
       }).catch(err => {
         this.toast1s(err.message);
-      });
-    },
-    // 改变数据获取收藏状态
-    changeList() {
-      this.list.forEach(article => {
-        if (article.articleId) {
-          getCollectionStatus(article.articleId).then(data => {
-            this.$set(article, "isCollect", data);
-          }).catch(err => {
-            this.$toast(err.message);
-          });
-        }
       });
     },
   }
@@ -125,13 +95,13 @@ export default {
 }
 /* 评论 */
 .tag-comment {
-  /* position: absolute; */
-  /* bottom: 4%; */
-  /* left: 2%; */
-  width: 2em;
-  height: 2em;
-  /* background: rgba(247, 74, 6, 0.712) url("/images/video/comment.png") */
-  background: #ff8053 url("/images/video/comment.png") center/58% no-repeat;
+  position: absolute;
+  bottom: 4%;
+  left: 2%;
+  width: 2.5em;
+  height: 2.5em;
+  background: rgba(0, 0, 0, 0.6) url("/images/video/comment.png") center/60%
+    no-repeat;
   border-radius: 50%;
 }
 /* 弹幕信息 */
@@ -149,36 +119,45 @@ export default {
 }
 /* 视屏简介 */
 .video-info {
-  width: 85%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  display: block;
 }
 .video-info div {
   margin: 5vw 0 2.5vw;
   display: flex;
 }
 .video-info h4 {
-  width: 70%;
+  width: 60%;
   font-weight: bold;
-  font-size: 1.3em;
+  font-size: 1.2em;
   color: rgb(66, 65, 65);
+}
+.video-info span {
+  font-size: 0.9em;
+}
+.video-info em {
+  padding: 0.2em;
 }
 .video-info p {
   font-size: 0.9em;
   margin-bottom: 2vw;
-  line-height: 1.4;
-}
-.video-op * {
-  margin-top: 0.5em;
 }
 .collect {
   font-size: 2em;
-  color: rgb(78, 77, 77);
+  color: rgb(59, 58, 58);
 }
+/* .collect {
+  color: #918e8d;
+  background: #dfdfdf;
+}
+.collected {
+  color: #f48359;
+  background: #fbe2d8;
+} */
 .read-num {
-  margin-left: 0.5em;
-  width: 40%;
+  margin-left: 0.3em;
+  /* width: 6em; */
+  width: 70%;
+  /* background: #e7f7fd; */
   color: #5d9ce5;
 }
 </style>

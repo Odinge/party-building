@@ -1,3 +1,10 @@
+<!--
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-05-21 11:01:15
+ * @LastEditTime: 2019-08-25 11:50:11
+ * @LastEditors: Please set LastEditors
+ -->
 <template>
   <div class="video-controls">
     <!--  poster="/images/video/seal-001.jpg" -->

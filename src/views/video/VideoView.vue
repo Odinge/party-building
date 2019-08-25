@@ -1,11 +1,19 @@
+<!--
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-06-19 17:34:12
+ * @LastEditTime: 2019-08-25 12:24:28
+ * @LastEditors: Please set LastEditors
+ -->
 <template>
-  <list-load v-model="list" :funMap="funMap">
+  <list-load v-model="list" :funMap="funMap" @changeList="changeList">
+    <!-- <list-load v-model="list" :funMap="funMap"> -->
     <video-list :list="list"></video-list>
   </list-load>
 </template>
 
 <script>
-import { getVideos } from "../../api/article";
+import { getVideos, getCollectionStatus } from "../../api/article";
 import VideoList from "./VideoList";
 export default {
   components: { VideoList },
@@ -20,6 +28,20 @@ export default {
       funMap: [getVideos] // 执行函数
     }
   },
+  methods: {
+    changeList() {
+      this.list.forEach(article => {
+        if (article.articleId) {
+          getCollectionStatus(article.articleId).then(data => {
+            this.$set(article, "isCollect", data);
+          }).catch(err => {
+            this.$toast(err.message);
+          });
+        }
+      });
+    },
+  }
+
 }
 </script>
 

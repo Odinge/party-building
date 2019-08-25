@@ -1,3 +1,10 @@
+/*
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-05-26 10:51:03
+ * @LastEditTime: 2019-08-23 16:48:31
+ * @LastEditors: Please set LastEditors
+ */
 import request from "./request";
 
 export const baseSize = 8;
@@ -41,3 +48,118 @@ export const searchArticle = (key, page, size = baseSize) => {
   data.append("page", page);
   return request("post", "/searchArticle", data);
 };
+
+// 收藏接口
+/**
+ * 获取收藏
+ */
+export const getAllCollectionRecord = (page, size = baseSize) =>
+  request("get", `/getAllCollectionRecord/${page}/${size}`);
+
+/**
+ * 添加收藏
+ */
+export const addCollection = articleId => {
+  const data = new FormData();
+  data.append("articleId", articleId);
+  return request("post", "/addCollection", data);
+};
+
+/**
+ * 取消收藏
+ */
+export const cancelCollection = articleId =>
+  request("delete", "/cancelCollection?articleId=" + articleId);
+
+/**
+ * 查看收藏状态
+ */
+export const getCollectionStatus = articleId =>
+  request("get", "/getCollectionStatus", { articleId });
+
+// 点赞接口
+/**
+ * 进行点赞
+ */
+export const addLike = articleId => {
+  const data = new FormData();
+  data.append("articleId", articleId);
+  return request("post", "/addLike", data);
+};
+
+/**
+ * 取消点赞
+ */
+export const cancelLike = articleId =>
+  request("delete", "/cancelLike?articleId=" + articleId);
+
+/**
+ * 文章总点赞数查看
+ */
+export const getLikeCount = articleId =>
+  request("get", "/getLikeCount", { articleId });
+
+/**
+ * 查看文章点赞状态
+ */
+export const getLikeStatus = articleId =>
+  request("get", "/getLikeStatus", { articleId });
+
+// 评价接口
+/**
+ * 获取评价
+ */
+export const getComment = articleId =>
+  request("get", "/getComment", { articleId });
+/**
+ * 获取所有评价
+ */
+export const getAllComment = (page, size = baseSize) =>
+  request("get", `/getAllComment/${size}/${page}`);
+
+/**
+ * 获取评价
+ */
+export const addComment = (articleId, content) => {
+  const data = new FormData();
+  data.append("articleId", articleId);
+  data.append("content", content);
+  return request("post", "/addComment", data);
+};
+
+/**
+ * 删除评价
+ */
+export const deleteComment = commentId =>
+  request("DELETE", "/deleteComment?commentId=" + commentId);
+
+// 文章详情接口带状态
+export const getArticleInfo = articleId =>
+  new Promise((resolve, reject) => {
+    request.axios
+      .all([
+        getArticle(articleId),
+        getCollectionStatus(articleId),
+        getLikeStatus(articleId),
+        getLikeCount(articleId)
+      ])
+      .then(
+        request.axios.spread((article, isCollect, isLike, likeCount) =>
+          resolve({ ...article, isCollect, isLike, likeCount })
+        )
+      )
+      .catch(err => reject(err));
+  });
+
+// 文章详情接口带状态1
+export const getArticleInfo1 = articleId =>
+  new Promise((resolve, reject) => {
+    request.axios
+      .all([getArticle(articleId), getCollectionStatus(articleId)])
+      .then(
+        request.axios.spread((article, isCollect) =>
+          resolve({ ...article, isCollect })
+        )
+      )
+      .catch(err => reject(err));
+  });

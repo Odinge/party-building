@@ -1,3 +1,10 @@
+<!--
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-06-19 23:04:43
+ * @LastEditTime: 2019-08-23 19:34:37
+ * @LastEditors: Please set LastEditors
+ -->
 <template>
   <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
     <van-pull-refresh v-model="isRefresh" @refresh="onRefresh" success-text="加载成功">
@@ -43,18 +50,21 @@ export default {
   },
   methods: {
     // 加载函数
-    loadData() {
+    loadData(backcall) {
       this.loadFun(this.page, this.size)
         .then(data => {
           // 是否处于刷新状态
-          if (this.isRefresh) {
+          if (this.isRefresh || backcall) {
             this.$emit("input", data.rows);
-
             this.isRefresh = false;
             this.finished = false;
+            backcall && backcall();
           } else {
             this.$emit("input", [...this.value, ...data.rows]);
           }
+
+          this.$emit("changeList");
+
           // 加载状态
           this.loading = false;
           // 计算数据总数
@@ -70,10 +80,10 @@ export default {
         })
     },
     // 下拉页面刷新加载函数
-    onRefresh() {
+    onRefresh(backcall) {
       // 初始化参数
       this.page = 1;
-      this.loadData();
+      this.loadData(backcall);
     },
     // 上拉加载数据函数
     onLoad() {

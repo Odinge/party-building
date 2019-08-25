@@ -1,3 +1,10 @@
+<!--
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-05-12 15:30:23
+ * @LastEditTime: 2019-08-24 22:12:09
+ * @LastEditors: Please set LastEditors
+ -->
 <template>
   <section class="register">
     <header class="reg-head">
@@ -10,7 +17,7 @@
         <!-- 账号 -->
         <div class="reg-text">
           <label for="account">学号</label>
-          <input type="text" placeholder="请输入学号/工号" class="input" name="account" id="account" v-model="regInfo.account">
+          <input type="text" placeholder="请输入学号/工号" class="input" name="account" id="account" v-model="regInfo.account" ref="account">
         </div>
         <!-- 密码 -->
         <div class="reg-text">
@@ -120,7 +127,6 @@ export default {
       let regInfo = { ...this.regInfo };
       // 发送请求
       register(regInfo).then(res => {
-        // console.log(res);
         // this.regState = 1;
         load.clear();
         // 倒计时
@@ -129,12 +135,16 @@ export default {
           this.$router.push({ path: "/login" });
         });
       }).catch(err => {
-        // console.error(err);
         load.clear();
         this.$dialog.alert({
           title: '提示',
-          message: err.msg,
+          message: err.message,
           confirmButtonColor: "#f44"
+        }).then(() => {
+          if (err.code === 40003) {
+            this.regInfo.account = "";
+            this.$refs.account.focus();
+          }
         });
       });
     },

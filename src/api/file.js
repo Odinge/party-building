@@ -1,3 +1,10 @@
+/*
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-05-22 21:04:25
+ * @LastEditTime: 2019-08-23 22:27:33
+ * @LastEditors: Please set LastEditors
+ */
 import request from "./request";
 import { baseSize } from "./article";
 
@@ -21,3 +28,14 @@ export const downloadFile = fileId =>
 
 // 获取资源
 export const getSource = fileName => request("get", `/file/update/${fileName}`);
+
+// 文件上传
+export const uploadFile = file => request("post", `/file/upload`, file);
+
+// 上传图片获取地址
+export const getFileUrl = file => {
+  const data = new FormData();
+  data.append("file", file);
+  data.append("fileType", 1);
+  return request("post", `/file/upload`, data);
+};

@@ -1,3 +1,10 @@
+<!--
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-05-12 13:12:27
+ * @LastEditTime: 2019-08-24 13:52:15
+ * @LastEditors: Please set LastEditors
+ -->
 <template>
   <section class="app-container">
     <Header class="pub-header" v-if="meta.showHead" :noBack="meta.noBack" :showMore="meta.showMore" :class="meta.className">{{ meta.title }}</Header>

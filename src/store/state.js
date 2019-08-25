@@ -1,9 +1,6 @@
 // 状态
 import { setToken, getToken } from "../utils/auth";
 export default {
-  set token(value) {
-    setToken(value);
-  },
   get token() {
     return getToken();
   }, // 验证token

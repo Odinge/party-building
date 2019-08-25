@@ -1,5 +1,12 @@
+<!--
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-05-26 13:51:12
+ * @LastEditTime: 2019-08-23 14:04:58
+ * @LastEditors: Please set LastEditors
+ -->
 <template>
-  <van-popup v-model="show" @opened="opened" @open="open" @close="close" position="bottom">
+  <van-popup v-model="show" @opened="opened" @close="close" position="bottom">
     <div class="comment-wrap">
       <div class="comment-header">
         <span @click="close">取消</span>
@@ -12,6 +19,7 @@
 </template>
 
 <script>
+import { addComment } from "../api/article";
 export default {
   name: "comment",
   props: {
@@ -32,20 +40,39 @@ export default {
       comment: ""
     }
   },
+  computed: {
+    articleId() {
+      return this.$route.params.id;
+    }
+  },
   methods: {
     close() {
       this.$emit("input", false);
       this.$refs.comIpt.blur();
     },
     publish() {
-      this.$toast({ duration: 1000, message: "评价成功" });
+      this.$toast.loading({
+        mask: true,
+        duration: 0,
+        message: '评价中...'
+      });
       this.close();
+      addComment(this.articleId, this.comment).then(data => {
+        this.$toast({ duration: 1000, message: "评价成功" });
+        this.$emit("updateComment", () => {
+          this.comment = ''; // 清除评价
+        });
+      }).catch(err => {
+        this.open();
+        this.$toast({ duration: 1000, message: err.message });
+      });
     },
     opened() {
       this.$refs.comIpt.focus();
     },
     open() {
-      // this.$refs.comIpt.focus();
+      this.$emit("input", true);
+      this.$refs.comIpt.focus();
     }
   },
   watch: {

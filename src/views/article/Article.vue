@@ -1,8 +1,15 @@
+<!--
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-05-16 00:39:59
+ * @LastEditTime: 2019-08-25 12:43:28
+ * @LastEditors: Please set LastEditors
+ -->
 <template>
   <div class="article app-container" :class="{bg:!hasComment}">
     <Header :showMore="true">{{article.title}}</Header>
-    <van-pull-refresh v-model="isRefresh" @refresh="onRefresh" success-text="加载成功" class="flex-1">
-      <div class="app-content">
+    <div class="app-content">
+      <van-pull-refresh v-model="isRefresh" @refresh="onRefresh" success-text="加载成功">
         <!-- 显示文章区域 -->
         <article class="a-content">
           <h3>{{article.title}}</h3>
@@ -12,7 +19,7 @@
           </div>
           <div class="a-main" v-html="article.content"></div>
           <div class="a-redactor">
-            负责编辑： {{article.redactor}}
+            负责编辑： {{article.author}}
           </div>
           <button class="btn-finish" @click="finishRead" v-if="!haveRead">完成阅读</button>
         </article>
@@ -22,19 +29,22 @@
           <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad" v-if="hasComment">
             <ul class="comment-content">
               <li v-for="(comment, key) in comments" :key="key">
-                <img :src="comment.avatar" :alt="comment.name" v-lazy="comment.avatar">
+                <img :src="defaultAvatar" :alt="comment.name" v-lazy="defaultAvatar">
                 <div class="comment-box">
                   <div class="comment-info">
-                    <span class="comment-name van-ellipsis">{{comment.sname}}</span>
-                    <span class="comment-zan">
+                    <span class="comment-name van-ellipsis">{{comment.userName}}</span>
+                    <!-- <span class="comment-zan">
                       {{comment.zan}}
-                      <!-- <i class="iconfont icon-zan"></i> -->
-                      <i class="iconfont icon-zan" :class="comment.isZan?'icon-dianzan1':'icon-zan'" @click="comment.isZan=true"></i>
+                      <i class="iconfont icon-zan" :class="comment.isLike?'icon-dianzan1':'icon-zan'" @click="comment.isLike=true"></i>
+                    </span> -->
+                    <span class="comment-zan" v-if="comment.userId === userInfo.sid">
+                      <van-icon name="delete" @click="deleteComment(comment.commentId)"></van-icon>
                     </span>
                   </div>
-                  <p v-html="comment.content" @click="onComment(comment,'回复 '+comment.sname+' 的观点')"></p>
+                  <!-- <p v-html="comment.content" @click="onComment(comment,'回复 '+comment.userName+' 的观点')"></p> -->
+                  <p v-html="comment.content"></p>
                   <div class="comment-date">
-                    <span class="comment-time">{{comment.time}}</span>
+                    <span class="comment-time">{{comment.createTime | dateAllFormat}}</span>
                     <em>•</em><span>回复</span>
                   </div>
                 </div>
@@ -46,8 +56,9 @@
             <p>暂无观点 快来发表观点</p>
           </div>
         </div>
-      </div>
-    </van-pull-refresh>
+      </van-pull-refresh>
+    </div>
+
     <!-- <div v-else>
       页面加载失败
     </div> -->
@@ -57,29 +68,27 @@
         <van-icon name="smile-comment-o"></van-icon>
       </a>
       <div class="comment-ipt" @click="onComment(article, '欢迎发表你的观点')">欢迎发表你的观点</div>
-      <!-- <van-icon name="like-o"></van-icon> -->
-      <van-icon :name="article.isLike?'like':'like-o'" @click="collect(article)"></van-icon>
-      <i class="iconfont icon-zan" :class="article.isZan?'icon-dianzan1':'icon-zan'" @click="article.isZan=true"></i>
+      <van-icon :name="article.isCollect?'like':'like-o'" @click="collect(article)"></van-icon>
+      <div class="zan-box">
+        <i class="iconfont" :class="article.isLike?'icon-dianzan1':'icon-zan'" @click="zan(article)"></i>
+        <span class="zan-count">{{article.likeCount}}</span>
+      </div>
     </div>
-    <comment v-model="showComment" :placeholder="placeholder" :target="target"></comment>
+    <comment v-model="showComment" :placeholder="placeholder" :target="target" @updateComment="onLoad"></comment>
   </div>
 </template>
 
 <script>
-import { getArticle, studyFinish } from "../../api/article";
+import { getArticle, getArticleInfo, studyFinish, getComment, getLikeStatus, getCollectionStatus, addLike, addCollection, deleteComment, cancelLike, cancelCollection, getLikeCount } from "../../api/article";
+import { mapState } from "vuex";
 export default {
   props: ["id"],
   data() {
     return {
       article: {}, // 文章
       comments: [], // 评价
-      testcomments: [
-        { avatar: "/images/comm/user-logo-001.jpg", sname: "哈哈", zan: 20, time: "2018-01-24", id: "158dad5811a", content: "大达瓦大无大王大伟大无多看个埃琳娜打雷呢", isZan: false },
-        { avatar: "/images/comm/user-logo-002.jpg", sname: "大大", zan: 0, time: "2018-11-12", id: "8949846dada", content: "百变五年稳定农简爱湾东岸的你看个我都爱玩激动哦爱喝大碗", isZan: false },
-        { avatar: "/images/comm/user-logo-003.jpg", sname: "张凳子", zan: 1000, time: "2019-02-01", id: "dad61616adad614", content: "个舞蹈袜ID哦艾薇ID还哦我的好比", isZan: false },
-      ],
       isRefresh: false, // 页面刷新
-      loading: false, // 加载评价数据
+      loading: true, // 加载评价数据
       finished: false, // 加载评价全部加载完
       pageLoad: null, // 加载页面
       haveRead: true, // 是否已经阅读
@@ -95,62 +104,58 @@ export default {
     // 加载提示
     this.pageLoad = this.$toast.loading({ duration: 0, forbidClick: true, message: "疯狂加载中..." });
     this.loadData();
+    if (this.openComment) {
+      this.onComment(this.article, '欢迎发表你的观点');
+    }
   },
   computed: {
     hasComment() {
       return this.comments.length;
-    }
+    },
+    openComment() {
+      return this.$route.query.openComment;
+    },
+    ...mapState(["userInfo"])
   },
   methods: {
     loadData() {
       this.isOne = true;
-      getArticle(this.id)
-        .then(data => {
-          // console.log(data);
-          this.article = data;
+      getArticleInfo(this.id).then(data => {
+        // console.log(data);
+        this.article = data;
 
-          // 预测试信息
-          this.$set(this.article, "isZan", false);
-          this.$set(this.article, "isLike", false);
-          this.$set(this.article, "redactor", "编辑");
+        // 设置头部信息
+        this.$store.commit("setHeaderTitle", this.article.title);
+        this.isRefresh = false;
+        this.pageLoad.clear();
 
-          // 设置头部信息
-          this.$store.commit("setHeaderTitle", this.article.title);
-          this.isRefresh = false;
-          this.pageLoad.clear();
+        // 进入页面时查询文章状态
+        this.finishRead();
 
-
-          // 进入页面时查询文章状态
-          this.finishRead();
-
-        }).catch(err => {
-          this.$toast(err.message);
-        });
+        this.onLoad();
+      }).catch(err => {
+        this.$toast(err.message);
+      });
     },
     // 页面刷新
     onRefresh() {
       this.loadData();
     },
     // 下划加载数据函数
-    onLoad() {
-      // 异步更新数据
-      setTimeout(() => {
-        for (let i = 0; i < 5; i++) {
-          this.comments.push(this.testcomments[i]);
-        }
+    onLoad(backcall) {
+      getComment(this.id).then(data => {
+        this.comments = data;
         // 加载状态结束
         this.loading = false;
-
         // 数据全部加载完成
-        if (this.comments.length >= 10) {
-          this.finished = true;
-        }
-      }, 500);
+        this.finished = true;
+        backcall && backcall(); // 执行回调
+      }).catch(err => { this.$toast(err.message) });
     },
     // 完成阅读
     finishRead() {
-      studyFinish(this.article.articleId).then(data => {
-        this.$toast.success("完成阅读");
+      studyFinish(this.id).then(data => {
+        this.$toast.success({ duration: 1000, message: "完成阅读" });
         this.haveRead = true;
       }).catch(err => {
         if (this.isOne) { // 初始化阅读状态
@@ -158,35 +163,86 @@ export default {
           this.isOne = false;
         } else {
           // 未完成阅读
-          this.$toast(err.message);
+          this.toast1s(err.message);
         }
       })
     },
-    // 评价
+    // 对评价进行评价
     onComment(obj, text) {
       this.target = obj;
       this.placeholder = text;
       this.showComment = true;
     },
+
     // 收藏
-    collect(item) {
-      item.isLike = !item.isLike;
-      if (item.isLike) {
-        this.$toast({ duration: 1000, message: "已收藏" });
-      } else {
-        this.$toast({ duration: 1000, message: "已取消收藏" });
-      }
+    collect(article) {
+      const obj = [
+        { fun: addCollection, success: "已收藏" },
+        { fun: cancelCollection, success: "已取消收藏" },
+      ][+article.isCollect];
+      obj.fun(this.id).then(() => {
+        article.isCollect = !article.isCollect;
+        this.toast1s(obj.success);
+      }).catch(err => {
+        this.toast1s(err.message);
+      });
     },
+    // 获取点赞数量
+    getLikeCount(backcall) {
+      getLikeCount(this.id).then(data => {
+        this.article.likeCount = +data;
+        backcall && backcall(); // 执行回调
+      }).catch(err => {
+        this.toast1s(err.message);
+      });
+    },
+    // 点赞
+    zan(article) {
+      const obj = [
+        { fun: addLike, success: "已赞" },
+        { fun: cancelLike, success: "已取消赞" },
+      ][+article.isLike]
+      obj.fun(this.id).then(() => {
+        this.getLikeCount(() => {
+          article.isLike = !article.isLike;
+          this.toast1s(obj.success);
+        });
+      }).catch(err => {
+        this.toast1s(err.message);
+      });
+    },
+    // 删除评价
+    deleteComment(commentId) {
+      this.$dialog.confirm({
+        title: '提示',
+        message: "确定要删除此评价？",
+        confirmButtonColor: "#f44"
+      }).then(() => {
+        this.$toast.loading({
+          mask: true,
+          duration: 0,
+          message: '删除评价中...'
+        });
+        deleteComment(commentId).then(data => {
+          this.onLoad(() => {
+            this.toast1s("已删除评价");
+          });
+        }).catch(err => { this.$toast(err.message) });
+      }).catch(err => { });
+
+    }
   }
 }
-
-// window["contenttext"].innerHTML.replace(/"/g,"'");
-// window["article"].innerHTML.replace(/"/g,"'").replace(/\n|\t/g,"")
-
 </script>
 <style>
-.article .van-pull-refresh {
-  overflow: hidden;
+.refresh {
+  position: absolute;
+  width: 100%;
+  height: 1vh;
+}
+.article .van-pull-refresh__track {
+  /* overflow: hidden; */
+  position: static;
 }
 .article {
   position: relative;
@@ -330,5 +386,31 @@ export default {
 }
 .btn-finish:active {
   background-color: rgb(247, 178, 100);
+}
+.zan-box {
+  position: relative;
+}
+.zan-count {
+  position: absolute;
+  top: -0.9em;
+  right: 0;
+  font-size: 13px;
+  font-weight: bold;
+  color: tomato;
+  /* color: rgb(189, 147, 42); */
+}
+
+.a-main strong {
+  font-weight: bold;
+}
+.a-main em {
+  font-style: italic;
+}
+.a-main p {
+  display: block;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
 }
 </style>
