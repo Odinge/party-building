@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-07-10 08:53:18
- * @LastEditTime: 2019-08-25 15:55:24
+ * @LastEditTime: 2019-08-24 22:49:08
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -35,15 +35,13 @@
         <input type="text" placeholder="请输入邮箱" class="input" name="email" id="email" ref="email" v-model="regInfo.email" @change="changeEmail" />
       </div>
 
-      <!--  =====================验证修改处==================== -->
-      <!-- <div class="reg-text">
+      <div class="reg-text">
         <label for="email">
           邮箱验证码
         </label>
         <input type="text" placeholder="请输入验证码" class="input" v-model="ecode" @blur="checkCode" :disabled="!ecodesrc" />
         <button class="check-btn" :disabled="emailCheck" @click="sendEmail">发送验证码{{codeTime?`(${codeTime})`:""}}</button>
-      </div> -->
-      <!-- ====================================================== -->
+      </div>
 
       <!-- 时间填写 -->
       <div class="reg-text date-picker" v-if="isShowTime('0123')">
@@ -147,11 +145,7 @@ export default {
       return time;
     },
     allInfo() {
-      // =====================验证修改处====================
-      // return { ...this.regInfo, ...this.regTime, ecode: this.ecode };
-      // =======================================================
-
-      return { ...this.regInfo, ...this.regTime };
+      return { ...this.regInfo, ...this.regTime, ecode: this.ecode };
     },
     userInfo() {
       const userInfo = this.$store.state.userInfo;
@@ -175,10 +169,8 @@ export default {
           }
         }
 
-        // =====================验证修改处====================
-        /*  const { ecode, ...nowInfo } = info;
-         keys = Object.keys(nowInfo); */
-        // ===========================================
+        const { ecode, ...nowInfo } = info;
+        keys = Object.keys(nowInfo);
 
         // 修改验证
         let isAlter = false;
@@ -242,7 +234,7 @@ export default {
         message: '发送中...'
       });
 
-      // ======================发送邮件api修改处====================================
+      // 发送邮件
       // sendEmail(to, subject, body).then(data => {
       console.log(code);
       this.$dialog.alert({
@@ -266,7 +258,6 @@ export default {
       //   this.changeEmail();
       //   this.$refs.email.focus();
       // });
-      // ======================发送邮件====================================
 
     },
     // 返回

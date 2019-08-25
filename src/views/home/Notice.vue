@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-21 08:26:58
- * @LastEditTime: 2019-08-24 23:24:36
+ * @LastEditTime: 2019-08-25 15:31:30
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -12,17 +12,17 @@
         <h4 class="figcaption">{{item.title}}</h4>
         <p class="notice-content van-ellipsis " v-domtext="item.content"></p>
         <div class="notice-footer app-flex">
-          <span>{{item.author}}</span>
+          <span class="van-ellipsis" style="width:45%">{{item.author}}</span>
           <div class="app-flex notice-op">
-            <span class="app-flex">
-              <van-icon name="eye"></van-icon>
+            <span class="van-ellipsis view-count">
+              <van-icon name="eye" class="middle"></van-icon>
               {{+item.viewCount}}
             </span>
             <!-- <span class="app-flex">
               <i class="iconfont icon-dianzan1"></i>
               {{item.praiseNum}}
             </span> -->
-            <span class="app-flex">
+            <span class="app-flex con-time">
               <van-icon name="clock-o"></van-icon>{{item.updatetime | dateFormat}}
             </span>
           </div>
@@ -42,14 +42,6 @@ export default {
       }
     }
   },
-  data() {
-    return {
-
-    }
-  },
-  computed: {
-
-  }
 }
 </script>
 
@@ -82,13 +74,20 @@ export default {
   font-size: 0.8em;
   justify-content: space-between;
 }
-.notice-op span:first-child {
+/* .notice-op span:first-child {
   width: 16vw;
+} */
+.notice-op {
+  width: 50%;
 }
 .notice-op i {
   font-size: 1.3em;
 }
 .notice-op i:first-of-type {
   margin-right: 0.2em;
+}
+.con-time {
+  /* width: 80%; */
+  margin-left: 0.6em;
 }
 </style>

@@ -2,25 +2,23 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-07-10 15:39:54
- * @LastEditTime: 2019-08-23 22:51:18
+ * @LastEditTime: 2019-08-25 15:47:35
  * @LastEditors: Please set LastEditors
  -->
 <!-- 我的收藏 -->
 <template>
   <list-load v-model="list" :funMap="funMap" @changeList="changeList">
-    <ul class="con-notice">
+    <ul class="collection">
       <li v-for="(item,key) in list" :key="key" v-if="item.articleId">
-        <router-link :to="{name: 'article', params: {id: item.articleId}}" class="notice-box">
+        <router-link :to="{name: 'article', params: {id: item.articleId}}" class="collect-box">
           <h4 class="figcaption">{{item.title}}</h4>
-          <p class="notice-content van-ellipsis " v-domtext="item.content"></p>
-          <div class="notice-footer app-flex">
+          <p class="collect-content van-ellipsis " v-domtext="item.content"></p>
+          <div class="collect-footer app-flex">
             <span>收藏时间：{{item.createTime | dateAllFormat }}</span>
-            <div class="app-flex notice-op">
-              <span class="app-flex">
-                <van-icon name="eye"></van-icon>
-                {{+item.viewCount}}
-              </span>
-            </div>
+            <span class="van-ellipsis view-count">
+              <van-icon name="eye" class="middle"></van-icon>
+              {{+item.viewCount}}
+            </span>
           </div>
         </router-link>
       </li>
@@ -62,41 +60,38 @@ export default {
 </script>
 
 <style>
-.con-notice {
+.collection {
   padding-bottom: 2vw;
 }
-.con-notice li {
+.collection li {
   padding-bottom: 3vw;
   background-color: #f8f8f8;
 }
-.notice-box {
+.collect-box {
   display: flex;
   flex-direction: column;
   padding: 4vw;
   background-color: #fff;
   font-size: 4.5vw;
 }
-.notice-box h4 {
+.collect-box h4 {
   font-weight: bold;
   line-height: 1.3;
 }
-.notice-box .notice-content {
+.collect-box .collect-content {
   font-size: 0.85em;
   margin: 1em 0 1.5em;
   color: #666666;
 }
-.notice-box .notice-footer {
+.collect-box .collect-footer {
   color: #999;
   font-size: 0.8em;
   justify-content: space-between;
 }
-.notice-op span {
-  width: 13vw;
-}
-.notice-op i {
+.collect-op i {
   font-size: 1.3em;
 }
-.notice-op i:first-of-type {
+.collect-op i:first-of-type {
   margin-right: 0.2em;
 }
 </style>

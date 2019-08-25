@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-19 09:58:18
- * @LastEditTime: 2019-08-24 23:19:10
+ * @LastEditTime: 2019-08-25 15:43:15
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -12,8 +12,8 @@
         <div class="news-info">
           <h4 class="figcaption">{{item.title}}</h4>
           <div class="news-op app-flex">
-            <span>
-              <van-icon name="fire-o"></van-icon>
+            <span class="van-ellipsis view-count">
+              <van-icon name="fire-o" class="middle"></van-icon>
               {{+item.viewCount}}
             </span>
             <span>
@@ -86,12 +86,12 @@ export default {
   color: #868686;
   font-size: 0.8em;
 }
-.news-op span {
+/* .news-op span {
   display: flex;
-}
-.news-op span:first-child {
+} */
+/* .news-op span:first-child {
   width: 16vw;
-}
+} */
 
 .news-op span + span {
   margin-left: 3vw;

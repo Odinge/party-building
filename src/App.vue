@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-12 13:12:27
- * @LastEditTime: 2019-08-25 14:29:01
+ * @LastEditTime: 2019-08-25 15:24:23
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -137,6 +137,10 @@ img {
   background-color: #fff;
 }
 
+.middle {
+  vertical-align: middle;
+}
+
 /* =======================测试相关====================== */
 
 .test-list {
@@ -191,5 +195,8 @@ img {
 }
 .answer-past {
   background-image: url("/images/test/icon-follow-003.jpg");
+}
+.view-count {
+  width: 18vw;
 }
 </style>

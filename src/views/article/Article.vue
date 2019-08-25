@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-16 00:39:59
- * @LastEditTime: 2019-08-25 12:43:28
+ * @LastEditTime: 2019-08-25 16:04:40
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -158,8 +158,8 @@ export default {
         this.$toast.success({ duration: 1000, message: "完成阅读" });
         this.haveRead = true;
       }).catch(err => {
+        this.haveRead = err.code === 400010; // 文章状态是否阅读
         if (this.isOne) { // 初始化阅读状态
-          this.haveRead = err.code === 400010; // 文章状态是否阅读
           this.isOne = false;
         } else {
           // 未完成阅读

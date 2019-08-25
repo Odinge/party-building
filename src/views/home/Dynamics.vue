@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-21 08:23:04
- * @LastEditTime: 2019-08-24 23:22:30
+ * @LastEditTime: 2019-08-25 16:21:08
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -16,11 +16,11 @@
           <div class="dy-op app-flex">
             <!-- <van-icon :name="item.like?'like':'like-o'" @click.capture="item.like=!item.like" :class="{like:item.like}"></van-icon> -->
             <!-- <van-icon :name="item.like?'like':'like-o'"></van-icon> -->
-            <span style="width:30%">
-              <van-icon name="fire-o"></van-icon>{{+item.viewCount}}
+            <span class="van-ellipsis" style="width:36%">
+              <van-icon name="fire-o" class="middle"></van-icon>{{+item.viewCount}}
             </span>
             <span>
-              <van-icon name="clock-o"></van-icon>{{item.updatetime | dateFormat}}
+              <van-icon name="clock-o" class="middle"></van-icon>{{item.updatetime | dateFormat}}
             </span>
           </div>
         </div>
@@ -39,17 +39,6 @@ export default {
       }
     }
   },
-  data() {
-    return {
-
-    }
-  },
-  computed: {
-
-  },
-  methods: {
-
-  }
 }
 </script>
 
@@ -77,9 +66,6 @@ export default {
   margin-right: 5vw;
   /* object-fit: contain; */
 }
-/* .prestrain .dy-thing img {
-  background-color: #f8f8f8;
-} */
 
 .dy-info {
   display: flex;
@@ -92,22 +78,14 @@ export default {
   line-height: 1.3;
   font-size: 0.93em;
 }
-/* .prestrain .dy-info h4 {
-  background-color: #f8f8f8;
-} */
 
 .dy-op {
   color: #868686;
   font-size: 0.9em;
 }
 .dy-op > span {
-  display: flex;
-  margin-left: 3vw;
+  margin-left: 2vw;
 }
-
-/* .prestrain .dy-op > span {
-  background-color: #f8f8f8;
-} */
 
 .dy-op > span i {
   margin-right: 2vw;
