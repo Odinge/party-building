@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-12 13:12:27
- * @LastEditTime: 2019-08-25 13:58:29
+ * @LastEditTime: 2019-08-27 20:15:24
  * @LastEditors: Please set LastEditors
  */
 // import Vue from "vue";
@@ -40,6 +40,7 @@ router.beforeEach((to, form, next) => {
         "/feedback",
         "/myComment"
       ];
+      // "/achievementUpload",
       // 是否拉取用户基本信息
       const isGetUserInfo = getUserInfoRoutes.some(
         r => to.fullPath.indexOf(r) !== -1

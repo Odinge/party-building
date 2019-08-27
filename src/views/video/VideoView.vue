@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-06-19 17:34:12
- * @LastEditTime: 2019-08-25 12:24:28
+ * @LastEditTime: 2019-08-26 16:51:59
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -29,8 +29,8 @@ export default {
     }
   },
   methods: {
-    changeList() {
-      this.list.forEach(article => {
+    changeList(list) {
+      list.forEach((article, index) => {
         if (article.articleId) {
           getCollectionStatus(article.articleId).then(data => {
             this.$set(article, "isCollect", data);

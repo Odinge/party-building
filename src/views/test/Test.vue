@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-12 15:32:28
- * @LastEditTime: 2019-08-24 13:20:37
+ * @LastEditTime: 2019-08-27 17:31:35
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -16,7 +16,8 @@
             <p class="van-ellipsis">{{item.updatetime}}</p>
           </div>
         </a>
-        <van-uploader :after-read="onRead" :before-read="onBeforeRead" :name="item.qid" accept="image/gif, image/jpeg" class="test-state app-flex-col">
+        <!-- accept="image/gif, image/jpeg, image/png" -->
+        <van-uploader :after-read="onRead" :before-read="onBeforeRead" :name="item.qid" class="test-state app-flex-col">
           <i class="test-icon answer-past"></i>
           <span>上传结果</span>
         </van-uploader>

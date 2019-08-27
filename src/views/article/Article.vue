@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-16 00:39:59
- * @LastEditTime: 2019-08-25 16:04:40
+ * @LastEditTime: 2019-08-27 17:21:38
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -10,6 +10,7 @@
     <Header :showMore="true">{{article.title}}</Header>
     <div class="app-content">
       <van-pull-refresh v-model="isRefresh" @refresh="onRefresh" success-text="加载成功">
+
         <!-- 显示文章区域 -->
         <article class="a-content">
           <h3>{{article.title}}</h3>
@@ -21,8 +22,17 @@
           <div class="a-redactor">
             负责编辑： {{article.author}}
           </div>
-          <button class="btn-finish" @click="finishRead" v-if="!haveRead">完成阅读</button>
+          <div class="center">
+            <div class=" readTime" v-if="!haveRead">
+              <span>已阅读时间(m)</span>
+              <!-- <van-progress :percentage="readTime/baseReadTime" :pivot-text="readTime" pivot-color="#7232dd" color="linear-gradient(to right, #be99ff, #7232dd)" /> -->
+              <van-progress :percentage="readPercent" :pivot-text="readTimeText" pivot-color="rgb(242, 136, 19)" color="linear-gradient(to right, rgb(252, 255, 153), rgb(242, 136, 19))" />
+            </div>
+            <button class="btn-finish" @click="finishRead" v-if="!haveRead" :disabled="readDisabled">完成阅读</button>
+            <span class="read-tag" v-if="!isOne && haveRead">文章已阅读</span>
+          </div>
         </article>
+
         <!-- 评价区域 -->
         <div class="comment-area">
           <h4 id="comment">观点</h4>
@@ -59,9 +69,6 @@
       </van-pull-refresh>
     </div>
 
-    <!-- <div v-else>
-      页面加载失败
-    </div> -->
     <!-- 评价输入 -->
     <div class="a-comment">
       <a href="#comment">
@@ -80,6 +87,7 @@
 
 <script>
 import { getArticle, getArticleInfo, studyFinish, getComment, getLikeStatus, getCollectionStatus, addLike, addCollection, deleteComment, cancelLike, cancelCollection, getLikeCount } from "../../api/article";
+import { getPunchInStatus } from "../../api/mine";
 import { mapState } from "vuex";
 export default {
   props: ["id"],
@@ -87,12 +95,22 @@ export default {
     return {
       article: {}, // 文章
       comments: [], // 评价
+
       isRefresh: false, // 页面刷新
+
       loading: true, // 加载评价数据
       finished: false, // 加载评价全部加载完
       pageLoad: null, // 加载页面
-      haveRead: true, // 是否已经阅读
+
+      // 关于阅读
       isOne: true, // 第一次访问页面
+      haveRead: true, // 是否已经阅读
+      baseReadTime: 180000, // 基础阅读时间（毫秒） --- 3分钟
+      readTime: 0, // 阅读时间
+      readTimeText: "", // 阅读时间
+      beginReadTime: 0, // 开始阅读时间
+      readDisabled: true, // 禁止阅读
+      readTimer: null, // 阅读定时器
 
       // 关于评论
       showComment: false, // 是否显示评论
@@ -100,41 +118,56 @@ export default {
       target: null, // 当前点击的消息对象
     }
   },
+  computed: {
+    // 是否存在评价
+    hasComment() {
+      return this.comments.length;
+    },
+    // 是否打开评价
+    openComment() {
+      return this.$route.query.openComment;
+    },
+    readPercent() {
+      const percent = (this.readTime / this.baseReadTime) * 100;
+      return percent;
+    },
+    ...mapState(["userInfo"])
+  },
   mounted() {
     // 加载提示
     this.pageLoad = this.$toast.loading({ duration: 0, forbidClick: true, message: "疯狂加载中..." });
     this.loadData();
+    // 打开评价
     if (this.openComment) {
       this.onComment(this.article, '欢迎发表你的观点');
     }
   },
-  computed: {
-    hasComment() {
-      return this.comments.length;
-    },
-    openComment() {
-      return this.$route.query.openComment;
-    },
-    ...mapState(["userInfo"])
-  },
   methods: {
     loadData() {
-      this.isOne = true;
+      this.isOne = true; // 第一次访问
+      this.readDisabled = true;
+
       getArticleInfo(this.id).then(data => {
-        // console.log(data);
         this.article = data;
 
         // 设置头部信息
         this.$store.commit("setHeaderTitle", this.article.title);
         this.isRefresh = false;
-        this.pageLoad.clear();
+        // this.pageLoad.clear();
 
         // 进入页面时查询文章状态
         this.finishRead();
-
+        // 加载评价
         this.onLoad();
+
       }).catch(err => {
-        this.$toast(err.message);
+        // 获取错误
+        this.pageLoad.clear();
+        this.$dialog.alert({
+          title: '错误录',
+          message: err.message,
+          confirmButtonColor: "#f44"
+        }).then(() => this.$router.back());
       });
     },
     // 页面刷新
@@ -152,22 +185,85 @@ export default {
         backcall && backcall(); // 执行回调
       }).catch(err => { this.$toast(err.message) });
     },
+
+    // 开始阅读
+    beginRead() {
+      this.clearReadTimer();
+      this.beginReadTime = new Date();
+      this.readTimer = setInterval(() => {
+        const dt = this.readTime = new Date() - this.beginReadTime; // 已阅读时间
+        const m = ~~(dt / 60000); // 分
+        const s = ~~((dt - m * 60000) / 1000); // 秒
+
+        if (m) {
+          if (s) {
+            this.readTimeText = m + "分" + s + "秒";
+          } else {
+            this.readTimeText = m + "分";
+          }
+        } else {
+          this.readTimeText = s + "秒";
+        }
+
+        if (this.readTime >= this.baseReadTime) {
+          this.readTime = this.baseReadTime;
+          this.clearReadTimer();
+          this.readDisabled = false;
+        }
+      }, 980);
+    },
+    // 清除阅读定时器
+    clearReadTimer() {
+      this.readTimer && clearInterval(this.readTimer);
+    },
+
     // 完成阅读
     finishRead() {
+      // 判断是否能够完成阅读
+      /* if (!this.isOne && this.readTime < this.baseReadTime) {
+        this.readDisabled = true;
+        const waitTime = 2000; // 第二次点击完成阅读按钮等待时间
+        this.$toast({ duration: waitTime, message: "阅读时间不够" });
+        setTimeout(() => {
+          this.readDisabled = false;
+        }, waitTime);
+        return false;
+      } */
+
+      // 完成阅读调用
       studyFinish(this.id).then(data => {
-        this.$toast.success({ duration: 1000, message: "完成阅读" });
         this.haveRead = true;
+        this.clearReadTimer();
+        // this.$toast.success({ duration: 1000, message: "完成阅读" });
+        this.getPunchInStatus();
       }).catch(err => {
         this.haveRead = err.code === 400010; // 文章状态是否阅读
-        if (this.isOne) { // 初始化阅读状态
+        // 初始化阅读状态
+        if (this.isOne) {
           this.isOne = false;
+          this.pageLoad.clear();
+          !this.haveRead && this.beginRead();
         } else {
           // 未完成阅读
           this.toast1s(err.message);
         }
       })
     },
-    // 对评价进行评价
+
+    // 获取是否完成当日打卡
+    getPunchInStatus() {
+      getPunchInStatus().then(data => {
+        this.$toast.success("已完成当日打卡");
+      }).catch(err => {
+        if (err.flag) {
+          this.$toast.success("     ~ ^_^ ~\n 继续阅读下篇\n  文章打卡哟");
+        } else {
+          this.$toast(err.message);
+        }
+      });
+    },
+
+    // 进行评价
     onComment(obj, text) {
       this.target = obj;
       this.placeholder = text;
@@ -180,22 +276,24 @@ export default {
         { fun: addCollection, success: "已收藏" },
         { fun: cancelCollection, success: "已取消收藏" },
       ][+article.isCollect];
+      // 两大功能交互
       obj.fun(this.id).then(() => {
         article.isCollect = !article.isCollect;
         this.toast1s(obj.success);
       }).catch(err => {
         this.toast1s(err.message);
       });
+
     },
+
     // 获取点赞数量
     getLikeCount(backcall) {
       getLikeCount(this.id).then(data => {
         this.article.likeCount = +data;
         backcall && backcall(); // 执行回调
-      }).catch(err => {
-        this.toast1s(err.message);
-      });
+      }).catch(err => this.toast1s(err.message));
     },
+
     // 点赞
     zan(article) {
       const obj = [
@@ -211,6 +309,7 @@ export default {
         this.toast1s(err.message);
       });
     },
+
     // 删除评价
     deleteComment(commentId) {
       this.$dialog.confirm({
@@ -224,10 +323,8 @@ export default {
           message: '删除评价中...'
         });
         deleteComment(commentId).then(data => {
-          this.onLoad(() => {
-            this.toast1s("已删除评价");
-          });
-        }).catch(err => { this.$toast(err.message) });
+          this.onLoad(() => this.toast1s("已删除评价"));
+        }).catch(err => this.$toast(err.message));
       }).catch(err => { });
 
     }
@@ -241,14 +338,12 @@ export default {
   height: 1vh;
 }
 .article .van-pull-refresh__track {
-  /* overflow: hidden; */
   position: static;
 }
 .article {
   position: relative;
   font-size: 4.5vw;
   font-family: "幼圆";
-  /* background-color: #fafbfd; */
 }
 .article img {
   width: 100%;
@@ -304,7 +399,7 @@ export default {
 .a-redactor {
   font-size: 0.8em;
   color: rgb(96, 98, 100);
-  margin: 5vw 0 10vw;
+  margin: 5vw 0 9vw;
 }
 /* 文章区 end */
 
@@ -371,6 +466,8 @@ export default {
 .no-comment img {
   width: 100%;
 }
+/* 评论 end */
+
 .article .icon-dianzan1 {
   color: coral;
 }
@@ -378,8 +475,8 @@ export default {
 .btn-finish {
   display: block;
   margin: auto;
-  padding: 2vw 5vw;
-  border-radius: 4vw;
+  padding: 2vw 7vw 3vw;
+  border-radius: 5vw;
   background-color: rgb(255, 173, 80);
   color: #fff;
   /* box-shadow: 0 0 2px #ccc; */
@@ -387,6 +484,35 @@ export default {
 .btn-finish:active {
   background-color: rgb(247, 178, 100);
 }
+.read-tag {
+  --color: #fea30f;
+  position: relative;
+  display: inline-block;
+  padding: 2vw 5vw;
+  margin-top: 2vw;
+  border: 1px solid var(--color);
+  border-radius: 1vw;
+}
+.read-tag::before,
+.read-tag::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 0;
+  height: 0;
+  bottom: 0;
+  margin: auto;
+  border: 3vw solid transparent;
+}
+.read-tag::before {
+  left: 0;
+  border-left-color: var(--color);
+}
+.read-tag::after {
+  right: 0;
+  border-right-color: var(--color);
+}
+
 .zan-box {
   position: relative;
 }
@@ -412,5 +538,16 @@ export default {
   margin-block-end: 1em;
   margin-inline-start: 0px;
   margin-inline-end: 0px;
+}
+
+.readTime {
+  margin: 2vw;
+}
+/* .readTime > span {
+  display: block;
+  margin-bottom: 2vw;
+} */
+.readTime .van-progress {
+  margin: 4vw 0 5vw;
 }
 </style>

@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-14 23:30:00
- * @LastEditTime: 2019-08-25 13:24:50
+ * @LastEditTime: 2019-08-27 14:24:51
  * @LastEditors: Please set LastEditors
  */
 import Vue from "vue";
@@ -29,7 +29,8 @@ import {
   PullRefresh,
   List,
   Field,
-  Button
+  Button,
+  Progress
 } from "vant";
 Vue.use(Icon)
   .use(Picker)
@@ -49,6 +50,7 @@ Vue.use(Icon)
   .use(PullRefresh)
   .use(Field)
   .use(Button)
+  .use(Progress)
   .use(CellGroup);
 
 // 图片懒加载

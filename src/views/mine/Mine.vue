@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-12 16:45:12
- * @LastEditTime: 2019-08-25 13:53:54
+ * @LastEditTime: 2019-08-27 16:14:14
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -85,7 +85,6 @@ export default {
         } else {
           this.$toast(err.message)
         }
-
       });
     }
   }

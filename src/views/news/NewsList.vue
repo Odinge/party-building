@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-19 09:58:18
- * @LastEditTime: 2019-08-25 15:43:15
+ * @LastEditTime: 2019-08-26 15:55:52
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -16,7 +16,7 @@
               <van-icon name="fire-o" class="middle"></van-icon>
               {{+item.viewCount}}
             </span>
-            <span>
+            <span class="app-flex">
               <van-icon name="clock-o"></van-icon>
               {{item.updatetime | dateFormat}}
             </span>

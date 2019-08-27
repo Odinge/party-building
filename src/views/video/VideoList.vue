@@ -2,12 +2,12 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-19 21:45:41
- * @LastEditTime: 2019-08-25 12:38:02
+ * @LastEditTime: 2019-08-26 16:43:43
  * @LastEditors: Please set LastEditors
  -->
 <template>
   <ul class="app-content video-list">
-    <li v-for="(item, index) in list" :key="index" class="list-item">
+    <li v-for="item in list" :key="item.articleId" class="list-item">
       <!-- 视屏控制区 -->
       <div class="video-play">
         <video-controls :src="item.url"></video-controls>
@@ -29,6 +29,7 @@
         <!-- 视频操作区 -->
         <div class="video-op app-flex-col flex-1">
           <van-icon class="collect" :name="item.isCollect?'like':'like-o'" @click="collect(item)"></van-icon>
+          <!-- :disabled="item.isCollect === undefined" -->
           <span class="tag-comment" @click="toComment(item)"></span>
         </div>
       </div>
@@ -69,16 +70,20 @@ export default {
     },
     // 收藏
     collect(article) {
-      const obj = [
-        { fun: addCollection, success: "已收藏" },
-        { fun: cancelCollection, success: "已取消收藏" },
-      ][+article.isCollect];
-      obj.fun(article.articleId).then(() => {
-        article.isCollect = !article.isCollect;
-        this.toast1s(obj.success);
-      }).catch(err => {
-        this.toast1s(err.message);
-      });
+      if (article.isCollect === undefined) {
+        this.toast1s("当前项收藏数据未获取完，请稍后收藏！");
+      } else {
+        const obj = [
+          { fun: addCollection, success: "已收藏" },
+          { fun: cancelCollection, success: "已取消收藏" },
+        ][+article.isCollect];
+        obj.fun(article.articleId).then(() => {
+          article.isCollect = !article.isCollect;
+          this.toast1s(obj.success);
+        }).catch(err => {
+          this.toast1s(err.message);
+        });
+      }
     },
     // 改变数据获取收藏状态
     changeList() {

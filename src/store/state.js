@@ -1,8 +1,21 @@
+/*
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-05-12 14:49:01
+ * @LastEditTime: 2019-08-27 20:12:43
+ * @LastEditors: Please set LastEditors
+ */
 // 状态
-import { setToken, getToken } from "../utils/auth";
+import { getToken, getAccount, setAccount } from "../utils/auth";
 export default {
   get token() {
     return getToken();
+  }, // 验证token
+  get account() {
+    return getAccount();
+  }, // 验证token
+  set account(account) {
+    setAccount(account);
   }, // 验证token
   userInfo: {}, // 用户信息
   headerTitle: "", // 头部标题

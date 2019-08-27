@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-21 08:26:58
- * @LastEditTime: 2019-08-25 15:31:30
+ * @LastEditTime: 2019-08-26 15:59:45
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -74,9 +74,6 @@ export default {
   font-size: 0.8em;
   justify-content: space-between;
 }
-/* .notice-op span:first-child {
-  width: 16vw;
-} */
 .notice-op {
   width: 50%;
 }
@@ -84,10 +81,9 @@ export default {
   font-size: 1.3em;
 }
 .notice-op i:first-of-type {
-  margin-right: 0.2em;
+  margin-right: 0.3em;
 }
 .con-time {
-  /* width: 80%; */
   margin-left: 0.6em;
 }
 </style>

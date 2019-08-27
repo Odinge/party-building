@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-12 13:12:27
- * @LastEditTime: 2019-08-25 14:30:59
+ * @LastEditTime: 2019-08-27 18:34:53
  * @LastEditors: Please set LastEditors
  */
 import Vue from "vue";
@@ -10,49 +10,6 @@ import Router from "vue-router";
 import Layout from "../views/Layout.vue";
 
 Vue.use(Router);
-
-// 我的常用
-export const common = [
-  {
-    path: "dproject",
-    name: "dproject",
-    meta: {
-      title: "智慧党建",
-      icon: "/images/mine/icon-ge-002.png",
-      showHead: true
-    },
-    component: () =>
-      import(
-        /* webpackChunkName: "dproject" */ "../views/mine/common/Dproject.vue"
-      )
-  },
-  {
-    path: "myComment",
-    name: "myComment",
-    meta: {
-      title: "我的评价",
-      icon: "/images/mine/icon-ge-003.png",
-      showHead: true
-    },
-    component: () =>
-      import(
-        /* webpackChunkName: "myComment" */ "../views/mine/common/MyComment.vue"
-      )
-  },
-  {
-    path: "download",
-    name: "download",
-    meta: {
-      title: "常用下载",
-      icon: "/images/mine/icon-ge-005.png",
-      showHead: true
-    },
-    component: () =>
-      import(
-        /* webpackChunkName: "download" */ "../views/mine/common/Download.vue"
-      )
-  }
-];
 // 用户设置
 export const setting = [
   {
@@ -74,6 +31,62 @@ export const setting = [
       )
   }
 ];
+// 我的常用
+export const common = [
+  {
+    path: "dproject",
+    name: "dproject",
+    meta: {
+      title: "智慧党建",
+      icon: "/images/mine/icon-ge-002.png",
+      showHead: true
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "dproject" */ "../views/mine/common/Dproject.vue"
+      )
+  },
+  // {
+  //   path: "myComment",
+  //   name: "myComment",
+  //   meta: {
+  //     title: "我的评价",
+  //     icon: "/images/mine/icon-ge-003.png",
+  //     showHead: true
+  //   },
+  //   component: () =>
+  //     import(
+  //       /* webpackChunkName: "myComment" */ "../views/mine/common/MyComment.vue"
+  //     )
+  // },
+  {
+    path: "achievementUpload",
+    name: "achievementUpload",
+    meta: {
+      title: "学习成果",
+      icon: "/images/mine/icon-ge-003.png",
+      showHead: true
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "achievementUpload" */ "../views/mine/common/AchievementUpload.vue"
+      )
+  },
+  {
+    path: "download",
+    name: "download",
+    meta: {
+      title: "常用下载",
+      icon: "/images/mine/icon-ge-005.png",
+      showHead: true
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "download" */ "../views/mine/common/Download.vue"
+      )
+  }
+];
+
 // 我的功能
 export const func = [
   {
@@ -106,24 +119,37 @@ export const func = [
     path: "learn",
     name: "learn",
     meta: {
-      title: "学习情况",
+      title: "学习记录",
       icon: "/images/mine/icon-qe-007.png",
       showHead: true
     },
     component: () =>
       import(/* webpackChunkName: "learn" */ "../views/mine/function/Learn.vue")
   },
+  // {
+  //   path: "myOrganization",
+  //   name: "myOrganization",
+  //   meta: {
+  //     title: "我的组织",
+  //     icon: "/images/mine/icon-qe-008.png",
+  //     showHead: true
+  //   },
+  //   component: () =>
+  //     import(
+  //       /* webpackChunkName: "myOrganization" */ "../views/mine/function/MyOrganization.vue"
+  //     )
+  // },
   {
-    path: "myOrganization",
-    name: "myOrganization",
+    path: "myComment",
+    name: "myComment",
     meta: {
-      title: "我的组织",
+      title: "我的评价",
       icon: "/images/mine/icon-qe-008.png",
       showHead: true
     },
     component: () =>
       import(
-        /* webpackChunkName: "myOrganization" */ "../views/mine/function/MyOrganization.vue"
+        /* webpackChunkName: "myComment" */ "../views/mine/function/MyComment.vue"
       )
   },
   {
@@ -159,8 +185,8 @@ export const func = [
     meta: {
       title: "我的收藏",
       icon: "/images/mine/icon-qe-011.png",
-      showHead: true,
-      keepAlive: true
+      showHead: true
+      // keepAlive: true
     },
     component: () =>
       import(

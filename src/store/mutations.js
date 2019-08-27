@@ -1,3 +1,10 @@
+/*
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-05-12 14:49:48
+ * @LastEditTime: 2019-08-27 20:10:50
+ * @LastEditors: Please set LastEditors
+ */
 import * as types from "./types";
 // 同步方法
 export default {
@@ -24,5 +31,9 @@ export default {
   // 设置页面配置信息
   [types.SET_PAGE_CONFIG](state, config) {
     state.pageConfig = config;
+  },
+  // 设置用户账号
+  [types.SET_ACCOUNT](state, account) {
+    state.account = account;
   }
 };

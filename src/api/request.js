@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-13 08:53:10
- * @LastEditTime: 2019-08-24 14:24:27
+ * @LastEditTime: 2019-08-27 20:42:43
  * @LastEditors: Please set LastEditors
  */
 import axios from "axios";
@@ -24,7 +24,7 @@ const service = axios.create({
 // 请求拦截器
 service.interceptors.request.use(
   config => {
-    console.log(config);
+    // console.log(config);
 
     // config.headers["Content-Type"] = "application/json;charset=UTF-8";
     // config.headers.Accept = "application/json;";
@@ -36,7 +36,7 @@ service.interceptors.request.use(
     return config;
   },
   err => {
-    console.log(err);
+    // console.log(err);
 
     // Do something with request error
     return Promise.reject(err);
@@ -45,7 +45,8 @@ service.interceptors.request.use(
 
 service.interceptors.response.use(
   response => {
-    console.log(response);
+    // console.log(response);
+
     // let status = response.status;
     let { data: res } = response;
     let { code, data } = res;

@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-06-19 23:04:43
- * @LastEditTime: 2019-08-23 19:34:37
+ * @LastEditTime: 2019-08-26 16:46:08
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -28,7 +28,13 @@ export default {
       default() {
         return []
       }
-    }
+    },
+    // isChangeList: {
+    //   default: false
+    // },
+    // onChangeList: {
+    //   type: Function
+    // }
   },
   data() {
     return {
@@ -49,6 +55,17 @@ export default {
     },
   },
   methods: {
+    changeState(data) {
+      // 加载状态
+      this.loading = false;
+      // 计算数据总数
+      this.total = data.total;
+      // 判断数据是否全部获取完毕
+      if (this.page >= this.pages) {
+        this.finished = true;
+      }
+      this.page++;
+    },
     // 加载函数
     loadData(backcall) {
       this.loadFun(this.page, this.size)
@@ -63,17 +80,18 @@ export default {
             this.$emit("input", [...this.value, ...data.rows]);
           }
 
-          this.$emit("changeList");
+          // 外来接口改变数据
+          this.$emit("changeList", data.rows);
 
-          // 加载状态
-          this.loading = false;
-          // 计算数据总数
-          this.total = data.total;
-          // 判断数据是否全部获取完毕
-          if (this.page >= this.pages) {
-            this.finished = true;
-          }
-          this.page++;
+          // if (this.onChangeList) {
+          //   this.onChangeList(data.rows, () => {
+          //     this.changeState(data);
+          //   });
+          // } else {
+          //   this.changeState(data);
+          // }
+          this.changeState(data);
+
         }).catch(err => {
           this.$toast(err.message);
           this.loading = false;

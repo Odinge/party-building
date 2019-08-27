@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-12 13:12:27
- * @LastEditTime: 2019-08-25 15:24:23
+ * @LastEditTime: 2019-08-27 19:29:51
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -89,6 +89,7 @@ img {
   -webkit-line-clamp: 2;
   display: -webkit-box;
   font-weight: normal;
+  word-break: break-all;
 }
 .figcaption-1 {
   overflow: hidden;
@@ -139,6 +140,9 @@ img {
 
 .middle {
   vertical-align: middle;
+}
+.center {
+  text-align: center;
 }
 
 /* =======================测试相关====================== */
@@ -195,6 +199,9 @@ img {
 }
 .answer-past {
   background-image: url("/images/test/icon-follow-003.jpg");
+}
+.upload-icon {
+  background-image: url("/images/test/upload.png");
 }
 .view-count {
   width: 18vw;

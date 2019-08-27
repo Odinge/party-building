@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-12 15:14:18
- * @LastEditTime: 2019-08-24 13:47:23
+ * @LastEditTime: 2019-08-27 20:14:20
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -48,6 +48,7 @@
   </section>
 </template>
 <script>
+
 export default {
   data() {
     return {
@@ -98,6 +99,7 @@ export default {
         .then(res => {
           // this.loginState = 1;
           // 登录成功，登入首页
+          this.$store.commit("SET_ACCOUNT", this.user.account);
           if (this.redirect) {
             this.$router.replace(this.redirect);
           } else {
