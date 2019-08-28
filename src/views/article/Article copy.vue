@@ -2,13 +2,12 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-16 00:39:59
- * @LastEditTime: 2019-08-28 20:01:46
+ * @LastEditTime: 2019-08-28 19:28:37
  * @LastEditors: Please set LastEditors
  -->
 <template>
   <div class="article app-container" :class="{bg:!hasComment}">
-    <!-- <Header :showMore="true">{{article.title}}</Header> -->
-    <Header>{{article.title}}</Header>
+    <Header :showMore="true">{{article.title}}</Header>
     <div class="app-content">
       <van-pull-refresh v-model="isRefresh" @refresh="onRefresh" success-text="加载成功">
 
@@ -106,15 +105,13 @@ export default {
       // 关于阅读
       isOne: true, // 第一次访问页面
       haveRead: true, // 是否已经阅读
-      baseReadTime: 180, // 基础阅读时间（毫秒） --- 3分钟
+      baseReadTime: 180000, // 基础阅读时间（毫秒） --- 3分钟
       beginReadTime: 0, // 开始阅读时间
       readTime: 0, // 阅读时间
       readTimeText: "", // 阅读时间
       readDisabled: true, // 禁止阅读
       readTimer: null, // 阅读定时器
-
-      readMode: 1, // 阅读模式   0 --- 表示可后台阅读， 1 --- 表示必须前台阅读
-
+      continueTime: 0, // 继续时间
 
       // 关于评论
       showComment: false, // 是否显示评论
@@ -145,15 +142,13 @@ export default {
     if (this.openComment) {
       this.onComment(this.article, '欢迎发表你的观点');
     }
+    window.onblur = this.clearReadTimer;
+    window.onfocus = () => {
+      if (!this.haveRead) {
 
-    if (this.readMode) {
-      window.onblur = this.clearReadTimer;
-      window.onfocus = () => {
-        if (!this.haveRead) {
-          this.beginRead();
-        }
-      };
-    }
+        this.beginRead();
+      }
+    };
   },
   methods: {
     loadData() {
@@ -203,16 +198,18 @@ export default {
     beginRead() {
       this.clearReadTimer();
       this.readTimer = setInterval(() => {
-        // let dt = new Date() - this.beginReadTime; // 已阅读时间
-        let dt = this.readTime++;
+        let dt = new Date() - this.beginReadTime; // 已阅读时间
+
         if (dt >= this.baseReadTime) {
           this.readTime = dt = this.baseReadTime;
           this.clearReadTimer();
           this.readDisabled = false;
+        } else {
+          this.readTime = dt;
         }
 
-        const m = ~~(dt / 60); // 分
-        const s = dt - m * 60; // 秒
+        const m = ~~(dt / 60000); // 分
+        const s = ~~((dt - m * 60000) / 1000); // 秒
 
         if (m) {
           if (s) {
@@ -224,13 +221,16 @@ export default {
           this.readTimeText = s + "秒";
         }
 
-      }, 1000);
+      }, 980);
     },
     // 清除阅读定时器
     clearReadTimer() {
       if (this.readTimer) {
         clearInterval(this.readTimer);
         this.readTimer = null;
+        if (!this.haveRead) {
+          this.continueTime = this.beginReadTime + this.readTime;
+        }
       }
     },
 
@@ -261,8 +261,7 @@ export default {
           this.pageLoad.clear();
 
           if (!this.haveRead) {
-            // this.beginReadTime = new Date();
-            this.readTime = 0;
+            this.beginReadTime = new Date();
             this.beginRead();
           }
 

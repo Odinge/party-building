@@ -1,3 +1,10 @@
+<!--
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-05-12 19:10:21
+ * @LastEditTime: 2019-08-28 19:55:56
+ * @LastEditors: Please set LastEditors
+ -->
 <template>
   <header class="app-header">
     <div class="app-header-left" v-show="!hideRight">
@@ -47,7 +54,12 @@ export default {
   },
   methods: {
     back() {
-      this.$router.back();
+      if (location.hash) {
+        this.$router.back();
+        this.$router.back();
+      } else {
+        this.$router.back();
+      }
     },
     onMore() {
       this.$emit('more');
