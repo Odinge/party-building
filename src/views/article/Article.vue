@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-16 00:39:59
- * @LastEditTime: 2019-08-27 17:21:38
+ * @LastEditTime: 2019-08-28 15:27:45
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -141,6 +141,12 @@ export default {
     if (this.openComment) {
       this.onComment(this.article, '欢迎发表你的观点');
     }
+    // window.onblur = this.clearReadTimer;
+    // window.onfocus = () => {
+    //   if (!this.haveRead) {
+    //     this.beginRead();
+    //   }
+    // };
   },
   methods: {
     loadData() {
@@ -189,9 +195,17 @@ export default {
     // 开始阅读
     beginRead() {
       this.clearReadTimer();
-      this.beginReadTime = new Date();
       this.readTimer = setInterval(() => {
-        const dt = this.readTime = new Date() - this.beginReadTime; // 已阅读时间
+        let dt = new Date() - this.beginReadTime; // 已阅读时间
+
+        if (dt >= this.baseReadTime) {
+          this.readTime = dt = this.baseReadTime;
+          this.clearReadTimer();
+          this.readDisabled = false;
+        } else {
+          this.readTime = dt;
+        }
+
         const m = ~~(dt / 60000); // 分
         const s = ~~((dt - m * 60000) / 1000); // 秒
 
@@ -205,16 +219,14 @@ export default {
           this.readTimeText = s + "秒";
         }
 
-        if (this.readTime >= this.baseReadTime) {
-          this.readTime = this.baseReadTime;
-          this.clearReadTimer();
-          this.readDisabled = false;
-        }
       }, 980);
     },
     // 清除阅读定时器
     clearReadTimer() {
-      this.readTimer && clearInterval(this.readTimer);
+      if (this.readTimer) {
+        clearInterval(this.readTimer);
+        this.readTimer = null;
+      }
     },
 
     // 完成阅读
@@ -242,7 +254,12 @@ export default {
         if (this.isOne) {
           this.isOne = false;
           this.pageLoad.clear();
-          !this.haveRead && this.beginRead();
+
+          if (!this.haveRead) {
+            this.beginReadTime = new Date();
+            this.beginRead();
+          }
+
         } else {
           // 未完成阅读
           this.toast1s(err.message);
@@ -255,8 +272,8 @@ export default {
       getPunchInStatus().then(data => {
         this.$toast.success("已完成当日打卡");
       }).catch(err => {
-        if (err.flag) {
-          this.$toast.success("     ~ ^_^ ~\n 继续阅读下篇\n  文章打卡哟");
+        if (err.code === 400016) {
+          this.$toast.success("     真   棒\n    ~ ^_^ ~\n继续阅读下篇\n  文章打卡哟");
         } else {
           this.$toast(err.message);
         }
@@ -475,7 +492,7 @@ export default {
 .btn-finish {
   display: block;
   margin: auto;
-  padding: 2vw 7vw 3vw;
+  padding: 2vw 7vw 2vw;
   border-radius: 5vw;
   background-color: rgb(255, 173, 80);
   color: #fff;

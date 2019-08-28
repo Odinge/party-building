@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-07-10 08:53:18
- * @LastEditTime: 2019-08-25 15:55:24
+ * @LastEditTime: 2019-08-27 22:11:09
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -29,7 +29,7 @@
       </div>
       <div class="reg-text">
         <label for="email">
-          <van-icon ref="emailTip" name="question-o" class="info hide" @click="$toast('格式不正确')"></van-icon>
+          <van-icon ref="emailTip" name="question-o" class="info" @click="$toast('邮箱必须有效，用于找回密码！')"></van-icon>
           邮箱
         </label>
         <input type="text" placeholder="请输入邮箱" class="input" name="email" id="email" ref="email" v-model="regInfo.email" @change="changeEmail" />
@@ -125,11 +125,20 @@ export default {
     }
   },
   computed: {
-    emailCheck() {
+    // ================验证修改处===================
+    /* emailCheck() {
       const expEmail = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
       // 是否修改邮箱
       const isAlterEmail = this.originInfo.email !== this.allInfo.email;
       return (!expEmail.test(this.allInfo.email) || !!this.codeTime) || !isAlterEmail;
+    }, */
+    // ============================================
+
+    // 是否修改邮箱
+    eCheck() {
+      const expEmail = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+      const test = expEmail.test(this.allInfo.email);
+      return test && this.isAlter;
     },
     // 注册时间
     regTime() {
@@ -157,6 +166,17 @@ export default {
       const userInfo = this.$store.state.userInfo;
       return userInfo;
     },
+    isAlter() {
+      let isAlter = false;
+      let keys = Object.keys(this.allInfo);
+      for (const key of keys) {
+        if (this.originInfo[key] !== this.allInfo[key]) {
+          isAlter = true;
+          break;
+        }
+      }
+      return isAlter;
+    }
   },
   mounted() {
     this.init();
@@ -175,22 +195,15 @@ export default {
           }
         }
 
-        // =====================验证修改处====================
+        // =====================验证修改处=============
         /*  const { ecode, ...nowInfo } = info;
          keys = Object.keys(nowInfo); */
         // ===========================================
 
-        // 修改验证
-        let isAlter = false;
-        for (const key of keys) {
-          if (this.originInfo[key] !== info[key]) {
-            isAlter = true;
-            break;
-          }
-        }
 
+        // ===========================邮箱验证=====================
         // 正则验证
-        const exp = {
+        /* const exp = {
           email: /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
         };
 
@@ -200,10 +213,12 @@ export default {
           if (!bool && this.originInfo[key] !== info[key]) {
             disabled = true;
           }
-        }
+        } */
+        // =======================================================
+
 
         // 改变状态
-        this.regState = disabled || !isAlter ? 0 : 2;
+        this.regState = disabled || !this.isAlter ? 0 : 2;
 
       }, deep: true
     }
@@ -293,6 +308,14 @@ export default {
     },
     // 提交注册
     register() {
+      // 判断一下邮箱是否正确======================
+      if (!this.eCheck) {
+        this.$toast("邮箱填写不正确");
+        this.$refs.email.focus();
+        return false;
+      }
+      // ===========================================
+
       // 加载
       const load = this.$toast.loading({
         mask: true,

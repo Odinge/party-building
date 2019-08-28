@@ -1,3 +1,10 @@
+<!--
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-05-16 02:41:52
+ * @LastEditTime: 2019-08-27 21:18:47
+ * @LastEditors: Please set LastEditors
+ -->
 <template>
   <div @click.capture="show=true" class="app-picker">
     <!-- <input type="text" placeholder="请选择日期" :value="value" disabled> -->
@@ -46,7 +53,12 @@ export default {
       this.show = false;
     },
     onConfirm() {
-      const date = this.currentDate.toLocaleDateString().replace(/\//g, "-");
+      let year = this.currentDate.getFullYear();
+      let month = this.currentDate.getMonth() + 1;
+      let day = this.currentDate.getDate();
+
+      const date = year + "-" + month + "-" + day;
+
       this.$emit("input", date);
       this.cloes();
     },

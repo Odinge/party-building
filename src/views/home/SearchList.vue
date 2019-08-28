@@ -2,31 +2,30 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-06-19 15:38:42
- * @LastEditTime: 2019-08-25 12:52:42
+ * @LastEditTime: 2019-08-28 14:48:40
  * @LastEditors: Please set LastEditors
  -->
 <template>
   <div class="search-list app-container">
     <!-- 查询头部 -->
-    <search v-model="searchVal"></search>
-    <!-- 选项卡 -->
-    <van-tabs animated swipeable v-model="mode" class="app-content">
-      <van-tab :title="type" v-for="type in listType" :key="type">
-        <!-- 加载 -->
-        <div class="search-tips" v-if="!searchKey">请搜索...</div>
-        <van-list v-else v-model="loading" :finished="finished" :finished-text="tips" @load="onLoad" class="app-content">
-          <van-pull-refresh v-model="isRefresh" @refresh="onRefresh" success-text="加载成功">
-            <!-- 主体信息 -->
-            <notice v-if="mode===0" :list="notice"></notice>
-            <dynamics v-else-if="mode===1" :list="dynamics"></dynamics>
-            <news-list v-else-if="mode===2" :list="news"></news-list>
-            <video-list v-else-if="mode===3" :list="video"></video-list>
-            <!-- 主体信息 end -->
-          </van-pull-refresh>
-        </van-list>
-        <!-- 加载 end -->
+    <search v-model="searchVal" @changeSearch="changeSearch"></search>
+    <!-- 选项卡 start -->
+    <!-- <div class="search-tips" v-if="!searchKey">请搜索...</div>
+    <list-load v-else v-model="list" :funMap="funMap" @changeList="changeList" class="app-content" ref="load">
+      <van-tabs animated swipeable v-model="mode">
+        <van-tab :title="type.title" v-for="(type, key) in listType" :key="key">
+          <component :is="type.compName" :list="result[type.compName]"></component>
+        </van-tab>
+      </van-tabs>
+    </list-load> -->
+    <van-tabs animated v-model="mode">
+      <van-tab :title="type" v-for="(type, key) in listType" :key="key">
       </van-tab>
     </van-tabs>
+    <div class="search-tips" v-if="!searchKey">请搜索...</div>
+    <list-load v-else v-model="list" :funMap="funMap" @changeList="changeList" class="app-content" ref="load">
+      <component :is="searchCompName" :list="result[searchCompName]"></component>
+    </list-load>
     <!-- 选项 end -->
   </div>
 </template>
@@ -44,78 +43,65 @@ export default {
   data() {
     return {
       searchVal: "", // 搜索关键字
-      showTips: true, // 显示搜索提示
-      tips: "没有更多了", // 提示信息
-
       mode: 0,
       list: [], // 获取得到的数据
-
-      isRefresh: false, // 下拉刷新
-      loading: false, // 页面数据加载
-      finished: false, // 全部完成加载
-      total: 0, // 数据总条数
-      page: 1, // 数据页数
-      size: 8, // 数据每页大小
+      config: [ // 配置信息
+        { title: "通知", compName: "Notice", type: [0] },
+        { title: "动态", compName: "Dynamics", type: [1] },
+        { title: "新闻", compName: "NewsList", type: [2, 3] },
+        { title: "视频", compName: "VideoList", type: [4] },
+      ]
     }
   },
   computed: {
-    pages() {
-      return Math.ceil(this.total / this.size);
+    // 加载函数映射表
+    funMap() {
+      const loadFun = searchArticle.bind(this, this.searchKey);
+      return [loadFun];
     },
     searchKey() {
       return this.searchVal.trim();
     },
-    notice() {
-      return this.list.filter(item => item.type === 0);
+    result() {
+      const result = {};
+      this.config.forEach(config => {
+        result[config.compName] = this.list.filter(item => config.type.includes(item.type));
+      });
+      return result;
     },
-    dynamics() {
-      return this.list.filter(item => item.type === 1);
-    },
-    news() {
-      return this.list.filter(item => [2, 3].includes(item.type));
-    },
-    video() {
-      return this.list.filter(item => item.type === 4);
+    // 使用的是组件
+    searchCompName() {
+      return this.config[this.mode].compName;
     },
     // 计算数据标题以及条数
     listType() {
-      const listType = [
-        { title: "通知", len: this.notice.length },
-        { title: "动态", len: this.dynamics.length },
-        { title: "新闻", len: this.news.length },
-        { title: "视频", len: this.video.length },
-      ];
-
-      // let flag = true, mode = this.mode;
-      const list = listType.map((item, index) => {
-        const len = item.len;
+      const list = this.config.map((item, index) => {
+        let len = this.result[item.compName].length;
         if (len > 99) len = "99+";
-
-        // if (len > 0 && flag) {
-        //   mode = index;
-        //   flag = false;
-        // }
-
         return item.title + "(" + len + ")";
       });
-
-      // if (mode === 3 && !lens[3]) mode = this.mode;
-      // if (!lens[this.mode]) this.mode = mode;
-
       return list;
     },
   },
-  watch: {
-    searchVal(val) {
-      this.init();
-      if (val.trim()) {
-        this.loadData();
-      }
-    }
-  },
   methods: {
-    changeList() {
-      this.list.forEach(article => {
+    // 初始化数据
+    init() {
+      this.list = [];
+    },
+    // 改变搜索
+    changeSearch(vlaue) {
+      this.init();
+      if (vlaue.trim()) {
+        const load = this.$refs.load || [];
+        if (load.length > 0) {
+          // 刷新列表数据
+          load[0].onRefresh();
+        }
+      }
+    },
+    // 改变列表
+    changeList(list) {
+      list.forEach(article => {
         if (article.articleId) {
           getCollectionStatus(article.articleId).then(data => {
             this.$set(article, "isCollect", data);
@@ -125,68 +111,6 @@ export default {
         }
       });
     },
-    init() {
-      this.list = []; // 初始化数据
-      this.total = 0; // 数据总条数
-      this.page = 1; // 数据页数
-      // this.isRefresh = false; // 下拉刷新
-      // this.loading = false; // 页面数据加载
-      this.finished = false; // 全部完成加载
-      this.tips = "没有更多了";
-    },
-    loadFun(page, size) {
-      return searchArticle(this.searchKey, page, size);
-    },
-    // 加载函数
-    loadData() {
-      this.loadFun(this.page, this.size)
-        .then(data => {
-
-          // 重置
-          if (!this.searchKey) {
-            this.init();
-          } else {
-            // 是否处于刷新状态
-            if (this.isRefresh) {
-              this.list = data.rows;
-              this.isRefresh = false;
-              this.finished = false;
-            } else {
-              this.list.push(...data.rows);
-            }
-
-            this.changeList();
-
-            // 加载状态
-            this.loading = false;
-            // 计算数据总数
-            this.total = data.total;
-            // 判断数据是否全部获取完毕
-            if (this.page >= this.pages) {
-              this.finished = true;
-            }
-            this.page++;
-          }
-
-        }).catch(err => {
-          // 错误提示
-          this.init();
-          this.tips = err.message;
-          this.loading = false;
-          this.finished = true;
-        })
-    },
-    // 下拉页面刷新加载函数
-    onRefresh() {
-      // 初始化参数
-      this.page = 1;
-      this.loadData();
-    },
-    // 上拉加载数据函数
-    onLoad() {
-      // 异步更新数据
-      this.searchKey && this.loadData();
-    }
   }
 }
 </script>

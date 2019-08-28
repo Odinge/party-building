@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-12 15:32:28
- * @LastEditTime: 2019-08-27 17:31:35
+ * @LastEditTime: 2019-08-28 10:04:12
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -34,8 +34,6 @@ export default {
       list: [],
       funMap: [getQuestionnaire],
     }
-  },
-  computed: {
   },
   methods: {
     uploadRecode(url, qid) {

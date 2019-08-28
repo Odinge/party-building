@@ -1,3 +1,10 @@
+<!--
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-05-17 13:12:07
+ * @LastEditTime: 2019-08-28 11:13:35
+ * @LastEditors: Please set LastEditors
+ -->
 <template>
   <Header class="pub-header search-header" :onHideRight="!mode" :noBack="!mode">
     <div class="app-search">
@@ -13,7 +20,6 @@
 </template>
 
 <script>
-import { searchArticle } from "../../api/article";
 export default {
   props: {
     mode: {
@@ -32,15 +38,15 @@ export default {
   activated() {
     this.mode && this.getFocus();
   },
-  watch: {
-    searchVal(val) {
-      this.$emit("input", val);
-    }
-  },
   computed: {
     // 是否显示清除文字
     showClear() {
       return this.searchVal.trim();
+    }
+  },
+  watch: {
+    searchVal(value) {
+      this.changeVal(value);
     }
   },
   methods: {
@@ -56,6 +62,10 @@ export default {
     // 进入查询页面
     toSearch() {
       this.$emit('toSearch');
+    },
+    changeVal(value) {
+      this.$emit("input", value);
+      this.$emit("changeSearch", value);
     }
   }
 }

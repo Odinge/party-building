@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-19 21:45:41
- * @LastEditTime: 2019-08-26 16:43:43
+ * @LastEditTime: 2019-08-28 14:55:26
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -47,15 +47,11 @@ export default {
       }
     }
   },
-  data() {
-    return {
-    }
-  },
-  watch: {
+  /* watch: {
     list() {
-      // this.changeList();
+    this.changeList();
     }
-  },
+  }, */
   methods: {
     // 去评价
     toComment(item) {
@@ -72,31 +68,31 @@ export default {
     collect(article) {
       if (article.isCollect === undefined) {
         this.toast1s("当前项收藏数据未获取完，请稍后收藏！");
-      } else {
-        const obj = [
-          { fun: addCollection, success: "已收藏" },
-          { fun: cancelCollection, success: "已取消收藏" },
-        ][+article.isCollect];
-        obj.fun(article.articleId).then(() => {
-          article.isCollect = !article.isCollect;
-          this.toast1s(obj.success);
-        }).catch(err => {
-          this.toast1s(err.message);
-        });
+        return false;
       }
-    },
-    // 改变数据获取收藏状态
-    changeList() {
-      this.list.forEach(article => {
-        if (article.articleId) {
-          getCollectionStatus(article.articleId).then(data => {
-            this.$set(article, "isCollect", data);
-          }).catch(err => {
-            this.$toast(err.message);
-          });
-        }
+      const obj = [
+        { fun: addCollection, success: "已收藏" },
+        { fun: cancelCollection, success: "已取消收藏" },
+      ][+article.isCollect];
+      obj.fun(article.articleId).then(() => {
+        article.isCollect = !article.isCollect;
+        this.toast1s(obj.success);
+      }).catch(err => {
+        this.toast1s(err.message);
       });
     },
+    // 改变数据获取收藏状态
+    /*  changeList() {
+       this.list.forEach(article => {
+         if (article.articleId) {
+           getCollectionStatus(article.articleId).then(data => {
+             this.$set(article, "isCollect", data);
+           }).catch(err => {
+             this.$toast(err.message);
+           });
+         }
+       });
+     }, */
   }
 }
 </script>

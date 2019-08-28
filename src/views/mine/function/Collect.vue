@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-07-10 15:39:54
- * @LastEditTime: 2019-08-27 20:39:33
+ * @LastEditTime: 2019-08-28 09:53:11
  * @LastEditors: Please set LastEditors
  -->
 <!-- 我的收藏 -->
@@ -33,7 +33,7 @@ export default {
   data() {
     return {
       list: [],
-      collection: [],
+      // collection: [],
       funMap: [getAllCollectionRecord]
     }
   },

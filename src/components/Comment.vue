@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-26 13:51:12
- * @LastEditTime: 2019-08-23 14:04:58
+ * @LastEditTime: 2019-08-28 16:01:08
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -37,7 +37,9 @@ export default {
   data() {
     return {
       show: false,
-      comment: ""
+      comment: "",
+      // 不允许文本
+      unallowedText: ["垃圾", "sb"]
     }
   },
   computed: {
@@ -56,8 +58,15 @@ export default {
         duration: 0,
         message: '评价中...'
       });
+
+      // 去除不允许评价
+      const reg = this.unallowedText.map(txt => `(${txt})`).join("|");
+      const regexp = new RegExp(reg, "gi");
+      const comment = this.comment.replace(regexp, $0 => "*".repeat($0.length));
+
+      // 评价
       this.close();
-      addComment(this.articleId, this.comment).then(data => {
+      addComment(this.articleId, comment).then(data => {
         this.$toast({ duration: 1000, message: "评价成功" });
         this.$emit("updateComment", () => {
           this.comment = ''; // 清除评价

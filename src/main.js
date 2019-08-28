@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-12 13:12:27
- * @LastEditTime: 2019-08-27 20:15:24
+ * @LastEditTime: 2019-08-27 20:55:36
  * @LastEditors: Please set LastEditors
  */
 // import Vue from "vue";
@@ -22,12 +22,13 @@ router.beforeEach((to, form, next) => {
   document.title = to.meta.title || "党建";
   // 验证token
   const token = store.state.token;
+  const account = store.state.account;
   const noRequireAuth = !to.matched.some(record => record.meta.requiresAuth);
   // 创建白名单
   // const whiteList = ["/login", "/register"];
   // const requireAuth = whiteList.includes(to.path);
 
-  if (token) {
+  if (token && account) {
     if (to.path === "/login") {
       next("/");
     } else {
@@ -110,10 +111,16 @@ router.beforeEach((to, form, next) => {
   } else if (noRequireAuth) {
     next(); // 在免登录白名单，直接进入
   } else {
-    next({
-      path: "/login",
-      query: { redirect: to.fullPath }
-    }); // 否则全部重定向到登录页
+    Dialog.alert({
+      title: "权限录",
+      message: "权限验证失败，请重新登录！！",
+      confirmButtonColor: "#f44"
+    }).then(res => {
+      next({
+        path: "/login",
+        query: { redirect: to.fullPath }
+      }); // 否则全部重定向到登录页
+    });
   }
 });
 
