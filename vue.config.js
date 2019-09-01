@@ -1,3 +1,10 @@
+/*
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-05-12 13:22:12
+ * @LastEditTime: 2019-09-01 10:52:44
+ * @LastEditors: Please set LastEditors
+ */
 // 作为配置文件，直接导出配置对象即可
 module.exports = {
   // publicPath:

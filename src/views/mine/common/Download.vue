@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-20 18:58:18
- * @LastEditTime: 2019-08-27 20:32:02
+ * @LastEditTime: 2019-09-01 14:09:40
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -17,14 +17,14 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(file, index) in list" :key="index">
+          <tr v-for="(file, index) in list" :key="file.fileId">
             <td>{{index+1}}</td>
             <td>
               <span class="van-ellipsis file-box">{{file.fileName}}</span>
             </td>
             <td>
-              <van-icon name="description" class="btn-download" @click="downloadFile(file.fileId)"></van-icon>
-              <!-- <a :href="getDowenloadUrl(file.fileId)">
+              <van-icon name="description" class="btn-download" @click="downloadFile(file)"></van-icon>
+              <!-- <a :href="getUrl(file.fileId)" :download="file.fileName">
                 <van-icon name="description" class="btn-download"></van-icon>
               </a> -->
             </td>
@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import { getDocumentFiles, downloadFile } from "../../../api/file";
+import { getDocumentFiles } from "../../../api/file";
 export default {
   data() {
     return {
@@ -45,15 +45,10 @@ export default {
     }
   },
   methods: {
-    // 下载链接
-    getDowenloadUrl(fileId) {
-      return this.$baseUrl + "/file/download?fileId=" + fileId;
-    },
-    downloadFile(fileId) {
-      downloadFile(fileId).then(data => {
-        window.location.href = this.getDowenloadUrl(fileId);
-      }).catch(err => {
-        this.$toast.fail(err.message);
+    downloadFile(file) {
+      this.$download({
+        url: this.$getDownloadUrlById(file.fileId, 0),
+        name: file.fileName
       });
     }
   }

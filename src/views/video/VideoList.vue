@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-19 21:45:41
- * @LastEditTime: 2019-08-28 14:55:26
+ * @LastEditTime: 2019-09-01 10:27:55
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -21,14 +21,14 @@
           <!-- 主题 -->
           <div class="app-flex">
             <h4 class="van-ellipsis">{{item.title}}</h4>
-            <em class="read-num van-ellipsis">阅读量：{{item.viewCount}}</em>
+            <em class="read-num van-ellipsis">阅读量：{{+item.viewCount}}</em>
           </div>
           <!-- 内容 -->
           <p class="figcaption" v-domtext="item.content"></p>
         </router-link>
         <!-- 视频操作区 -->
         <div class="video-op app-flex-col flex-1">
-          <van-icon class="collect" :name="item.isCollect?'like':'like-o'" @click="collect(item)"></van-icon>
+          <van-icon v-if="showCollect" class="collect" :name="item.isCollect?'like':'like-o'" @click="collect(item)"></van-icon>
           <!-- :disabled="item.isCollect === undefined" -->
           <span class="tag-comment" @click="toComment(item)"></span>
         </div>
@@ -45,13 +45,11 @@ export default {
       default() {
         return []
       }
+    },
+    showCollect: {
+      default: true
     }
   },
-  /* watch: {
-    list() {
-    this.changeList();
-    }
-  }, */
   methods: {
     // 去评价
     toComment(item) {
@@ -81,18 +79,6 @@ export default {
         this.toast1s(err.message);
       });
     },
-    // 改变数据获取收藏状态
-    /*  changeList() {
-       this.list.forEach(article => {
-         if (article.articleId) {
-           getCollectionStatus(article.articleId).then(data => {
-             this.$set(article, "isCollect", data);
-           }).catch(err => {
-             this.$toast(err.message);
-           });
-         }
-       });
-     }, */
   }
 }
 </script>
@@ -131,7 +117,6 @@ export default {
   /* left: 2%; */
   width: 2em;
   height: 2em;
-  /* background: rgba(247, 74, 6, 0.712) url("/images/video/comment.png") */
   background: #ff8053 url("/images/video/comment.png") center/58% no-repeat;
   border-radius: 50%;
 }

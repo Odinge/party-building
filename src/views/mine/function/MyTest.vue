@@ -2,15 +2,14 @@
  * @Description: 我的测试
  * @Author: Odinge
  * @Date: 2019-05-12 15:32:28
- * @LastEditTime: 2019-08-27 20:32:26
+ * @LastEditTime: 2019-09-01 14:10:55
  * @LastEditors: Please set LastEditors
  -->
 <template>
   <list-load v-model="list" :funMap="funMap">
     <ul class="test-list my-test">
-      <li v-for="(item, key) in list" :key="item.recordId" class="test-item app-flex" @click="downloadFile(item.resultImgUrl)">
-        <!-- <a :href="getUrl(item.resultImgUrl)" class="test-item app-flex"> -->
-        <img :src="getUrl(item.resultImgUrl)" alt="问卷" v-lazy="getUrl(item.resultImgUrl)">
+      <li v-for="item in list" :key="item.recordId" class="test-item app-flex" @click="downloadFile(item)">
+        <img :src="$getUrl(item.resultImgUrl)" alt="问卷" v-lazy="$getUrl(item.resultImgUrl)">
         <div class="test-info">
           <h4 class="figcaption">{{item.questionnaireTitle}}</h4>
           <p class="van-ellipsis">
@@ -23,14 +22,12 @@
             {{answerMap[item.status].text}}
           </span>
         </div>
-        <!-- </a> -->
       </li>
     </ul>
   </list-load>
 </template>
 <script>
 import { getQuestionnaireRecords } from "../../../api/questionnaire";
-import { downloadFileByUrl } from "../../../api/file";
 export default {
   data() {
     return {
@@ -44,14 +41,11 @@ export default {
     }
   },
   methods: {
-    getUrl(url) {
-      return url ? this.$baseUrl + url : url;
-    },
-    downloadFile(url) {
-      downloadFileByUrl(url).then(data => {
-        window.location.href = this.getUrl(url);
-      }).catch(err => {
-        this.$toast.fail(err.message);
+    downloadFile(file) {
+      this.$download({
+        url: file.resultImgUrl,
+        name: file.questionnaireTitle,
+        type: "png"
       });
     }
   }

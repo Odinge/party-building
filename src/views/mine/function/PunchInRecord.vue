@@ -2,15 +2,15 @@
  * @Description: 我的打卡
  * @Author: Odinge
  * @Date: 2019-07-10 15:45:34
- * @LastEditTime: 2019-08-24 09:40:04
+ * @LastEditTime: 2019-08-30 01:09:26
  * @LastEditors: Please set LastEditors
  -->
 <template>
   <list-load v-model="list" :funMap="funMap" ref="load">
     <ul class="learn">
-      <li v-for="item in list" :key="item.recordId" class="learn-item">
+      <li v-for="item in record" :key="item.recordId" class="learn-item">
         <!-- <router-link :to="{name: 'article', params: {id: item.articleId}}" > -->
-        <h3 class="figcaption">{{item.articleTitle}}</h3>
+        <h3 class="figcaption">第{{item.index}}次打卡</h3>
         <p><span class="learn-time finish-time">打卡时间</span> {{item.punchInTime}}</p>
         <!-- </router-link> -->
       </li>
@@ -27,6 +27,14 @@ export default {
       funMap: [getPunchInRecord],
     }
   },
+  computed: {
+    record() {
+      return this.list.map((item, index, self) => {
+        item.index = self.length - index;
+        return item;
+      });
+    }
+  }
 }
 </script>
 

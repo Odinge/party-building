@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-17 13:02:09
- * @LastEditTime: 2019-08-24 14:45:56
+ * @LastEditTime: 2019-08-29 23:42:46
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -59,11 +59,15 @@ export default {
           message: "申请成功请检查邮箱\n 正在前往登陆...",
           confirmButtonColor: "#f44"
         }).then(() => {
-          this.$store.dispatch("logout").then(res => {
+          if (this.$store.state.token) {
+            this.$store.dispatch("logout").then(res => {
+              this.$router.push({ path: "/login" });
+            }).catch(err => {
+              this.$toast.fail(err.message);
+            });
+          } else {
             this.$router.push({ path: "/login" });
-          }).catch(err => {
-            this.$toast.fail(err.message);
-          });
+          }
         });
       }).catch(err => {
         this.$toast.fail(err.message);

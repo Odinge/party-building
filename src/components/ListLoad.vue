@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-06-19 23:04:43
- * @LastEditTime: 2019-08-28 14:44:54
+ * @LastEditTime: 2019-08-31 19:57:12
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -89,7 +89,9 @@ export default {
           }
 
           // 外来接口改变数据
-          this.$emit("changeList", data.rows);
+          const isChange = this.$emit("changeList", data.rows);
+          // console.log(isChange);
+
 
           // 改变加载状态
           this.changeState(data);

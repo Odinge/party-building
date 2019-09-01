@@ -2,20 +2,20 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-21 11:01:15
- * @LastEditTime: 2019-08-25 11:50:11
+ * @LastEditTime: 2019-09-01 10:29:25
  * @LastEditors: Please set LastEditors
  -->
 <template>
   <div class="video-controls">
-    <!--  poster="/images/video/seal-001.jpg" -->
     <!-- <video ref="video" preload="metadata" @pause="pause" @play="play" @click="playpause"> -->
-    <video ref="video" preload="metadata" controls x5-playsinline="" playsinline="true" webkit-playsinline="true" x-webkit-airplay="true" x5-video-player-type="h5" x5-video-player-fullscreen="" x5-video-orientation="portraint">
-      <source :src="src" type="video/mp4">
+    <video ref="video" :poster="poster" preload="metadata" x5-playsinline="" playsinline="true" webkit-playsinline="true" x-webkit-airplay="true" x5-video-player-type="h5" x5-video-player-fullscreen="" x5-video-orientation="portraint" @loadeddata="captureImage">
+      <!-- <video ref="video" @loadeddata="captureImage" controls> -->
+      <source :src="$getUrl(src)" :type="'video/'+type" v-for="type in videoTypes" :key="type">
       <p>Your browser doesn't support HTML5 video. Here is
         a <a :href="src">link to the video</a> instead.</p>
     </video>
-    <div ref="videoControls" class="controls">
-      <!-- <span class="tag-playpause tag-play abs-center" ref="playpause"></span> -->
+    <div ref="videoControls" class="controls" v-if="close">
+      <span class="tag-playpause tag-play abs-center" ref="playpause" @click="play"></span>
     </div>
   </div>
 </template>
@@ -25,6 +25,13 @@ export default {
   props: {
     src: {
       type: String
+    }
+  },
+  data() {
+    return {
+      poster: "/images/video/video-cover.png",
+      close: true,
+      videoTypes: ["mp4", "avi", "mov", "rmvb", "rm", "flv", "webm"]
     }
   },
   methods: {
@@ -54,11 +61,34 @@ export default {
       video.controls = false;
     },
     play(e) {
-      const video = this.$refs.video;
-      const playpause = this.$refs.playpause;
+      const { video, playpause } = this.$refs;
       playpause.classList.remove("tag-play");
-      playpause.classList.add("tag-pause", "hide");
+      // playpause.classList.add("tag-pause", "hide");
+      video.play();
       video.controls = true;
+      this.close = false;
+    },
+    captureImage(e) {
+      const video = e.target;
+      // const scale = 0.3;
+      video.controls = false;
+      const canvas = document.createElement("canvas"); // 创建一个画布
+      // canvas.width = video.videoWidth * scale;
+      // canvas.height = video.videoHeight scale;
+      canvas.width = video.offsetWidth;
+      canvas.height = video.offsetHeight;
+      canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height); // getContext:设置画布环境；drawImage:画画 
+      const img = document.createElement("img");
+      canvas.toBlob((blob) => {
+        const url = URL.createObjectURL(blob);
+        img.src = url;
+        this.$refs.videoControls.appendChild(img);
+      }, "image/png");
+
+      // img.src = canvas.toDataURL(); // 获取图片的url
+      // this.$refs.videoControls.appendChild(img);
+
+
     }
   }
 }
@@ -83,13 +113,14 @@ export default {
   /* object-fit: cover; */
   z-index: 0;
 }
-/* .video-controls .controls {
+.video-controls .controls {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-} */
+  z-index: 99;
+}
 .tag-playpause {
   display: flex;
   justify-content: center;
@@ -100,6 +131,7 @@ export default {
   border-radius: 50%;
   border: 0.13em solid #fff;
   box-shadow: 0 0 2px #000;
+  z-index: 100;
 }
 .tag-play::before {
   content: "";

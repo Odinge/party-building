@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-13 08:53:10
- * @LastEditTime: 2019-08-28 11:19:51
+ * @LastEditTime: 2019-09-01 11:53:11
  * @LastEditors: Please set LastEditors
  */
 import axios from "axios";
@@ -13,7 +13,7 @@ import { getToken, delToken } from "../utils/auth";
 import router from "../router";
 import { Dialog } from "vant";
 
-const pubBaseURL = "http://117.50.73.238:8080";
+// const pubBaseURL = "http://117.50.73.238:8080";
 // 创建axios实例
 const service = axios.create({
   baseURL: "/api"
@@ -106,7 +106,6 @@ service.interceptors.response.use(
               query: { redirect: router.currentRoute.fullPath }
             });
           });
-          // return Promise.reject(data);
           return;
           break;
 

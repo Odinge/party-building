@@ -2,13 +2,13 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-07-10 15:39:54
- * @LastEditTime: 2019-08-30 01:09:31
+ * @LastEditTime: 2019-08-28 09:53:11
  * @LastEditors: Please set LastEditors
  -->
 <!-- 我的收藏 -->
 <template>
   <!-- :onChangeList="changeList" -->
-  <list-load v-model="list" :funMap="funMap" @changeList="changeList" class="collect-load">
+  <list-load v-model="list" :funMap="funMap" @changeList="changeList">
     <ul class="collection">
       <li v-for="item in collections" :key="item.articleId">
         <router-link :to="{name: 'article', params: {id: item.articleId}}" class="collect-box" :disabled="item.isDelete === true">
@@ -22,9 +22,6 @@
             </span>
           </div>
         </router-link>
-        <!-- <template>
-
-        </template> -->
       </li>
     </ul>
   </list-load>
@@ -32,9 +29,7 @@
 
 <script>
 import { getAllCollectionRecord, getArticle, cancelCollection } from "../../../api/article";
-// import VideoList from "../../video/VideoList";
 export default {
-  // components: { VideoList },
   data() {
     return {
       list: [],
@@ -44,12 +39,12 @@ export default {
   },
   computed: {
     collections() {
-      return this.list.filter(item => item.articleId && !item.isDelete);
+      return this.list.filter(item => item.articleId);
     }
   },
   methods: {
     // 获取文章
-    changeList(list) {
+    changeList(list, backcall) {
 
       list.forEach((collection, index) => {
         this.$set(collection, "isDelete", true);
@@ -74,9 +69,6 @@ export default {
 </script>
 
 <style>
-.collect-load .van-pull-refresh__head {
-  background-color: #fff;
-}
 .collection {
   padding-bottom: 2vw;
 }

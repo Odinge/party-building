@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 13:26:54
- * @LastEditTime: 2019-08-27 20:36:35
+ * @LastEditTime: 2019-09-01 14:09:48
  * @LastEditors: Please set LastEditors
  -->
 <!-- 成果上传 -->
@@ -15,16 +15,14 @@
     <h3>成果列表</h3>
     <list-load v-model="list" :funMap="funMap" ref="load" class="ac-load">
       <ul class="ac-list">
-        <li v-for="item in aclist" :key="item.fileId" class="test-item app-flex" @click="downloadFile(item.fileId)">
-          <!-- <a :href="getUrl(item.fileId)" > -->
-          <img :src="getUrl(item.fileId)" alt="问卷" v-lazy="getUrl(item.fileId)">
+        <li v-for="item in aclist" :key="item.fileId" class="test-item app-flex" @click="downloadFile(item)">
+          <img :src="$getDownloadUrlById(item.fileId)" alt="问卷" v-lazy="$getDownloadUrlById(item.fileId)">
           <div class="test-info">
             <h4 class="figcaption">{{item.fileName}}</h4>
             <p class="van-ellipsis">
               <van-icon name="clock-o"></van-icon>{{item.createDate}}
             </p>
           </div>
-          <!-- </a> -->
         </li>
       </ul>
     </list-load>
@@ -32,7 +30,7 @@
 </template>
 
 <script>
-import { getAcFiles, uploadAcFile, downloadFile } from "../../../api/file";
+import { getAcFiles, uploadAcFile } from "../../../api/file";
 export default {
   data() {
     return {
@@ -76,14 +74,10 @@ export default {
         return false;
       }
     },
-    getUrl(fileId) {
-      return this.$baseUrl + "/file/download?fileId=" + fileId;
-    },
-    downloadFile(fileId) {
-      downloadFile(fileId).then(data => {
-        window.location.href = this.getUrl(fileId);
-      }).catch(err => {
-        this.$toast.fail(err.message);
+    downloadFile(file) {
+      this.$download({
+        url: this.$getDownloadUrlById(file.fileId, 0),
+        name: file.fileName
       });
     },
   }

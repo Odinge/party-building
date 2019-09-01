@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-07-10 15:43:07
- * @LastEditTime: 2019-08-23 14:46:52
+ * @LastEditTime: 2019-08-30 00:53:17
  * @LastEditors: Please set LastEditors
  -->
 <!-- 意见反馈 -->
@@ -17,7 +17,7 @@
     <div class="feed-ipt">
       <div class="textarea placeholder" contenteditable @input="onInput" ref="textarea">
       </div>
-      <span class="words">字数：{{words}}</span>
+      <span class="words">(不少于{{baseWord}}个字) 字数：{{words}}</span>
     </div>
     <!-- <van-uploader :after-read="onRead" :before-read="onBeforeRead" accept="image/gif, image/jpeg, image/png" class="feed-img" multiple>
       <img v-for="(img, index) in imgList" :src="img.url" class="user-avatar" :key="index">
@@ -40,7 +40,8 @@ export default {
         contact: "",
       },
       content: "",
-      imgList: []
+      baseWord: 5,
+      // imgList: []
     }
   },
   computed: {
@@ -57,6 +58,9 @@ export default {
         if (!val.trim()) {
           return true
         }
+      }
+      if (this.words < this.baseWord) {
+        return true;
       }
       return false;
     },

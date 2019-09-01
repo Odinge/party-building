@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-16 00:39:59
- * @LastEditTime: 2019-08-28 20:01:46
+ * @LastEditTime: 2019-09-01 10:27:54
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -106,14 +106,14 @@ export default {
       // 关于阅读
       isOne: true, // 第一次访问页面
       haveRead: true, // 是否已经阅读
-      baseReadTime: 180, // 基础阅读时间（毫秒） --- 3分钟
+      baseReadTime: 300, // 基础阅读时间（毫秒） --- 5分钟
       beginReadTime: 0, // 开始阅读时间
       readTime: 0, // 阅读时间
       readTimeText: "", // 阅读时间
       readDisabled: true, // 禁止阅读
       readTimer: null, // 阅读定时器
 
-      readMode: 1, // 阅读模式   0 --- 表示可后台阅读， 1 --- 表示必须前台阅读
+      readMode: 0, // 阅读模式   0 --- 表示可后台阅读， 1 --- 表示必须前台阅读
 
 
       // 关于评论
@@ -276,7 +276,7 @@ export default {
     // 获取是否完成当日打卡
     getPunchInStatus() {
       getPunchInStatus().then(data => {
-        this.$toast.success("已完成当日打卡");
+        this.$toast.success("已完成当日\n     打卡");
       }).catch(err => {
         if (err.code === 400016) {
           this.$toast.success("     真   棒\n    ~ ^_^ ~\n继续阅读下篇\n  文章打卡哟");
@@ -306,7 +306,6 @@ export default {
       }).catch(err => {
         this.toast1s(err.message);
       });
-
     },
 
     // 获取点赞数量

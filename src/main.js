@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-12 13:12:27
- * @LastEditTime: 2019-08-27 20:55:36
+ * @LastEditTime: 2019-09-01 12:04:51
  * @LastEditors: Please set LastEditors
  */
 // import Vue from "vue";
@@ -18,16 +18,16 @@ import "../public/css/reset.css";
 Vue.config.productionTip = false;
 // 路由守卫
 router.beforeEach((to, form, next) => {
-  Toast.clear();
-  document.title = to.meta.title || "党建";
-  // 验证token
-  const token = store.state.token;
-  const account = store.state.account;
-  const noRequireAuth = !to.matched.some(record => record.meta.requiresAuth);
-  // 创建白名单
-  // const whiteList = ["/login", "/register"];
-  // const requireAuth = whiteList.includes(to.path);
+  Toast.clear(); // 跳转路由清除提示
 
+  document.title = to.meta.title || "党建"; // 设置标题
+
+  // 验证token
+  const token = store.state.token; // token
+  const account = store.state.account; // 账号
+  const noRequireAuth = !to.matched.some(record => record.meta.requiresAuth); // 是否需要权限
+
+  // 判断是否存在凭证
   if (token && account) {
     if (to.path === "/login") {
       next("/");
@@ -41,18 +41,20 @@ router.beforeEach((to, form, next) => {
         "/feedback",
         "/myComment"
       ];
-      // "/achievementUpload",
+
       // 是否拉取用户基本信息
       const isGetUserInfo = getUserInfoRoutes.some(
         r => to.fullPath.indexOf(r) !== -1
       );
 
-      // 不加载图标的
-      const noLoad = ["/article"];
-      const isNoLoad = noLoad.some(r => to.fullPath.indexOf(r) !== -1);
-
       // 是否存在用户信息
       const hasName = !store.state.userInfo.name;
+
+      // 不加载图标的
+      const noLoadIconList = ["/article"];
+      const isLoadIcon = !noLoadIconList.some(
+        r => to.fullPath.indexOf(r) !== -1
+      );
 
       // 完善用户信息
       function completeInfo(data) {
@@ -72,7 +74,7 @@ router.beforeEach((to, form, next) => {
       // 做判断是否获取用户信息
       if (isGetUserInfo && hasName) {
         let load = null;
-        if (!isNoLoad) {
+        if (isLoadIcon) {
           load = Toast.loading({
             mask: true,
             duration: 0,
@@ -111,6 +113,7 @@ router.beforeEach((to, form, next) => {
   } else if (noRequireAuth) {
     next(); // 在免登录白名单，直接进入
   } else {
+    // 否则全部重定向到登录页
     Dialog.alert({
       title: "权限录",
       message: "权限验证失败，请重新登录！！",
@@ -119,7 +122,7 @@ router.beforeEach((to, form, next) => {
       next({
         path: "/login",
         query: { redirect: to.fullPath }
-      }); // 否则全部重定向到登录页
+      });
     });
   }
 });

@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-12 15:32:28
- * @LastEditTime: 2019-08-28 10:04:12
+ * @LastEditTime: 2019-09-01 13:01:02
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -27,7 +27,7 @@
 </template>
 <script>
 import { getQuestionnaire, addQuestionnaireRecords } from "../../api/questionnaire";
-import { getFileUrl } from "../../api/file";
+import { getImgUrl } from "../../api/file";
 export default {
   data() {
     return {
@@ -56,7 +56,7 @@ export default {
         loadingType: 'spinner',
         message: '加载中...'
       });
-      getFileUrl(file).then(data => {
+      getImgUrl(file).then(data => {
         this.uploadRecode(data, detail.name);
       }).catch(err => { this.$toast(err.message) });
 

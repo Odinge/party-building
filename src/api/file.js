@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-22 21:04:25
- * @LastEditTime: 2019-08-27 20:30:41
+ * @LastEditTime: 2019-09-01 13:37:48
  * @LastEditors: Please set LastEditors
  */
 import request from "./request";
@@ -23,7 +23,7 @@ export const getAcFiles = (page, size = baseSize) =>
   request("get", `/file/3/${size}/${page}`);
 
 // 下载文件
-export const downloadFile = fileId =>
+export const downloadFileById = fileId =>
   request("get", "/file/download", { fileId });
 
 // 下载文件2
@@ -32,10 +32,13 @@ export const downloadFileByUrl = url => request("get", url);
 // 获取资源
 export const getSource = fileName => request("get", `/file/update/${fileName}`);
 
-// 文件上传
+/**
+ *
+ * @param {file:文件对象, fileType:文件类型 0-文档，1-图片，2-视频，3-成果} file
+ */
 export const uploadFile = file => request("post", `/file/upload`, file);
 
-// 成果图片上传
+// 上传成果图片
 export const uploadAcFile = file => {
   const data = new FormData();
   data.append("file", file);
@@ -44,7 +47,7 @@ export const uploadAcFile = file => {
 };
 
 // 上传图片获取地址
-export const getFileUrl = file => {
+export const getImgUrl = file => {
   const data = new FormData();
   data.append("file", file);
   data.append("fileType", 1);
