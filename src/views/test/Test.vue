@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-12 15:32:28
- * @LastEditTime: 2019-09-01 13:01:02
+ * @LastEditTime: 2019-09-02 10:51:11
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -10,7 +10,7 @@
     <ul class="test-list">
       <li v-for="(item, key) in list" :key="key" class="test-item app-flex">
         <a :href="item.url" class="app-flex test-a">
-          <img src="/images/test/dangqi.png" alt="问卷">
+          <img src="/img/test/dangqi.png" alt="问卷">
           <div class="test-info test-a">
             <h4 class="van-ellipsis">{{item.title}}</h4>
             <p class="van-ellipsis">{{item.updatetime}}</p>

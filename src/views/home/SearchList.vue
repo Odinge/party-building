@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-06-19 15:38:42
- * @LastEditTime: 2019-08-28 14:48:40
+ * @LastEditTime: 2019-09-02 10:02:04
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -23,7 +23,7 @@
       </van-tab>
     </van-tabs>
     <div class="search-tips" v-if="!searchKey">请搜索...</div>
-    <list-load v-else v-model="list" :funMap="funMap" @changeList="changeList" class="app-content" ref="load">
+    <list-load v-else v-model="list" :funMap="funMap" @changeList="changeList" :successText="successText" class="app-content" ref="load">
       <component :is="searchCompName" :list="result[searchCompName]"></component>
     </list-load>
     <!-- 选项 end -->
@@ -43,6 +43,7 @@ export default {
   data() {
     return {
       searchVal: "", // 搜索关键字
+      successText: "加载成功",
       mode: 0,
       list: [], // 获取得到的数据
       config: [ // 配置信息
@@ -82,6 +83,9 @@ export default {
       });
       return list;
     },
+    articleChange() {
+      return this.$store.state.articleChange;
+    }
   },
   methods: {
     // 初始化数据
@@ -101,16 +105,24 @@ export default {
     },
     // 改变列表
     changeList(list) {
+      this.successText = "";
       list.forEach(article => {
-        if (article.articleId) {
-          getCollectionStatus(article.articleId).then(data => {
-            this.$set(article, "isCollect", data);
-          }).catch(err => {
-            this.$toast(err.message);
-          });
-        }
+        getCollectionStatus(article.articleId).then(data => {
+          this.$set(article, "isCollect", data);
+          this.successText = "加载成功";
+        }).catch(err => {
+          this.successText = "加载成功";
+          this.$toast(err.message);
+        });
       });
     },
+  },
+  activated() {
+    if (this.articleChange) {
+      this.list = [];
+      this.$refs.load.onRefresh();
+      this.$store.commit("SET_ARTICLE_CHANGE", false); // 文章改变
+    }
   }
 }
 </script>

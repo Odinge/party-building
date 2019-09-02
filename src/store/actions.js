@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-12 14:49:11
- * @LastEditTime: 2019-08-25 13:16:20
+ * @LastEditTime: 2019-09-02 10:53:18
  * @LastEditors: Please set LastEditors
  */
 // 异步方法
@@ -28,8 +28,7 @@ export default {
   async getUserInfo({ commit }) {
     const userInfo = await getUserInfo();
 
-    userInfo.userAvatar =
-      userInfo.userAvatar || "/images/mine/default-avatar.png";
+    userInfo.userAvatar = userInfo.userAvatar || "/img/mine/default-avatar.png";
 
     commit(types.SET_USERINFO, userInfo);
     return userInfo;

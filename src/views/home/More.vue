@@ -2,11 +2,11 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-12 17:13:15
- * @LastEditTime: 2019-08-28 13:21:23
+ * @LastEditTime: 2019-09-02 09:56:35
  * @LastEditors: Please set LastEditors
  -->
 <template>
-  <list-load v-model="list" :funMap="funMap">
+  <list-load v-model="list" :funMap="funMap" ref="load">
     <component :is="compName" :list="list"></component>
   </list-load>
 </template>
@@ -33,6 +33,24 @@ export default {
     },
     funMap() {
       return [this.loadFun];
+    },
+    prevSamePath() {
+      return this.$store.state.prevSamePath;
+    }
+  },
+  // 加载信息
+  activated() {
+    const curPath = this.$route.params.compName;
+    let isRefresh = false;
+    if (this.prevSamePath && this.prevSamePath !== curPath) {
+      isRefresh = true;
+    }
+    this.$store.commit("SET_PREV_SAME_PATH", curPath);
+
+    // 判断重置
+    if (isRefresh) {
+      this.list = [];
+      this.$refs.load.onRefresh();
     }
   },
 }

@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-12 13:12:27
- * @LastEditTime: 2019-08-27 18:34:53
+ * @LastEditTime: 2019-09-02 10:50:52
  * @LastEditors: Please set LastEditors
  */
 import Vue from "vue";
@@ -38,7 +38,7 @@ export const common = [
     name: "dproject",
     meta: {
       title: "智慧党建",
-      icon: "/images/mine/icon-ge-002.png",
+      icon: "/img/mine/icon-ge-002.png",
       showHead: true
     },
     component: () =>
@@ -46,25 +46,12 @@ export const common = [
         /* webpackChunkName: "dproject" */ "../views/mine/common/Dproject.vue"
       )
   },
-  // {
-  //   path: "myComment",
-  //   name: "myComment",
-  //   meta: {
-  //     title: "我的评价",
-  //     icon: "/images/mine/icon-ge-003.png",
-  //     showHead: true
-  //   },
-  //   component: () =>
-  //     import(
-  //       /* webpackChunkName: "myComment" */ "../views/mine/common/MyComment.vue"
-  //     )
-  // },
   {
     path: "achievementUpload",
     name: "achievementUpload",
     meta: {
       title: "学习成果",
-      icon: "/images/mine/icon-ge-003.png",
+      icon: "/img/mine/icon-ge-003.png",
       showHead: true
     },
     component: () =>
@@ -77,7 +64,7 @@ export const common = [
     name: "download",
     meta: {
       title: "常用下载",
-      icon: "/images/mine/icon-ge-005.png",
+      icon: "/img/mine/icon-ge-005.png",
       showHead: true
     },
     component: () =>
@@ -94,7 +81,7 @@ export const func = [
     name: "message",
     meta: {
       title: "我的消息",
-      icon: "/images/mine/icon-qe-005.png",
+      icon: "/img/mine/icon-qe-005.png",
       showHead: true
     },
     component: () =>
@@ -107,7 +94,7 @@ export const func = [
     name: "myCompetition",
     meta: {
       title: "我的竞赛",
-      icon: "/images/mine/icon-qe-006.png",
+      icon: "/img/mine/icon-qe-006.png",
       showHead: true
     },
     component: () =>
@@ -120,31 +107,18 @@ export const func = [
     name: "learn",
     meta: {
       title: "学习记录",
-      icon: "/images/mine/icon-qe-007.png",
+      icon: "/img/mine/icon-qe-007.png",
       showHead: true
     },
     component: () =>
       import(/* webpackChunkName: "learn" */ "../views/mine/function/Learn.vue")
   },
-  // {
-  //   path: "myOrganization",
-  //   name: "myOrganization",
-  //   meta: {
-  //     title: "我的组织",
-  //     icon: "/images/mine/icon-qe-008.png",
-  //     showHead: true
-  //   },
-  //   component: () =>
-  //     import(
-  //       /* webpackChunkName: "myOrganization" */ "../views/mine/function/MyOrganization.vue"
-  //     )
-  // },
   {
     path: "myComment",
     name: "myComment",
     meta: {
       title: "我的评价",
-      icon: "/images/mine/icon-qe-008.png",
+      icon: "/img/mine/icon-qe-008.png",
       showHead: true
     },
     component: () =>
@@ -157,7 +131,7 @@ export const func = [
     name: "myTest",
     meta: {
       title: "我的测试",
-      icon: "/images/mine/icon-qe-009.png",
+      icon: "/img/mine/icon-qe-009.png",
       showHead: true
     },
     component: () =>
@@ -170,7 +144,7 @@ export const func = [
     name: "punchInRecord",
     meta: {
       title: "我的打卡",
-      icon: "/images/mine/icon-qe-010.png",
+      icon: "/img/mine/icon-qe-010.png",
       showHead: true
     },
     component: () =>
@@ -184,7 +158,7 @@ export const func = [
     name: "collect",
     meta: {
       title: "我的收藏",
-      icon: "/images/mine/icon-qe-011.png",
+      icon: "/img/mine/icon-qe-011.png",
       showHead: true
       // keepAlive: true
     },
@@ -198,13 +172,86 @@ export const func = [
     name: "feedback",
     meta: {
       title: "意见反馈",
-      icon: "/images/mine/icon-qe-012.png",
+      icon: "/img/mine/icon-qe-012.png",
       showHead: true
     },
     component: () =>
       import(
         /* webpackChunkName: "feedback" */ "../views/mine/function/Feedback.vue"
       )
+  }
+];
+
+// 底部导航
+export const tabNav = [
+  // 导航
+  {
+    path: "home",
+    name: "home",
+    meta: {
+      title: "首页",
+      navTitle: "首页",
+      icon: "shouye",
+      showNav: true,
+      noBack: true,
+      keepAlive: true
+    },
+    component: () =>
+      import(/* webpackChunkName: "home" */ "../views/home/Home.vue")
+  },
+  {
+    path: "news",
+    name: "news",
+    meta: {
+      title: "要闻",
+      navTitle: "要闻",
+      icon: "xinwen",
+      showNav: true,
+      keepAlive: true
+    },
+    component: () =>
+      import(/* webpackChunkName: "news" */ "../views/news/News.vue")
+  },
+  {
+    path: "video",
+    name: "video",
+    meta: {
+      title: "学习视频",
+      navTitle: "视频",
+      icon: "shipin",
+      showHead: true,
+      className: "white",
+      keepAlive: true
+    },
+    component: () =>
+      import(/* webpackChunkName: "video" */ "../views/video/Video.vue")
+  },
+  {
+    path: "test",
+    name: "test",
+    meta: {
+      title: "学习测评",
+      navTitle: "测评",
+      icon: "pingjia",
+      showHead: true,
+      keepAlive: true
+    },
+    component: () =>
+      import(/* webpackChunkName: "test" */ "../views/test/Test.vue")
+  },
+  {
+    path: "mine",
+    name: "mine",
+    meta: {
+      title: "我的",
+      navTitle: "我的",
+      icon: "wode",
+      showNav: true,
+      noBack: true
+    },
+    component: () =>
+      import(/* webpackChunkName: "mime" */ "../views/mine/Mine.vue"),
+    children: []
   }
 ];
 
@@ -237,48 +284,7 @@ const routes = [
     component: Layout,
     meta: { requiresAuth: true },
     children: [
-      // 导航
-      {
-        path: "home",
-        name: "home",
-        meta: { title: "首页", showNav: true, noBack: true, keepAlive: true },
-        component: () =>
-          import(/* webpackChunkName: "home" */ "../views/home/Home.vue")
-      },
-      {
-        path: "news",
-        name: "news",
-        meta: { title: "要闻", showNav: true, keepAlive: true },
-        component: () =>
-          import(/* webpackChunkName: "news" */ "../views/news/News.vue")
-      },
-      {
-        path: "video",
-        name: "video",
-        meta: {
-          title: "学习视频",
-          showHead: true,
-          className: "white",
-          keepAlive: true
-        },
-        component: () =>
-          import(/* webpackChunkName: "video" */ "../views/video/Video.vue")
-      },
-      {
-        path: "test",
-        name: "test",
-        meta: { title: "学习测评", showHead: true, keepAlive: true },
-        component: () =>
-          import(/* webpackChunkName: "test" */ "../views/test/Test.vue")
-      },
-      {
-        path: "mine",
-        name: "mine",
-        meta: { title: "设置", showNav: true, noBack: true },
-        component: () =>
-          import(/* webpackChunkName: "mime" */ "../views/mine/Mine.vue"),
-        children: []
-      },
+      ...tabNav, // 底部导航
       {
         path: "setting",
         name: "setting",
@@ -294,7 +300,8 @@ const routes = [
       {
         path: "more/:compName/:title",
         name: "more",
-        meta: { showHead: true },
+        meta: { showHead: true, keepAlive: true },
+        // meta: { showHead: true },
         component: () =>
           import(/* webpackChunkName: "more" */ "../views/home/More.vue"),
         beforeEnter: (to, from, next) => {

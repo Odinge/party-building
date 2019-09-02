@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-12 15:14:18
- * @LastEditTime: 2019-08-27 20:14:20
+ * @LastEditTime: 2019-09-02 10:52:23
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -15,7 +15,7 @@
         <form onsubmit="return false">
           <div class="aui-flex">
             <div class="aui-form-item">
-              <img src="/images/login/iphone.png" alt="账号">
+              <img src="/img/comm/iphone.png" alt="账号">
             </div>
             <div class="aui-flex-box">
               <input type="text" placeholder="请输入学号/工号" v-model="user.account" ref="account">
@@ -23,7 +23,7 @@
           </div>
           <div class="aui-flex">
             <div class="aui-form-item">
-              <img src="/images/login/psd.png" alt="密码">
+              <img src="/img/comm/psd.png" alt="密码">
             </div>
             <div class="aui-flex-box">
               <input type="password" placeholder="请输入您的密码" v-model="user.password" ref="password">

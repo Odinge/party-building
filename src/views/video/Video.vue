@@ -1,6 +1,13 @@
+<!--
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-05-12 15:36:54
+ * @LastEditTime: 2019-09-02 10:52:36
+ * @LastEditors: Please set LastEditors
+ -->
 <template>
   <div id="video">
-    <img src="/images/video/05.jpg" alt="视频" class="video-tab">
+    <img src="/img/video/video-header.png" alt="视频" class="video-tab">
     <!-- <van-tabs animated swipeable sticky v-model="mode">
       <van-tab :title="type" v-for="type in listType" :key="type">
         <video-view :mode="mode"></video-view>
@@ -18,7 +25,9 @@ export default {
       // mode: 0,
       // listType: ["必学", "国际", "社会", "事迹"]
     }
-  }
+  },
+
+
 }
 </script>
 <style>

@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-16 00:39:59
- * @LastEditTime: 2019-09-01 10:27:54
+ * @LastEditTime: 2019-09-02 10:49:35
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -25,7 +25,7 @@
           </div>
           <div class="center">
             <div class=" readTime" v-if="!haveRead">
-              <span>已阅读时间(m)</span>
+              <span>已阅读时间(阅读{{baseReadTime/60}}分钟即可打卡)</span>
               <!-- <van-progress :percentage="readTime/baseReadTime" :pivot-text="readTime" pivot-color="#7232dd" color="linear-gradient(to right, #be99ff, #7232dd)" /> -->
               <van-progress :percentage="readPercent" :pivot-text="readTimeText" pivot-color="rgb(242, 136, 19)" color="linear-gradient(to right, rgb(252, 255, 153), rgb(242, 136, 19))" />
             </div>
@@ -46,7 +46,7 @@
                     <span class="comment-name van-ellipsis">{{comment.userName}}</span>
                     <!-- <span class="comment-zan">
                       {{comment.zan}}
-                      <i class="iconfont icon-zan" :class="comment.isLike?'icon-dianzan1':'icon-zan'" @click="comment.isLike=true"></i>
+                      <i class="iconfont icon-zan" :class="comment.isLike?'icon-dianzan':'icon-zan'" @click="comment.isLike=true"></i>
                     </span> -->
                     <span class="comment-zan" v-if="comment.userId === userInfo.sid">
                       <van-icon name="delete" @click="deleteComment(comment.commentId)"></van-icon>
@@ -63,7 +63,7 @@
             </ul>
           </van-list>
           <div class="no-comment" v-else>
-            <img src="/images/comm/no-comment.png" alt="">
+            <img src="/img/comm/no-comment.png" alt="无观点">
             <p>暂无观点 快来发表观点</p>
           </div>
         </div>
@@ -78,7 +78,7 @@
       <div class="comment-ipt" @click="onComment(article, '欢迎发表你的观点')">欢迎发表你的观点</div>
       <van-icon :name="article.isCollect?'like':'like-o'" @click="collect(article)"></van-icon>
       <div class="zan-box">
-        <i class="iconfont" :class="article.isLike?'icon-dianzan1':'icon-zan'" @click="zan(article)"></i>
+        <i class="iconfont" :class="article.isLike?'icon-dianzan':'icon-zan'" @click="zan(article)"></i>
         <span class="zan-count">{{article.likeCount}}</span>
       </div>
     </div>
@@ -89,7 +89,6 @@
 <script>
 import { getArticle, getArticleInfo, studyFinish, getComment, getLikeStatus, getCollectionStatus, addLike, addCollection, deleteComment, cancelLike, cancelCollection, getLikeCount } from "../../api/article";
 import { getPunchInStatus } from "../../api/mine";
-import { mapState } from "vuex";
 export default {
   props: ["id"],
   data() {
@@ -112,9 +111,11 @@ export default {
       readTimeText: "", // 阅读时间
       readDisabled: true, // 禁止阅读
       readTimer: null, // 阅读定时器
+      readNum: 1, // 阅读时间倍数
 
+      // 关于模式
       readMode: 0, // 阅读模式   0 --- 表示可后台阅读， 1 --- 表示必须前台阅读
-
+      timerMode: 0, // 计时模式   0 --- 表示阅读时间到了不计时，  1 --- 阅读时间到了还计时
 
       // 关于评论
       showComment: false, // 是否显示评论
@@ -123,6 +124,9 @@ export default {
     }
   },
   computed: {
+    userInfo() {
+      return this.$store.state.userInfo;
+    },
     // 是否存在评价
     hasComment() {
       return this.comments.length;
@@ -131,11 +135,16 @@ export default {
     openComment() {
       return this.$route.query.openComment;
     },
+    // 阅读进度条
     readPercent() {
-      const percent = (this.readTime / this.baseReadTime) * 100;
+      // const percent = (this.readTime / this.baseReadTime) * 100;
+      const percent = (this.readTime / this.readTotal) * 100;
       return percent;
     },
-    ...mapState(["userInfo"])
+    // 计算进度条总的阅读时间
+    readTotal() {
+      return this.baseReadTime * this.readNum;
+    },
   },
   mounted() {
     // 加载提示
@@ -145,7 +154,7 @@ export default {
     if (this.openComment) {
       this.onComment(this.article, '欢迎发表你的观点');
     }
-
+    // 阅读模式
     if (this.readMode) {
       window.onblur = this.clearReadTimer;
       window.onfocus = () => {
@@ -159,7 +168,7 @@ export default {
     loadData() {
       this.isOne = true; // 第一次访问
       this.readDisabled = true;
-
+      // 获取文章信息
       getArticleInfo(this.id).then(data => {
         this.article = data;
 
@@ -205,10 +214,18 @@ export default {
       this.readTimer = setInterval(() => {
         // let dt = new Date() - this.beginReadTime; // 已阅读时间
         let dt = this.readTime++;
-        if (dt >= this.baseReadTime) {
-          this.readTime = dt = this.baseReadTime;
-          this.clearReadTimer();
-          this.readDisabled = false;
+
+        // 时间判断
+        if (dt >= this.readTotal) {
+          this.readTime = dt = this.readTotal;
+          if (this.timerMode) {
+            this.readNum += 2;
+          } else {
+            this.clearReadTimer();
+          }
+          if (this.readDisabled) {
+            this.readDisabled = false;
+          }
         }
 
         const m = ~~(dt / 60); // 分
@@ -305,6 +322,8 @@ export default {
         this.toast1s(obj.success);
       }).catch(err => {
         this.toast1s(err.message);
+      }).finally(() => {
+        this.$store.commit("SET_ARTICLE_CHANGE", true); // 文章改变
       });
     },
 
@@ -350,7 +369,7 @@ export default {
       }).catch(err => { });
 
     }
-  }
+  },
 }
 </script>
 <style>
@@ -490,7 +509,7 @@ export default {
 }
 /* 评论 end */
 
-.article .icon-dianzan1 {
+.article .icon-dianzan {
   color: coral;
 }
 
@@ -538,6 +557,7 @@ export default {
 .zan-box {
   position: relative;
 }
+
 .zan-count {
   position: absolute;
   top: -0.9em;
@@ -545,7 +565,6 @@ export default {
   font-size: 13px;
   font-weight: bold;
   color: tomato;
-  /* color: rgb(189, 147, 42); */
 }
 
 .a-main strong {
@@ -565,10 +584,6 @@ export default {
 .readTime {
   margin: 2vw;
 }
-/* .readTime > span {
-  display: block;
-  margin-bottom: 2vw;
-} */
 .readTime .van-progress {
   margin: 4vw 0 5vw;
 }

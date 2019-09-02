@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-12 14:49:48
- * @LastEditTime: 2019-08-27 20:10:50
+ * @LastEditTime: 2019-09-02 09:48:33
  * @LastEditors: Please set LastEditors
  */
 import * as types from "./types";
@@ -12,10 +12,6 @@ export default {
   [types.SET_USERINFO](state, userInfo) {
     state.userInfo = userInfo;
   },
-  // 设置登录token
-  // [types.SET_TOKEN](state, token) {
-  //   state.token = token;
-  // },
   // 设置用户头像
   [types.SET_USERAVATAR](state, userAvatar) {
     state.userInfo.userAvatar = userAvatar;
@@ -27,6 +23,14 @@ export default {
   // 设置页面预加载状态
   [types.SET_PAGE_LOADING](state, loadState) {
     state.prestrain = loadState;
+  },
+  // 设置上个相同的路由地址
+  [types.SET_PREV_SAME_PATH](state, prevSamePath) {
+    state.prevSamePath = prevSamePath;
+  },
+  // 判断文章信息是否改变
+  [types.SET_ARTICLE_CHANGE](state, articleChange) {
+    state.articleChange = articleChange;
   },
   // 设置页面配置信息
   [types.SET_PAGE_CONFIG](state, config) {

@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-21 11:01:15
- * @LastEditTime: 2019-09-01 10:29:25
+ * @LastEditTime: 2019-09-02 10:49:00
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -29,7 +29,7 @@ export default {
   },
   data() {
     return {
-      poster: "/images/video/video-cover.png",
+      poster: "/img/video/video-cover.png",
       close: true,
       videoTypes: ["mp4", "avi", "mov", "rmvb", "rm", "flv", "webm"]
     }

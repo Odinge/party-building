@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-12 13:12:27
- * @LastEditTime: 2019-09-01 12:04:51
+ * @LastEditTime: 2019-09-02 10:46:23
  * @LastEditors: Please set LastEditors
  */
 // import Vue from "vue";
@@ -14,8 +14,8 @@ import store from "./store";
 // ui组件注册
 import { Toast, Dialog } from "vant";
 import "../public/css/reset.css";
+import "./assets/iconfont/iconfont.css";
 
-Vue.config.productionTip = false;
 // 路由守卫
 router.beforeEach((to, form, next) => {
   Toast.clear(); // 跳转路由清除提示

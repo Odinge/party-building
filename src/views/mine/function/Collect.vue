@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-07-10 15:39:54
- * @LastEditTime: 2019-08-30 01:09:31
+ * @LastEditTime: 2019-09-01 19:32:09
  * @LastEditors: Please set LastEditors
  -->
 <!-- 我的收藏 -->
@@ -49,13 +49,13 @@ export default {
   },
   methods: {
     // 获取文章
-    changeList(list) {
-
+    changeList(list, that) {
+      that.finishedText = "正在加载...";
       list.forEach((collection, index) => {
         this.$set(collection, "isDelete", true);
         if (collection.articleId) {
           getArticle(collection.articleId).then(data => {
-
+            that.finishedText = "没有更多了";
             const keys = Object.keys(data);
             keys.forEach(item => {
               this.$set(collection, item, data[item]);
@@ -64,8 +64,14 @@ export default {
 
           }).catch(err => {
             this.$set(collection, "title", "该文章已被删除");
-            // this.$toast(err.message);
+            if (list.length < 2) {
+              that.finishedText = "没有更多了";
+            }
           });
+        } else {
+          if (list.length < 2) {
+            that.finishedText = "没有更多了";
+          }
         }
       });
     },
@@ -99,6 +105,7 @@ export default {
   font-size: 0.85em;
   margin: 1em 0 1.5em;
   color: #666666;
+  line-height: 1.2em;
 }
 .collect-box .collect-footer {
   color: #999;

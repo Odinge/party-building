@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-21 08:26:58
- * @LastEditTime: 2019-08-26 15:59:45
+ * @LastEditTime: 2019-09-01 18:14:10
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -68,6 +68,7 @@ export default {
   font-size: 0.85em;
   margin: 1em 0 1.5em;
   color: #666666;
+  line-height: 1.2em;
 }
 .notice-box .notice-footer {
   color: #999;

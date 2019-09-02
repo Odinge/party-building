@@ -1,3 +1,10 @@
+<!--
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-05-12 15:39:29
+ * @LastEditTime: 2019-09-01 21:01:20
+ * @LastEditors: Please set LastEditors
+ -->
 <template>
   <section id="home" class="app-container">
     <search :mode="0" @toSearch="toSearch"></search>
@@ -34,23 +41,9 @@ export default {
   components: { Search, Title, Dynamics, Notice },
   data() {
     return {
-      bannerImageUrl: [
-        // { imgUrl: "", articleId: "1" },
-        // { imgUrl: "", articleId: "2" },
-        // { imgUrl: "", articleId: "3" },
-        // { imgUrl: "", articleId: "4" },
-      ],
-      dynamicsList: [
-        // { url: "", title: "", updatetime: "", like: false, articleId: "1" },
-        // { url: "", title: "", updatetime: "", like: false, articleId: "1" },
-        // { url: "", title: "", updatetime: "", like: false, articleId: "1" },
-        // { url: "", title: "", updatetime: "", like: false, articleId: "1" },
-      ],
-      noticeList: [
-        // { title: "", content: "", author: "", viewCount: 541, praiseNum: 115, articleId: "1" },
-        // { title: "", content: "", author: "", viewCount: 300, praiseNum: 105, articleId: "1" },
-        // { title: "", content: "", author: "", viewCount: 21, praiseNum: 10, articleId: "1" },
-      ],
+      bannerImageUrl: [],
+      dynamicsList: [],
+      noticeList: [],
       isRefresh: false, // 页面刷新
       pageLoad: null, // 页面加载
     }

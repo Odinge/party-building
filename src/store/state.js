@@ -1,8 +1,8 @@
 /*
  * @Description: In User Settings Edit
- * @Author: your name
+ * @Author: Odinge
  * @Date: 2019-05-12 14:49:01
- * @LastEditTime: 2019-08-27 20:12:43
+ * @LastEditTime: 2019-09-02 09:47:24
  * @LastEditors: Please set LastEditors
  */
 // 状态
@@ -27,5 +27,7 @@ export default {
     onLoad() {}, // 加载数据函数
     onRefresh() {} // 页面刷新获取数据函数
   },
-  prestrain: true // 页面预加载
+  prestrain: true, // 页面预加载
+  prevSamePath: "", // 上一个相似的路径
+  articleChange: false // 判断文章信息是否改变
 };

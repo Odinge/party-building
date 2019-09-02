@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-12 16:45:12
- * @LastEditTime: 2019-08-27 16:14:14
+ * @LastEditTime: 2019-09-02 10:52:44
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -17,7 +17,7 @@
       <div class="mine-main-head">
         <div class="mine-user-text">
           <h2>{{ userInfo.name? userInfo.name+"同学" : "未设置姓名" }}</h2>
-          <h3 :class="{red:pStatus}">{{punchInStatus}}</h3>
+          <h3 :class="{red:pStatus}" v-show="!loading">{{punchInStatus}}</h3>
         </div>
         <div class="mine-user-avatar">
           <!-- <img :src="userInfo.userAvatar"> -->
@@ -35,7 +35,7 @@
         </ul>
         <div class="mime-content-mv">
           <!-- <video-controls src="/videos/video-1.mp4"></video-controls> -->
-          <img src="/images/mine/mine-ad.png">
+          <img src="/img/mine/mine-ad.png">
         </div>
         <ul class="mime-content-list">
           <li v-for="item in func" :key="item.name">
@@ -51,21 +51,21 @@
 </template>
 
 <script>
-import { getPunchInStatus } from "../../api/mine";
+import * as types from "../../store/types";
 import { mapState, mapMutations } from "vuex";
 import { common, func } from "../../router";
-import * as types from "../../store/types";
+import { getPunchInStatus } from "../../api/mine";
 export default {
   data() {
     return {
       punchInStatus: "未打卡，本日任务未完成",
       pStatus: 1,
+      loading: true,
       common,
       func
     }
   },
-  mounted() {
-
+  created() {
     this.loadData();
     // 设置头部信息
     this.$store.commit("setHeaderTitle", "");
@@ -78,6 +78,7 @@ export default {
       getPunchInStatus().then(data => {
         this.pStatus = 0;
         this.punchInStatus = "已打卡，本日任务已完成";
+        this.loading = false;
       }).catch(err => {
         if (err.code === 400016) {
           this.punchInStatus = err.message;
@@ -85,6 +86,7 @@ export default {
         } else {
           this.$toast(err.message)
         }
+        this.loading = false;
       });
     }
   }
@@ -107,12 +109,13 @@ export default {
 .mine-main-head {
   display: flex;
   align-items: center;
-  background-image: url("/images/mine/head-bg.png");
+  background-image: url("/img/mine/head-bg.png");
   background-size: cover;
   padding: 0.4em 0.8em 1.6em 0.8em;
 }
 .mine-user-text {
   flex: 1;
+  height: 12vw;
 }
 .mine-user-text h2 {
   color: #fff;

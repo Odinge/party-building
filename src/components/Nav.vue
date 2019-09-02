@@ -1,29 +1,26 @@
+<!--
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-05-12 15:38:10
+ * @LastEditTime: 2019-09-01 21:06:23
+ * @LastEditors: Please set LastEditors
+ -->
 <template>
   <nav id="nav">
-    <router-link to="/home">
-      <i class="iconfont icon-shouye tabNav-icon"></i>
-      <h3 class="tabNav-text">首页</h3>
-    </router-link>
-    <router-link to="/news">
-      <i class="iconfont icon-xinwen tabNav-icon"></i>
-      <h3 class="tabNav-text">要闻</h3>
-    </router-link>
-    <router-link to="/video">
-      <i class="iconfont icon-shipin tabNav-icon"></i>
-      <h3 class="tabNav-text">视频</h3>
-    </router-link>
-    <router-link to="/test">
-      <i class="iconfont icon-pingjia tabNav-icon"></i>
-      <h3 class="tabNav-text">测评</h3>
-    </router-link>
-    <router-link to="/mine">
-      <i class="iconfont icon-wode1 tabNav-icon"></i>
-      <h3 class="tabNav-text">我的</h3>
+    <router-link :to="tab.path" v-for="tab in tabNav" :key="tab.path">
+      <i class="iconfont tabNav-icon" :class="'icon-'+tab.meta.icon"></i>
+      <h3 class="tabNav-text">{{tab.meta.navTitle}}</h3>
     </router-link>
   </nav>
 </template>
 <script>
+import { tabNav } from "../router";
 export default {
+  data() {
+    return {
+      tabNav
+    }
+  }
 }
 </script>
 <style scoped>

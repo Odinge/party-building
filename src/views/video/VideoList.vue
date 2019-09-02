@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-19 21:45:41
- * @LastEditTime: 2019-09-01 10:27:55
+ * @LastEditTime: 2019-09-02 10:49:15
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -117,7 +117,7 @@ export default {
   /* left: 2%; */
   width: 2em;
   height: 2em;
-  background: #ff8053 url("/images/video/comment.png") center/58% no-repeat;
+  background: #ff8053 url("/img/video/comment.png") center/58% no-repeat;
   border-radius: 50%;
 }
 /* 弹幕信息 */

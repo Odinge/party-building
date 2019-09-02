@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: Odinge
  * @Date: 2019-05-14 23:30:00
- * @LastEditTime: 2019-09-01 14:14:22
+ * @LastEditTime: 2019-09-02 10:51:50
  * @LastEditors: Please set LastEditors
  */
 import Vue from "vue";
@@ -56,8 +56,8 @@ Vue.use(Icon)
 
 // 图片懒加载
 Vue.use(Lazyload, {
-  loading: "/images/comm/loading.gif",
-  error: "/images/comm/error.png"
+  loading: "/img/comm/loading.gif",
+  error: "/img/comm/error.png"
   // preLoad: 1.3
   // lazyComponent: true
 });
@@ -130,7 +130,7 @@ Vue.prototype.$download = function(
 // 注册全局状态
 Vue.prototype.states = ["disabled", "success", "unlogin"];
 // 默认头像
-Vue.prototype.defaultAvatar = "/images/mine/default-avatar.png";
+Vue.prototype.defaultAvatar = "/img/mine/default-avatar.png";
 
 Vue.prototype.toast1s = function(message) {
   this.$toast({ duration: 1000, message: message });

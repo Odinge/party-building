@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-12 13:12:27
- * @LastEditTime: 2019-08-27 19:29:51
+ * @LastEditTime: 2019-09-02 10:51:31
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -23,7 +23,7 @@ img {
 }
 
 .unfinished {
-  background: url("/images/comm/unfunction.png") center / cover;
+  background: url("/img/comm/unfunction.png") center / cover;
 }
 
 /* 登录控制 */
@@ -119,12 +119,12 @@ img {
 }
 /* .icon-zan::before {
   content: "";
-  background: url("/images/home/icon-zan.png") center/cover;
+  background: url("/img/comm/icon-zan.png") center/cover;
   width: 1.1em;
   height: 0.9em;
   transform: translateY(-0.15em);
 } */
-.iconfont {
+.app-container .iconfont {
   color: inherit;
   font-size: inherit;
 }
@@ -192,16 +192,16 @@ img {
   height: 1.5em;
 }
 .answer-finished {
-  background-image: url("/images/test/icon-follow-002.jpg");
+  background-image: url("/img/test/icon-follow-002.jpg");
 }
 .answer-no {
-  background-image: url("/images/test/icon-follow-001.jpg");
+  background-image: url("/img/test/icon-follow-001.jpg");
 }
 .answer-past {
-  background-image: url("/images/test/icon-follow-003.jpg");
+  background-image: url("/img/test/icon-follow-003.jpg");
 }
 .upload-icon {
-  background-image: url("/images/test/upload.png");
+  background-image: url("/img/test/upload.png");
 }
 .view-count {
   width: 18vw;

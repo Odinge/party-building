@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-12 19:10:21
- * @LastEditTime: 2019-08-28 19:55:56
+ * @LastEditTime: 2019-09-01 18:13:07
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -16,6 +16,7 @@
       </template>
     </div>
     <div class="app-header-title figcaption-1" :class="{ center }">
+      <!-- <div class="app-header-title van-ellipsis" :class="{ center }"> -->
       <slot>
         {{headerTitle}}
       </slot>
@@ -92,6 +93,7 @@ export default {
 }
 .app-header-title {
   flex: 1;
+  /* line-height: 1.2em; */
 }
 .app-header-right {
   width: 12%;
