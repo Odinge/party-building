@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-07-10 15:43:07
- * @LastEditTime: 2019-08-30 00:53:17
+ * @LastEditTime: 2019-09-04 16:00:42
  * @LastEditors: Please set LastEditors
  -->
 <!-- 意见反馈 -->
@@ -73,13 +73,13 @@ export default {
       this.$dialog.confirm({
         title: "提示",
         message: "确定反馈信息吗？",
-        confirmButtonColor: "#f44"
       }).then(() => {
         this.$toast.loading({
           mask: true,
           duration: 0,
           message: '反馈中...'
         });
+
         feedback(this.formData).then(data => {
           this.$toast.success("反馈成功");
           this.clear();

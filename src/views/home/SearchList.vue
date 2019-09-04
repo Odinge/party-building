@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-06-19 15:38:42
- * @LastEditTime: 2019-09-02 10:02:04
+ * @LastEditTime: 2019-09-04 14:21:54
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -83,9 +83,6 @@ export default {
       });
       return list;
     },
-    articleChange() {
-      return this.$store.state.articleChange;
-    }
   },
   methods: {
     // 初始化数据
@@ -118,11 +115,7 @@ export default {
     },
   },
   activated() {
-    if (this.articleChange) {
-      this.list = [];
-      this.$refs.load.onRefresh();
-      this.$store.commit("SET_ARTICLE_CHANGE", false); // 文章改变
-    }
+    this.$changeRefresh("article");
   }
 }
 </script>

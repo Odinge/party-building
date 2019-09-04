@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-07-10 08:53:18
- * @LastEditTime: 2019-08-27 22:11:09
+ * @LastEditTime: 2019-09-04 15:59:29
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -237,7 +237,6 @@ export default {
         this.$dialog.alert({
           title: "验证录",
           message: "验证码错误",
-          confirmButtonColor: "#f44"
         }).then(() => {
           this.ecode = "";
           target.focus();
@@ -335,7 +334,7 @@ export default {
             this.$dialog.alert({
               title: '提示',
               message: "信息修改成功",
-              confirmButtonColor: "#f44"
+
             }).then(() => {
               this.$router.back();
             });
@@ -345,7 +344,6 @@ export default {
         this.$dialog.alert({
           title: '提示',
           message: err.message,
-          confirmButtonColor: "#f44"
         });
       });
     },

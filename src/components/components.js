@@ -1,3 +1,10 @@
+/*
+ * @Description: In User Settings Edit
+ * @Author: Odinge
+ * @Date: 2019-05-20 08:51:25
+ * @LastEditTime: 2019-09-04 09:30:58
+ * @LastEditors: Please set LastEditors
+ */
 // 注册组件
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);

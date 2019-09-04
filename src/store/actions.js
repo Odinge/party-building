@@ -1,8 +1,8 @@
 /*
- * @Description: In User Settings Edit
- * @Author: your name
+ * @Description: 异步执行状态
+ * @Author: Odinge
  * @Date: 2019-05-12 14:49:11
- * @LastEditTime: 2019-09-02 10:53:18
+ * @LastEditTime: 2019-09-04 11:16:14
  * @LastEditors: Please set LastEditors
  */
 // 异步方法

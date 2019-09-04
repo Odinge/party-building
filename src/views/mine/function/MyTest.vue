@@ -2,11 +2,11 @@
  * @Description: 我的测试
  * @Author: Odinge
  * @Date: 2019-05-12 15:32:28
- * @LastEditTime: 2019-09-01 14:10:55
+ * @LastEditTime: 2019-09-04 18:28:30
  * @LastEditors: Please set LastEditors
  -->
 <template>
-  <list-load v-model="list" :funMap="funMap">
+  <list-load v-model="list" :funMap="funMap" ref="load">
     <ul class="test-list my-test">
       <li v-for="item in list" :key="item.recordId" class="test-item app-flex" @click="downloadFile(item)">
         <img :src="$getUrl(item.resultImgUrl)" alt="问卷" v-lazy="$getUrl(item.resultImgUrl)">
@@ -35,7 +35,7 @@ export default {
       answerMap: [
         { class: "answer-no", text: "未审核" },
         { class: "answer-finished", text: "已审核" },
-        { class: "answer-past", text: "已过期" },
+        { class: "answer-past", text: "不通过" },
       ],
       funMap: [getQuestionnaireRecords]
     }
@@ -48,6 +48,9 @@ export default {
         type: "png"
       });
     }
+  },
+  activated() {
+    this.$changeRefresh("test", true);
   }
 }
 </script>

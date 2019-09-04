@@ -2,12 +2,12 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-19 09:58:18
- * @LastEditTime: 2019-08-28 10:05:21
+ * @LastEditTime: 2019-09-04 16:27:48
  * @LastEditors: Please set LastEditors
  -->
 <template>
   <ul class="con-news">
-    <li v-for="(item, key) in list" :key="key">
+    <li v-for="item in list" :key="item.articleId">
       <router-link :to="{name:'article', params:{id:item.articleId}}" class="news-thing">
         <div class="news-info">
           <h4 class="figcaption">{{item.title}}</h4>

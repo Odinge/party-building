@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 13:26:54
- * @LastEditTime: 2019-09-01 14:09:48
+ * @LastEditTime: 2019-09-04 15:44:16
  * @LastEditors: Please set LastEditors
  -->
 <!-- 成果上传 -->
@@ -18,7 +18,7 @@
         <li v-for="item in aclist" :key="item.fileId" class="test-item app-flex" @click="downloadFile(item)">
           <img :src="$getDownloadUrlById(item.fileId)" alt="问卷" v-lazy="$getDownloadUrlById(item.fileId)">
           <div class="test-info">
-            <h4 class="figcaption">{{item.fileName}}</h4>
+            <h4 class="figcaption">{{item.fileName | filterName}}</h4>
             <p class="van-ellipsis">
               <van-icon name="clock-o"></van-icon>{{item.createDate}}
             </p>
@@ -46,6 +46,11 @@ export default {
       return this.list.filter(item => item.fileOwner === this.account);
     }
   },
+  filters: {
+    filterName(name) {
+      return name.slice(0, name.lastIndexOf("."));
+    }
+  },
   methods: {
 
     onRead(files, detail) {
@@ -59,10 +64,8 @@ export default {
 
       uploadAcFile(file).then(data => {
         const load = this.$refs.load;
-        load.onRefresh(() => {
-          this.$toast.success("成果上传成功");
-        });
-      }).catch(err => { this.$toast(err.message) });
+        load.onRefresh(() => this.$toast.success("成果上传成功"));
+      }).catch(err => this.$toast(err.message));
 
     },
     onBeforeRead(file) {

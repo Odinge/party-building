@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-12 13:12:27
- * @LastEditTime: 2019-09-02 10:46:23
+ * @LastEditTime: 2019-09-04 19:24:55
  * @LastEditors: Please set LastEditors
  */
 // import Vue from "vue";
@@ -33,28 +33,32 @@ router.beforeEach((to, form, next) => {
       next("/");
     } else {
       // 获取用户信息路由列表
-      const getUserInfoRoutes = [
-        "/mine",
-        "/setting",
-        "/setUserInfo",
-        "/article",
-        "/feedback",
-        "/myComment"
-      ];
+      // const getUserInfoRoutes = [
+      //   "/mine",
+      //   "/setUserInfo",
+      //   "/article",
+      //   "/feedback",
+      //   "/myComment"
+      // ];
+      // 是否拉取用户基本信息
+      // const requireUserInfo = getUserInfoRoutes.some(
+      //   r => to.fullPath.indexOf(r) !== -1
+      //   );
 
       // 是否拉取用户基本信息
-      const isGetUserInfo = getUserInfoRoutes.some(
-        r => to.fullPath.indexOf(r) !== -1
-      );
+      const requireUserInfo = to.meta.requireUserInfo;
 
       // 是否存在用户信息
       const hasName = !store.state.userInfo.name;
 
       // 不加载图标的
-      const noLoadIconList = ["/article"];
-      const isLoadIcon = !noLoadIconList.some(
-        r => to.fullPath.indexOf(r) !== -1
-      );
+      // const noLoadIconList = ["/article"];
+      // const isLoadIcon = !noLoadIconList.some(
+      //   r => to.fullPath.indexOf(r) !== -1
+      // );
+
+      // 是否不需要加载用户信息是=时加载图标
+      const isLoadIcon = !to.meta.noLoadIcon;
 
       // 完善用户信息
       function completeInfo(data) {
@@ -72,7 +76,7 @@ router.beforeEach((to, form, next) => {
       }
 
       // 做判断是否获取用户信息
-      if (isGetUserInfo && hasName) {
+      if (requireUserInfo && hasName) {
         let load = null;
         if (isLoadIcon) {
           load = Toast.loading({

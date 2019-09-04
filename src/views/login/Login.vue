@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-12 15:14:18
- * @LastEditTime: 2019-09-02 10:52:23
+ * @LastEditTime: 2019-09-04 16:01:38
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -112,7 +112,6 @@ export default {
           this.$dialog.alert({
             title: '提示',
             message: err.message,
-            confirmButtonColor: "#f44"
           }).then(() => {
             if (/密码/.test(err.message)) {
               this.user.password = "";

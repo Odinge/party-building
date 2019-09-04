@@ -2,50 +2,55 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-07-10 15:37:56
- * @LastEditTime: 2019-09-04 16:01:02
+ * @LastEditTime: 2019-09-04 17:07:39
  * @LastEditors: Please set LastEditors
  -->
 <template>
-  <list-load v-model="comments" :funMap="funMap" ref="load">
-    <ul class="comment-content" style="padding: 4vw;">
-      <li v-for="(comment, key) in comments" :key="key" v-if="comment.userId === sid">
-        <img :src="defaultAvatar" :alt="comment.name" v-lazy="defaultAvatar">
-        <div class="comment-box">
-          <div class="comment-info">
-            <span class="comment-name van-ellipsis">{{comment.userName}}</span>
-            <!-- <span class="comment-zan">
+  <!-- <list-load v-model="list" :funMap="funMap" ref="load"> -->
+  <ul class="comment-content">
+    <li v-for="comment in list" :key="comment.commentId">
+      <img :src="defaultAvatar" :alt="comment.name" v-lazy="defaultAvatar">
+      <div class="comment-box">
+        <div class="comment-info">
+          <span class="comment-name van-ellipsis">{{comment.userName}}</span>
+          <!-- <span class="comment-zan">
             {{comment.zan}}
             <i class="iconfont icon-zan" :class="comment.isLike?'icon-dianzan1':'icon-zan'" @click="comment.isLike=true"></i>
           </span> -->
-            <span class="comment-zan">
-              <van-icon name="delete" @click="deleteComment(comment.commentId)"></van-icon>
-            </span>
-          </div>
-          <!-- <p v-html="comment.content" @click="onComment(comment,'回复 '+comment.userName+' 的观点')"></p> -->
-          <p v-html="comment.content"></p>
-          <div class="comment-date">
-            <span class="comment-time">{{comment.createTime | dateAllFormat}}</span>
-            <em>•</em><span>回复</span>
-          </div>
+          <span class="comment-zan" v-if="comment.userId === userId">
+            <van-icon name="delete" @click="deleteComment(comment.commentId)"></van-icon>
+          </span>
         </div>
-      </li>
-    </ul>
-  </list-load>
+        <!-- <p v-html="comment.content" @click="onComment(comment,'回复 '+comment.userName+' 的观点')"></p> -->
+        <p v-html="comment.content"></p>
+        <div class="comment-date">
+          <span class="comment-time">{{comment.createTime | dateAllFormat}}</span>
+          <em>•</em><span>回复</span>
+        </div>
+      </div>
+    </li>
+  </ul>
+  <!-- </list-load> -->
 </template>
 
 <script>
-import { getAllComment, deleteComment } from "../../../api/article";
+import { deleteComment } from "../api/article";
 export default {
+  props: {
+    list: {
+      type: Array
+    }
+  },
   data() {
     return {
-      funMap: [getAllComment],
-      comments: [],
+      // funMap: [getAllComment],
+      // list: [],
     }
   },
   computed: {
-    sid() {
+    userId() {
       return this.$store.state.userInfo.sid;
-    }
+    },
   },
   methods: {
     // 评价
@@ -57,26 +62,18 @@ export default {
     // 删除评价
     deleteComment(commentId) {
       this.$dialog.confirm({
-        title: '提示',
+        title: "提示",
         message: "确定要删除此评价？",
       }).then(() => {
-
-        const load = this.$refs.load;
-
-
         this.$toast.loading({
           mask: true,
           duration: 0,
-          message: '删除评价中...'
+          message: "删除评价中..."
         });
         deleteComment(commentId).then(data => {
-
-          load.onRefresh(() => {
-            this.toast1s("已删除评价");
-          });
+          this.$emit("refreshList"); // 刷新列表
         }).catch(err => { this.$toast(err.message) });
       }).catch(err => { });
-
     }
   }
 }
@@ -84,9 +81,6 @@ export default {
 
 <style>
 /* 评价区 */
-.comment-content {
-  background-color: #fff;
-}
 .comment-content li {
   display: flex;
   padding: 5vw 0;

@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-17 13:02:09
- * @LastEditTime: 2019-08-27 21:55:10
+ * @LastEditTime: 2019-09-04 16:00:07
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -63,7 +63,6 @@ export default {
       this.$dialog.confirm({
         title: '忘记录',
         message: "忘记密码咯？",
-        confirmButtonColor: "#f44"
       }).then(() => {
         this.$router.push("/forget");
       }).catch(err => { });
@@ -77,7 +76,6 @@ export default {
       this.$dialog.confirm({
         title: '提示录',
         message: "确定修改密码？",
-        confirmButtonColor: "#f44"
       }).then(() => {
         // 加载提示
         const load = this.$toast.loading({
@@ -92,7 +90,6 @@ export default {
           this.$dialog.alert({
             title: '成功录',
             message: "密码修改成功，请重新登录！！",
-            confirmButtonColor: "#f44"
           }).then(() => {
             this.$toast.loading({
               mask: true,

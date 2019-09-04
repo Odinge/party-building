@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: Odinge
  * @Date: 2019-05-14 23:30:00
- * @LastEditTime: 2019-09-02 10:51:50
+ * @LastEditTime: 2019-09-04 18:30:07
  * @LastEditors: Please set LastEditors
  */
 import Vue from "vue";
@@ -54,6 +54,9 @@ Vue.use(Icon)
   .use(Progress)
   .use(CellGroup);
 
+// 设置对话框默认样式
+Dialog.setDefaultOptions({ confirmButtonColor: "#f44" });
+
 // 图片懒加载
 Vue.use(Lazyload, {
   loading: "/img/comm/loading.gif",
@@ -76,6 +79,26 @@ Vue.prototype.$baseUrl = "/api";
 Vue.prototype.$localUrl = "/api";
 // Vue.prototype.$baseUrl = "/";
 // Vue.prototype.$baseUrl = "";
+
+// 文章被改变
+Vue.prototype.$articleChange = function(changeState = true) {
+  this.$store.commit("SET_CONTENT_CHANGE", { type: "article", changeState });
+};
+
+// 内容被改变
+Vue.prototype.$contentChange = function(type, changeState = true) {
+  this.$store.commit("SET_CONTENT_CHANGE", { type, changeState });
+};
+
+// 改变刷新
+Vue.prototype.$changeRefresh = function(type, isClear = false) {
+  const isChange = this.$store.state.contentChange[type + "Change"];
+  isClear && this.$contentChange(type, false);
+  if (this.list.length && isChange) {
+    this.list = [];
+    this.$refs.load.onRefresh();
+  }
+};
 
 // 获取网址
 Vue.prototype.$getUrl = function(url) {
@@ -152,6 +175,7 @@ Vue.prototype.countDown = function(option = {}, callback) {
     mask,
     message: `倒计时 ${second} 秒\n${content}`
   });
+
   // 到时清除
   const timer = setInterval(() => {
     second--;
@@ -168,6 +192,7 @@ Vue.prototype.countDown = function(option = {}, callback) {
     clearTimer();
   }
 
+  // 清除定时器
   function clearTimer() {
     clearInterval(timer);
     toast.clear();

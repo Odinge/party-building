@@ -1,8 +1,8 @@
 /*
  * @Description: In User Settings Edit
- * @Author: your name
+ * @Author: Oding
  * @Date: 2019-05-12 14:50:16
- * @LastEditTime: 2019-09-02 09:48:26
+ * @LastEditTime: 2019-09-04 11:15:27
  * @LastEditors: Please set LastEditors
  */
 
@@ -26,3 +26,6 @@ export const SET_PREV_SAME_PATH = "SET_PREV_SAME_PATH";
 
 // 判断文章信息是否改变
 export const SET_ARTICLE_CHANGE = "SET_ARTICLE_CHANGE";
+
+// 判断内容信息是否改变
+export const SET_CONTENT_CHANGE = "SET_CONTENT_CHANGE";

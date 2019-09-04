@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-12 13:12:27
- * @LastEditTime: 2019-09-02 10:50:52
+ * @LastEditTime: 2019-09-04 19:45:14
  * @LastEditors: Please set LastEditors
  */
 import Vue from "vue";
@@ -15,7 +15,12 @@ export const setting = [
   {
     path: "setUserInfo",
     name: "setUserInfo",
-    meta: { title: "用户信息", icon: "contact", showHead: true },
+    meta: {
+      title: "用户信息",
+      icon: "contact",
+      showHead: true,
+      requireUserInfo: true
+    },
     component: () =>
       import(
         /* webpackChunkName: "setUserInfo" */ "../views/mine/setting/SetUserInfo.vue"
@@ -52,7 +57,8 @@ export const common = [
     meta: {
       title: "学习成果",
       icon: "/img/mine/icon-ge-003.png",
-      showHead: true
+      showHead: true,
+      keepAlive: true
     },
     component: () =>
       import(
@@ -65,7 +71,8 @@ export const common = [
     meta: {
       title: "常用下载",
       icon: "/img/mine/icon-ge-005.png",
-      showHead: true
+      showHead: true,
+      keepAlive: true
     },
     component: () =>
       import(
@@ -119,7 +126,9 @@ export const func = [
     meta: {
       title: "我的评价",
       icon: "/img/mine/icon-qe-008.png",
-      showHead: true
+      showHead: true,
+      keepAlive: true,
+      requireUserInfo: true
     },
     component: () =>
       import(
@@ -132,7 +141,8 @@ export const func = [
     meta: {
       title: "我的测试",
       icon: "/img/mine/icon-qe-009.png",
-      showHead: true
+      showHead: true,
+      keepAlive: true
     },
     component: () =>
       import(
@@ -159,8 +169,8 @@ export const func = [
     meta: {
       title: "我的收藏",
       icon: "/img/mine/icon-qe-011.png",
-      showHead: true
-      // keepAlive: true
+      showHead: true,
+      keepAlive: true
     },
     component: () =>
       import(
@@ -173,7 +183,8 @@ export const func = [
     meta: {
       title: "意见反馈",
       icon: "/img/mine/icon-qe-012.png",
-      showHead: true
+      showHead: true,
+      requireUserInfo: true
     },
     component: () =>
       import(
@@ -247,7 +258,9 @@ export const tabNav = [
       navTitle: "我的",
       icon: "wode",
       showNav: true,
-      noBack: true
+      noBack: true,
+      keepAlive: true,
+      requireUserInfo: true
     },
     component: () =>
       import(/* webpackChunkName: "mime" */ "../views/mine/Mine.vue"),
@@ -255,6 +268,7 @@ export const tabNav = [
   }
 ];
 
+// 路由列表
 const routes = [
   // 登录注册
   {
@@ -285,6 +299,9 @@ const routes = [
     meta: { requiresAuth: true },
     children: [
       ...tabNav, // 底部导航
+      ...common, // 常用
+      ...func, // 用户功能
+      ...setting, // 设置
       {
         path: "setting",
         name: "setting",
@@ -294,9 +311,6 @@ const routes = [
             /* webpackChunkName: "setting" */ "../views/mine/setting/Setting.vue"
           )
       },
-      ...setting, // 设置
-      ...common, // 常用
-      ...func, // 用户功能
       {
         path: "more/:compName/:title",
         name: "more",
@@ -314,7 +328,7 @@ const routes = [
       {
         path: "article/:id",
         name: "article",
-        // meta: { keepAlive: true },
+        meta: { requireUserInfo: true, noLoadIcon: true },
         component: () =>
           import(
             /* webpackChunkName: "airticle" */ "../views/article/Article.vue"

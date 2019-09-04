@@ -2,12 +2,12 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-21 08:26:58
- * @LastEditTime: 2019-09-01 18:14:10
+ * @LastEditTime: 2019-09-04 16:27:02
  * @LastEditors: Please set LastEditors
  -->
 <template>
   <ul class="con-notice">
-    <li v-for="(item,key) in list" :key="key">
+    <li v-for="item in list" :key="item.articleId">
       <router-link :to="{name: 'article', params: {id: item.articleId}}" class="notice-box">
         <h4 class="figcaption">{{item.title}}</h4>
         <p class="notice-content van-ellipsis " v-domtext="item.content"></p>

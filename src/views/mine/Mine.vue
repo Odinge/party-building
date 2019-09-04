@@ -1,8 +1,8 @@
 <!--
- * @Description: In User Settings Edit
- * @Author: your name
+ * @Description: 我的
+ * @Author: Odinge
  * @Date: 2019-05-12 16:45:12
- * @LastEditTime: 2019-09-02 10:52:44
+ * @LastEditTime: 2019-09-04 20:21:29
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -26,24 +26,24 @@
       </div>
       <div class="mine-main-content">
         <ul class="mime-content-grid">
-          <li v-for="item in common" :key="item.name">
-            <router-link :to="item.path">
-              <img :src="item.meta.icon">
-              <h3>{{item.meta.title}}</h3>
-            </router-link>
-          </li>
+          <!-- <li v-for="item in common" :key="item.name"> -->
+          <router-link :to="item.path" v-for="item in common" :key="item.name" tag="li">
+            <img :src="item.meta.icon">
+            <h3>{{item.meta.title}}</h3>
+          </router-link>
+          <!-- </li> -->
         </ul>
         <div class="mime-content-mv">
           <!-- <video-controls src="/videos/video-1.mp4"></video-controls> -->
           <img src="/img/mine/mine-ad.png">
         </div>
         <ul class="mime-content-list">
-          <li v-for="item in func" :key="item.name">
-            <router-link :to="item.path">
-              <img :src="item.meta.icon">
-              <span>{{item.meta.title}}</span>
-            </router-link>
-          </li>
+          <!-- <li v-for="item in func" :key="item.name"> -->
+          <router-link :to="item.path" v-for="item in func" :key="item.name" tag="li">
+            <img :src="item.meta.icon">
+            <span>{{item.meta.title}}</span>
+          </router-link>
+          <!-- </li> -->
         </ul>
       </div>
     </div>
@@ -52,7 +52,7 @@
 
 <script>
 import * as types from "../../store/types";
-import { mapState, mapMutations } from "vuex";
+import { mapState } from "vuex";
 import { common, func } from "../../router";
 import { getPunchInStatus } from "../../api/mine";
 export default {
@@ -68,7 +68,7 @@ export default {
   created() {
     this.loadData();
     // 设置头部信息
-    this.$store.commit("setHeaderTitle", "");
+    // this.$store.commit("setHeaderTitle", "");
   },
   computed: {
     ...mapState(["userInfo"]),
@@ -88,6 +88,15 @@ export default {
         }
         this.loading = false;
       });
+    }
+  },
+  activated() {
+    this.$store.commit("setHeaderTitle", "");
+    const { punchChange } = this.$store.state.contentChange;
+
+    if (punchChange) {
+      this.loadData();
+      this.$contentChange("punch", false);
     }
   }
 }
@@ -164,8 +173,13 @@ export default {
   align-content: space-around;
   padding: 1.2em 0;
 }
-.mime-content-grid a,
+/* .mime-content-grid a,
 .mime-content-list a {
+  display: inline-block;
+  width: 19vw;
+} */
+.mime-content-grid li,
+.mime-content-list li {
   display: inline-block;
   width: 19vw;
 }

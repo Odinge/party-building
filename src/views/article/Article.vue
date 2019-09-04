@@ -1,8 +1,8 @@
 <!--
  * @Description: In User Settings Edit
- * @Author: your name
+ * @Author: Odinge
  * @Date: 2019-05-16 00:39:59
- * @LastEditTime: 2019-09-02 10:49:35
+ * @LastEditTime: 2019-09-04 19:52:19
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -26,7 +26,6 @@
           <div class="center">
             <div class=" readTime" v-if="!haveRead">
               <span>已阅读时间(阅读{{baseReadTime/60}}分钟即可打卡)</span>
-              <!-- <van-progress :percentage="readTime/baseReadTime" :pivot-text="readTime" pivot-color="#7232dd" color="linear-gradient(to right, #be99ff, #7232dd)" /> -->
               <van-progress :percentage="readPercent" :pivot-text="readTimeText" pivot-color="rgb(242, 136, 19)" color="linear-gradient(to right, rgb(252, 255, 153), rgb(242, 136, 19))" />
             </div>
             <button class="btn-finish" @click="finishRead" v-if="!haveRead" :disabled="readDisabled">完成阅读</button>
@@ -37,30 +36,8 @@
         <!-- 评价区域 -->
         <div class="comment-area">
           <h4 id="comment">观点</h4>
-          <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad" v-if="hasComment">
-            <ul class="comment-content">
-              <li v-for="(comment, key) in comments" :key="key">
-                <img :src="defaultAvatar" :alt="comment.name" v-lazy="defaultAvatar">
-                <div class="comment-box">
-                  <div class="comment-info">
-                    <span class="comment-name van-ellipsis">{{comment.userName}}</span>
-                    <!-- <span class="comment-zan">
-                      {{comment.zan}}
-                      <i class="iconfont icon-zan" :class="comment.isLike?'icon-dianzan':'icon-zan'" @click="comment.isLike=true"></i>
-                    </span> -->
-                    <span class="comment-zan" v-if="comment.userId === userInfo.sid">
-                      <van-icon name="delete" @click="deleteComment(comment.commentId)"></van-icon>
-                    </span>
-                  </div>
-                  <!-- <p v-html="comment.content" @click="onComment(comment,'回复 '+comment.userName+' 的观点')"></p> -->
-                  <p v-html="comment.content"></p>
-                  <div class="comment-date">
-                    <span class="comment-time">{{comment.createTime | dateAllFormat}}</span>
-                    <em>•</em><span>回复</span>
-                  </div>
-                </div>
-              </li>
-            </ul>
+          <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad" v-if="hasComment" :error.sync="commentError" error-text="请求失败，点击重新加载">
+            <comment-list :list="comments" @refreshList="refreshComment"></comment-list>
           </van-list>
           <div class="no-comment" v-else>
             <img src="/img/comm/no-comment.png" alt="无观点">
@@ -82,12 +59,12 @@
         <span class="zan-count">{{article.likeCount}}</span>
       </div>
     </div>
-    <comment v-model="showComment" :placeholder="placeholder" :target="target" @updateComment="onLoad"></comment>
+    <comment-input v-model="showComment" :placeholder="placeholder" :target="target" @updateComment="onLoad"></comment-input>
   </div>
 </template>
 
 <script>
-import { getArticle, getArticleInfo, studyFinish, getComment, getLikeStatus, getCollectionStatus, addLike, addCollection, deleteComment, cancelLike, cancelCollection, getLikeCount } from "../../api/article";
+import { getArticle, getArticleInfo, studyFinish, getComment, getLikeStatus, getCollectionStatus, addLike, addCollection, cancelLike, cancelCollection, getLikeCount } from "../../api/article";
 import { getPunchInStatus } from "../../api/mine";
 export default {
   props: ["id"],
@@ -121,6 +98,7 @@ export default {
       showComment: false, // 是否显示评论
       placeholder: "", // 消息对象的提示字
       target: null, // 当前点击的消息对象
+      commentError: false // 评价加载出错
     }
   },
   computed: {
@@ -146,7 +124,9 @@ export default {
       return this.baseReadTime * this.readNum;
     },
   },
-  mounted() {
+  created() {
+    // 重置文章修改
+    this.$articleChange(false);
     // 加载提示
     this.pageLoad = this.$toast.loading({ duration: 0, forbidClick: true, message: "疯狂加载中..." });
     this.loadData();
@@ -205,7 +185,11 @@ export default {
         // 数据全部加载完成
         this.finished = true;
         backcall && backcall(); // 执行回调
-      }).catch(err => { this.$toast(err.message) });
+      }).catch(err => {
+        this.loading = false;
+        this.finished = true;
+        this.commentError = true;
+      });
     },
 
     // 开始阅读
@@ -294,6 +278,7 @@ export default {
     getPunchInStatus() {
       getPunchInStatus().then(data => {
         this.$toast.success("已完成当日\n     打卡");
+        this.$contentChange("punch");
       }).catch(err => {
         if (err.code === 400016) {
           this.$toast.success("     真   棒\n    ~ ^_^ ~\n继续阅读下篇\n  文章打卡哟");
@@ -310,6 +295,11 @@ export default {
       this.showComment = true;
     },
 
+    // 刷新评价
+    refreshComment() {
+      this.onLoad(() => this.toast1s("已删除评价"));
+    },
+
     // 收藏
     collect(article) {
       const obj = [
@@ -317,13 +307,13 @@ export default {
         { fun: cancelCollection, success: "已取消收藏" },
       ][+article.isCollect];
       // 两大功能交互
-      obj.fun(this.id).then(() => {
+      obj.fun(article.articleId).then(() => {
         article.isCollect = !article.isCollect;
         this.toast1s(obj.success);
       }).catch(err => {
         this.toast1s(err.message);
       }).finally(() => {
-        this.$store.commit("SET_ARTICLE_CHANGE", true); // 文章改变
+        this.$articleChange();
       });
     },
 
@@ -350,25 +340,6 @@ export default {
         this.toast1s(err.message);
       });
     },
-
-    // 删除评价
-    deleteComment(commentId) {
-      this.$dialog.confirm({
-        title: '提示',
-        message: "确定要删除此评价？",
-        confirmButtonColor: "#f44"
-      }).then(() => {
-        this.$toast.loading({
-          mask: true,
-          duration: 0,
-          message: '删除评价中...'
-        });
-        deleteComment(commentId).then(data => {
-          this.onLoad(() => this.toast1s("已删除评价"));
-        }).catch(err => this.$toast(err.message));
-      }).catch(err => { });
-
-    }
   },
 }
 </script>
@@ -385,10 +356,6 @@ export default {
   position: relative;
   font-size: 4.5vw;
   font-family: "幼圆";
-}
-.article img {
-  width: 100%;
-  height: 100%;
 }
 .bg {
   background-color: #fafbfd;
@@ -452,49 +419,6 @@ export default {
   color: rgb(78, 81, 83);
   font-size: 1.1em;
   font-weight: bold;
-}
-.comment-content li {
-  display: flex;
-  padding: 5vw 0;
-  border-top: 1px solid rgb(248, 247, 247);
-}
-.comment-content li:last-child {
-  border-bottom: 1px solid rgb(248, 247, 247);
-}
-.comment-content img {
-  width: 8vw;
-  height: 8vw;
-  border-radius: 50%;
-}
-.comment-box {
-  margin-left: 4vw;
-  flex: 1;
-}
-.comment-info {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 0.9em;
-}
-.comment-name {
-  color: rgb(189, 147, 42);
-  width: 50vw;
-}
-.comment-zan {
-  color: rgb(179, 179, 179);
-}
-.comment-box p {
-  margin: 4vw 0;
-  line-height: 1.5em;
-}
-.comment-date {
-  font-size: 0.8em;
-}
-.comment-date .comment-time {
-  color: rgb(180, 180, 180);
-}
-.comment-date em {
-  margin: 0 1vw;
 }
 .no-comment {
   border-top: 1px solid rgb(248, 247, 247);

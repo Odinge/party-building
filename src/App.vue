@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-12 13:12:27
- * @LastEditTime: 2019-09-02 10:51:31
+ * @LastEditTime: 2019-09-04 20:10:57
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -134,7 +134,7 @@ img {
 .hide {
   display: none;
 }
-.bg-#fff {
+.bg-fff {
   background-color: #fff;
 }
 
@@ -144,12 +144,18 @@ img {
 .center {
   text-align: center;
 }
+.bg-f8 {
+  background-color: #f8f8f8;
+}
+
+.card {
+  margin: 2vw;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 8px 12px #ebedf0;
+}
 
 /* =======================测试相关====================== */
-
-.test-list {
-  padding-bottom: 1em;
-}
 .test-item {
   box-sizing: border-box;
   width: 100%;
@@ -191,14 +197,17 @@ img {
   width: 1.5em;
   height: 1.5em;
 }
-.answer-finished {
-  background-image: url("/img/test/icon-follow-002.jpg");
-}
 .answer-no {
   background-image: url("/img/test/icon-follow-001.jpg");
 }
-.answer-past {
+.answer-finished {
+  background-image: url("/img/test/icon-follow-002.jpg");
+}
+.answer-upload {
   background-image: url("/img/test/icon-follow-003.jpg");
+}
+.answer-past {
+  background-image: url("/img/test/icon-follow-004.jpg");
 }
 .upload-icon {
   background-image: url("/img/test/upload.png");

@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-19 21:45:41
- * @LastEditTime: 2019-09-02 10:49:15
+ * @LastEditTime: 2019-09-04 16:27:54
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -60,7 +60,6 @@ export default {
           query: { openComment: 1 }
         }
       );
-
     },
     // 收藏
     collect(article) {
@@ -77,6 +76,8 @@ export default {
         this.toast1s(obj.success);
       }).catch(err => {
         this.toast1s(err.message);
+      }).finally(() => {
+        this.$articleChange();
       });
     },
   }

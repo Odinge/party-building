@@ -1,21 +1,18 @@
 <!--
- * @Description: In User Settings Edit
- * @Author: your name
+ * @Description: 学习情况
+ * @Author: Odinge
  * @Date: 2019-07-10 15:45:34
- * @LastEditTime: 2019-08-24 09:33:05
+ * @LastEditTime: 2019-09-04 20:11:47
  * @LastEditors: Please set LastEditors
  -->
-<!-- 学习情况 -->
 <template>
-  <list-load v-model="list" :funMap="funMap" ref="load">
-    <ul class="learn">
-      <li v-for="item in list" :key="item.recordId">
-        <router-link :to="{name: 'article', params: {id: item.articleId}}" class="learn-item">
-          <h3 class="figcaption">{{item.articleTitle}}</h3>
-          <p><span class="learn-time">最近打开时间</span> {{item.openTime}}</p>
-          <p><span class="learn-time finish-time">阅读完成时间</span> {{item.accomplishTime}}</p>
-        </router-link>
-      </li>
+  <list-load v-model="list" :funMap="funMap" ref="load" class="bg-f8">
+    <ul>
+      <router-link v-for="item in list" :key="item.recordId" :to="{name: 'article', params: {id: item.articleId}}" class="learn-item card" tag="li">
+        <h3 class="figcaption">{{item.articleTitle}}</h3>
+        <p><span class="learn-time">最近打开时间</span> {{item.openTime}}</p>
+        <p><span class="learn-time finish-time">阅读完成时间</span> {{item.accomplishTime}}</p>
+      </router-link>
     </ul>
   </list-load>
 </template>
@@ -33,9 +30,6 @@ export default {
 </script>
 
 <style>
-.learn {
-  background: #f8f8f8;
-}
 .learn-item {
   display: flex;
   flex-direction: column;

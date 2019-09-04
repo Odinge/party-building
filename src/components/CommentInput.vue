@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-26 13:51:12
- * @LastEditTime: 2019-08-28 16:01:08
+ * @LastEditTime: 2019-09-04 14:32:52
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -21,7 +21,7 @@
 <script>
 import { addComment } from "../api/article";
 export default {
-  name: "comment",
+  name: "commentInput",
   props: {
     value: {
       required: true
@@ -68,6 +68,7 @@ export default {
       this.close();
       addComment(this.articleId, comment).then(data => {
         this.$toast({ duration: 1000, message: "评价成功" });
+        this.$contentChange("comment");
         this.$emit("updateComment", () => {
           this.comment = ''; // 清除评价
         });

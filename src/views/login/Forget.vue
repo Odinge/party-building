@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-17 13:02:09
- * @LastEditTime: 2019-08-29 23:42:46
+ * @LastEditTime: 2019-09-04 16:01:53
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -40,7 +40,6 @@ export default {
       this.$dialog.alert({
         title: '忘记录',
         message: "重置密码会将重置连接发送到您的邮箱里，如果没有完善邮箱信息\n请联系管理员修改！",
-        confirmButtonColor: "#f44"
       }).then(() => {
         this.toast1s('不要再忘记密码哦');
       });
@@ -57,7 +56,6 @@ export default {
         this.$dialog.alert({
           title: "完成录",
           message: "申请成功请检查邮箱\n 正在前往登陆...",
-          confirmButtonColor: "#f44"
         }).then(() => {
           if (this.$store.state.token) {
             this.$store.dispatch("logout").then(res => {

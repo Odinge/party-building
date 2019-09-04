@@ -2,15 +2,14 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-07-10 15:39:54
- * @LastEditTime: 2019-09-01 19:32:09
+ * @LastEditTime: 2019-09-04 20:20:24
  * @LastEditors: Please set LastEditors
  -->
 <!-- 我的收藏 -->
 <template>
-  <!-- :onChangeList="changeList" -->
-  <list-load v-model="list" :funMap="funMap" @changeList="changeList" class="collect-load">
+  <list-load v-model="list" :funMap="funMap" @changeList="changeList" class="collect-load bg-f8" ref="load">
     <ul class="collection">
-      <li v-for="item in collections" :key="item.articleId">
+      <li v-for="item in collections" :key="item.articleId" class="card">
         <router-link :to="{name: 'article', params: {id: item.articleId}}" class="collect-box" :disabled="item.isDelete === true">
           <h4 class="figcaption">{{item.title}}</h4>
           <p class="collect-content van-ellipsis " v-domtext="item.content"></p>
@@ -22,30 +21,26 @@
             </span>
           </div>
         </router-link>
-        <!-- <template>
-
-        </template> -->
       </li>
     </ul>
   </list-load>
 </template>
 
 <script>
-import { getAllCollectionRecord, getArticle, cancelCollection } from "../../../api/article";
+import { getAllCollectionRecord, getArticle } from "../../../api/article";
 // import VideoList from "../../video/VideoList";
 export default {
   // components: { VideoList },
   data() {
     return {
       list: [],
-      // collection: [],
       funMap: [getAllCollectionRecord]
     }
   },
   computed: {
     collections() {
       return this.list.filter(item => item.articleId && !item.isDelete);
-    }
+    },
   },
   methods: {
     // 获取文章
@@ -74,14 +69,21 @@ export default {
           }
         }
       });
+      if (list.length === 0) {
+        that.finishedText = "没有更多了";
+      }
     },
+  },
+  activated() {
+    this.$changeRefresh("article");
   }
 }
 </script>
 
 <style>
 .collect-load .van-pull-refresh__head {
-  background-color: #fff;
+  /* background-color: #fff; */
+  background-color: #f8f8f8;
 }
 .collection {
   padding-bottom: 2vw;

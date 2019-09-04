@@ -2,12 +2,12 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-21 08:23:04
- * @LastEditTime: 2019-08-26 15:57:06
+ * @LastEditTime: 2019-09-04 16:26:34
  * @LastEditors: Please set LastEditors
  -->
 <template>
   <ul class="con-dynamics">
-    <li v-for="(item, key) in list" :key="key">
+    <li v-for="item in list" :key="item.articleId">
       <router-link :to="{name: 'article', params: {id: item.articleId}}" class="dy-thing">
         <img :src="item.url" v-lazy="item.url">
         <!-- <img :src="'/api/image/1.jpg'" v-lazy="'/api/image/1.jpg'"> -->
