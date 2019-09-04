@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-26 13:51:12
- * @LastEditTime: 2019-09-04 14:32:52
+ * @LastEditTime: 2019-09-05 00:48:48
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -10,10 +10,11 @@
     <div class="comment-wrap">
       <div class="comment-header">
         <span @click="close">取消</span>
-        <span @click="publish">发布</span>
+        <span @click="publish" :disabled="disabled">发布</span>
       </div>
       <!-- <input type="text" v-model="comment" class="comment-ipt" :placeholder="placeholder" ref="comIpt"> -->
       <textarea v-model="comment" class="comment-ipt" :placeholder="placeholder" ref="comIpt"></textarea>
+      <div class="comment-words">(不少于{{allowedLen}}个字) 字数：{{commentLen}}</div>
     </div>
   </van-popup>
 </template>
@@ -38,6 +39,7 @@ export default {
     return {
       show: false,
       comment: "",
+      allowedLen: 5,
       // 不允许文本
       unallowedText: ["垃圾", "sb"]
     }
@@ -45,6 +47,12 @@ export default {
   computed: {
     articleId() {
       return this.$route.params.id;
+    },
+    commentLen() {
+      return this.comment.length;
+    },
+    disabled() {
+      return this.commentLen < this.allowedLen;
     }
   },
   methods: {
@@ -113,5 +121,11 @@ export default {
   border-color: #ccc;
   overflow: auto;
   font-size: 1em;
+}
+.comment-words {
+  text-align: right;
+  margin-top: 2vw;
+  font-size: 0.8em;
+  color: rgb(233, 122, 122);
 }
 </style>

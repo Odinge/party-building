@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: Odinge
  * @Date: 2019-05-16 00:39:59
- * @LastEditTime: 2019-09-04 23:01:18
+ * @LastEditTime: 2019-09-05 00:24:16
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -148,7 +148,7 @@ export default {
   },
   watch: {
     showComment(show) {
-      if (show && this.haveRead) {
+      if (show && !this.haveRead) {
         this.clearReadTimer();
       } else if (!this.haveRead) {
         this.beginRead();
