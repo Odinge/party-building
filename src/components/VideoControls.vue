@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-21 11:01:15
- * @LastEditTime: 2019-09-02 10:49:00
+ * @LastEditTime: 2019-09-04 21:25:52
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -79,6 +79,8 @@ export default {
       canvas.height = video.offsetHeight;
       canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height); // getContext:设置画布环境；drawImage:画画 
       const img = document.createElement("img");
+      img.width = canvas.width;
+      img.height = canvas.height;
       canvas.toBlob((blob) => {
         const url = URL.createObjectURL(blob);
         img.src = url;
@@ -121,6 +123,7 @@ export default {
   height: 100%;
   z-index: 99;
 }
+
 .tag-playpause {
   display: flex;
   justify-content: center;

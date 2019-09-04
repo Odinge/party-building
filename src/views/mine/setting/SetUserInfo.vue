@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-07-10 08:53:18
- * @LastEditTime: 2019-09-04 15:59:29
+ * @LastEditTime: 2019-09-04 20:24:59
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -258,7 +258,7 @@ export default {
 
       // ======================发送邮件api修改处====================================
       // sendEmail(to, subject, body).then(data => {
-      console.log(code);
+      // console.log(code);
       this.$dialog.alert({
         title: "邮件录",
         message: `发送成功，验证码请到 \n${this.regInfo.email} \n查看`,
