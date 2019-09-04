@@ -2,33 +2,31 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-21 08:26:58
- * @LastEditTime: 2019-09-04 16:27:02
+ * @LastEditTime: 2019-09-04 23:25:36
  * @LastEditors: Please set LastEditors
  -->
 <template>
   <ul class="con-notice">
-    <li v-for="item in list" :key="item.articleId">
-      <router-link :to="{name: 'article', params: {id: item.articleId}}" class="notice-box">
-        <h4 class="figcaption">{{item.title}}</h4>
-        <p class="notice-content van-ellipsis " v-domtext="item.content"></p>
-        <div class="notice-footer app-flex">
-          <span class="van-ellipsis" style="width:45%">{{item.author}}</span>
-          <div class="app-flex notice-op">
-            <span class="van-ellipsis view-count">
-              <van-icon name="eye" class="middle"></van-icon>
-              {{+item.viewCount}}
-            </span>
-            <!-- <span class="app-flex">
+    <router-link v-for="item in list" :key="item.articleId" :to="{name: 'article', params: {id: item.articleId}}" tag="li" class="notice-box">
+      <h4 class="figcaption">{{item.title}}</h4>
+      <p class="notice-content van-ellipsis " v-domtext="item.content"></p>
+      <div class="notice-footer app-flex">
+        <span class="van-ellipsis" style="width:45%">{{item.author}}</span>
+        <div class="app-flex notice-op">
+          <span class="van-ellipsis view-count">
+            <van-icon name="eye" class="middle"></van-icon>
+            {{+item.viewCount}}
+          </span>
+          <!-- <span class="app-flex">
               <i class="iconfont icon-dianzan1"></i>
               {{item.praiseNum}}
             </span> -->
-            <span class="app-flex con-time">
-              <van-icon name="clock-o"></van-icon>{{item.updatetime | dateFormat}}
-            </span>
-          </div>
+          <span class="app-flex con-time">
+            <van-icon name="clock-o"></van-icon>{{item.updatetime | dateFormat}}
+          </span>
         </div>
-      </router-link>
-    </li>
+      </div>
+    </router-link>
   </ul>
 </template>
 
@@ -47,10 +45,7 @@ export default {
 
 <style>
 .con-notice {
-  padding-bottom: 2vw;
-}
-.con-notice li {
-  padding-bottom: 3vw;
+  padding-bottom: 1px;
   background-color: #f8f8f8;
 }
 .notice-box {
@@ -59,6 +54,7 @@ export default {
   padding: 4vw;
   background-color: #fff;
   font-size: 4.5vw;
+  margin-bottom: 3vw;
 }
 .notice-box h4 {
   font-weight: bold;

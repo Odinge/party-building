@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-19 21:45:41
- * @LastEditTime: 2019-09-04 16:27:54
+ * @LastEditTime: 2019-09-04 22:55:45
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -17,7 +17,7 @@
       </div>
       <div class="flex">
         <!-- 视屏信息区 -->
-        <router-link :to="{name:'article', params:{id:item.articleId}}" class="video-info">
+        <router-link :to="{name:'article', params:{id:item.articleId}}" class="video-info" tag="div">
           <!-- 主题 -->
           <div class="app-flex">
             <h4 class="van-ellipsis">{{item.title}}</h4>

@@ -2,29 +2,29 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-19 09:58:18
- * @LastEditTime: 2019-09-04 16:27:48
+ * @LastEditTime: 2019-09-05 00:14:14
  * @LastEditors: Please set LastEditors
  -->
 <template>
   <ul class="con-news">
-    <li v-for="item in list" :key="item.articleId">
-      <router-link :to="{name:'article', params:{id:item.articleId}}" class="news-thing">
-        <div class="news-info">
-          <h4 class="figcaption">{{item.title}}</h4>
-          <div class="news-op app-flex">
-            <span class="van-ellipsis view-count">
-              <van-icon name="fire-o" class="middle"></van-icon>
-              {{+item.viewCount}}
-            </span>
-            <span class="app-flex">
-              <van-icon name="clock-o"></van-icon>
-              {{item.updatetime | dateFormat}}
-            </span>
-          </div>
+    <!-- <li v-for="item in list" :key="item.articleId"> -->
+    <router-link v-for="item in list" :key="item.articleId" :to="{name:'article', params:{id:item.articleId}}" tag="li" class="news-thing">
+      <div class="news-info">
+        <h4 class="figcaption">{{item.title}}</h4>
+        <div class="news-op app-flex">
+          <span class="van-ellipsis view-count">
+            <van-icon name="fire-o" class="middle"></van-icon>
+            {{+item.viewCount}}
+          </span>
+          <span class="app-flex">
+            <van-icon name="clock-o"></van-icon>
+            {{item.updatetime | dateFormat}}
+          </span>
         </div>
-        <img :src="item.url" v-lazy="item.url">
-      </router-link>
-    </li>
+      </div>
+      <img :src="item.url" v-lazy="item.url">
+    </router-link>
+    <!-- </li> -->
   </ul>
 </template>
 <script>
@@ -41,20 +41,22 @@ export default {
 <style>
 .con-news {
   height: 100%;
-  padding-bottom: 4vw;
+  /* padding-bottom: 4vw; */
+  margin: 0 4vw;
 }
-.con-news li {
+/* .con-news li {
   padding: 0 4vw;
   background: #fff;
 }
 .con-news li:active {
   background-color: rgba(247, 243, 243, 0.705);
-}
+} */
 .con-news .news-thing {
   display: flex;
-  padding: 4.5vw 0;
-  border-bottom: 0.2vw solid #eee;
   height: 21vw;
+  padding: 4.5vw 0;
+  background: #fff;
+  border-bottom: 0.2vw solid #eee;
 }
 .news-thing img {
   width: 35%;

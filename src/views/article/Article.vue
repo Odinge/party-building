@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: Odinge
  * @Date: 2019-05-16 00:39:59
- * @LastEditTime: 2019-09-04 19:52:19
+ * @LastEditTime: 2019-09-04 23:01:18
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -125,11 +125,13 @@ export default {
     },
   },
   created() {
+    this.loadData();
     // 重置文章修改
     this.$articleChange(false);
     // 加载提示
     this.pageLoad = this.$toast.loading({ duration: 0, forbidClick: true, message: "疯狂加载中..." });
-    this.loadData();
+  },
+  mounted() {
     // 打开评价
     if (this.openComment) {
       this.onComment(this.article, '欢迎发表你的观点');
@@ -144,6 +146,15 @@ export default {
       };
     }
   },
+  watch: {
+    showComment(show) {
+      if (show && this.haveRead) {
+        this.clearReadTimer();
+      } else if (!this.haveRead) {
+        this.beginRead();
+      }
+    }
+  },
   methods: {
     loadData() {
       this.isOne = true; // 第一次访问
@@ -155,7 +166,7 @@ export default {
         // 设置头部信息
         this.$store.commit("setHeaderTitle", this.article.title);
         this.isRefresh = false;
-        // this.pageLoad.clear();
+        this.pageLoad.clear();
 
         // 进入页面时查询文章状态
         this.finishRead();
@@ -259,12 +270,12 @@ export default {
         // 初始化阅读状态
         if (this.isOne) {
           this.isOne = false;
-          this.pageLoad.clear();
+          // this.pageLoad.clear();
 
           if (!this.haveRead) {
             // this.beginReadTime = new Date();
             this.readTime = 0;
-            this.beginRead();
+            !this.openComment && this.beginRead();
           }
 
         } else {

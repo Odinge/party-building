@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-07-10 15:39:54
- * @LastEditTime: 2019-09-04 20:20:24
+ * @LastEditTime: 2019-09-05 00:16:16
  * @LastEditors: Please set LastEditors
  -->
 <!-- 我的收藏 -->
@@ -10,7 +10,7 @@
   <list-load v-model="list" :funMap="funMap" @changeList="changeList" class="collect-load bg-f8" ref="load">
     <ul class="collection">
       <li v-for="item in collections" :key="item.articleId" class="card">
-        <router-link :to="{name: 'article', params: {id: item.articleId}}" class="collect-box" :disabled="item.isDelete === true">
+        <router-link :to="{name: 'article', params: {id: item.articleId}}" tag="div" class="collect-box" :disabled="item.isDelete === true">
           <h4 class="figcaption">{{item.title}}</h4>
           <p class="collect-content van-ellipsis " v-domtext="item.content"></p>
           <div class="collect-footer app-flex">
@@ -85,9 +85,9 @@ export default {
   /* background-color: #fff; */
   background-color: #f8f8f8;
 }
-.collection {
-  padding-bottom: 2vw;
-}
+/* .collection {
+  padding-bottom: 1vw;
+} */
 .collection li {
   padding-bottom: 3vw;
   background-color: #f8f8f8;
@@ -95,6 +95,7 @@ export default {
 .collect-box {
   display: flex;
   flex-direction: column;
+  /* padding: 4vw 4vw 6vw 4vw; */
   padding: 4vw;
   background-color: #fff;
   font-size: 4.5vw;

@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-12 15:39:29
- * @LastEditTime: 2019-09-01 21:01:20
+ * @LastEditTime: 2019-09-04 23:21:26
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -22,7 +22,7 @@
         <Title class="home-title" moreTo="Dynamics" label="党建动态"></Title>
         <dynamics :list="dynamicsList"></dynamics>
         <Title class="home-title" moreTo="Notice" label="党内通知"></Title>
-        <notice :list="noticeList"></notice>
+        <notice :list="noticeList" class="notice-end"></notice>
       </van-pull-refresh>
     </div>
   </section>
@@ -94,5 +94,11 @@ export default {
 }
 .home-title {
   margin: 4vw 0;
+}
+.notice-end::after {
+  content: "";
+  display: block;
+  height: 2vw;
+  background-color: #fff;
 }
 </style>
