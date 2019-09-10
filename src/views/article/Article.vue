@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: Odinge
  * @Date: 2019-05-16 00:39:59
- * @LastEditTime: 2019-09-05 00:24:16
+ * @LastEditTime: 2019-09-10 15:41:08
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -53,9 +53,9 @@
         <van-icon name="smile-comment-o"></van-icon>
       </a>
       <div class="comment-ipt" @click="onComment(article, '欢迎发表你的观点')">欢迎发表你的观点</div>
-      <van-icon :name="article.isCollect?'like':'like-o'" @click="collect(article)"></van-icon>
+      <van-icon :name="article.isCollect?'like':'like-o'" @click="collect(article)" :disabled="article.isCollectLoading === true"></van-icon>
       <div class="zan-box">
-        <i class="iconfont" :class="article.isLike?'icon-dianzan':'icon-zan'" @click="zan(article)"></i>
+        <i class="iconfont" :class="article.isLike?'icon-dianzan':'icon-zan'" @click="zan(article)" :disabled="article.isLikeLoading === true"></i>
         <span class="zan-count">{{article.likeCount}}</span>
       </div>
     </div>
@@ -124,14 +124,12 @@ export default {
       return this.baseReadTime * this.readNum;
     },
   },
-  created() {
+  mounted() {
     this.loadData();
     // 重置文章修改
     this.$articleChange(false);
     // 加载提示
     this.pageLoad = this.$toast.loading({ duration: 0, forbidClick: true, message: "疯狂加载中..." });
-  },
-  mounted() {
     // 打开评价
     if (this.openComment) {
       this.onComment(this.article, '欢迎发表你的观点');
@@ -313,6 +311,7 @@ export default {
 
     // 收藏
     collect(article) {
+      this.$set(article, "isCollectLoading", true);
       const obj = [
         { fun: addCollection, success: "已收藏" },
         { fun: cancelCollection, success: "已取消收藏" },
@@ -324,6 +323,7 @@ export default {
       }).catch(err => {
         this.toast1s(err.message);
       }).finally(() => {
+        article.isCollectLoading = false;
         this.$articleChange();
       });
     },
@@ -338,6 +338,7 @@ export default {
 
     // 点赞
     zan(article) {
+      this.$set(article, "isLikeLoading", true);
       const obj = [
         { fun: addLike, success: "已赞" },
         { fun: cancelLike, success: "已取消赞" },
@@ -349,6 +350,8 @@ export default {
         });
       }).catch(err => {
         this.toast1s(err.message);
+      }).finally(() => {
+        article.isLikeLoading = false;
       });
     },
   },

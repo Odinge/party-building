@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-06-19 23:04:43
- * @LastEditTime: 2019-09-04 09:42:00
+ * @LastEditTime: 2019-09-10 21:17:25
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -126,5 +126,3 @@ export default {
   }
 }
 </script>
-<style>
-</style>

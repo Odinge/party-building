@@ -1,16 +1,16 @@
 <!--
  * @Description: In User Settings Edit
- * @Author: your name
+ * @Author: Odinge
  * @Date: 2019-07-10 15:39:54
- * @LastEditTime: 2019-09-05 00:16:16
+ * @LastEditTime: 2019-09-10 20:10:22
  * @LastEditors: Please set LastEditors
  -->
 <!-- 我的收藏 -->
 <template>
   <list-load v-model="list" :funMap="funMap" @changeList="changeList" class="collect-load bg-f8" ref="load">
     <ul class="collection">
-      <li v-for="item in collections" :key="item.articleId" class="card">
-        <router-link :to="{name: 'article', params: {id: item.articleId}}" tag="div" class="collect-box" :disabled="item.isDelete === true">
+      <li v-for="(item, key) in collections" :key="key" class="card">
+        <router-link :to="{name: 'article', params: {id: item.articleId}}" tag="section" class="collect-box" :disabled="item.isDelete === true">
           <h4 class="figcaption">{{item.title}}</h4>
           <p class="collect-content van-ellipsis " v-domtext="item.content"></p>
           <div class="collect-footer app-flex">

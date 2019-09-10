@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-12 17:13:15
- * @LastEditTime: 2019-09-04 11:11:07
+ * @LastEditTime: 2019-09-10 21:13:23
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -35,7 +35,7 @@ export default {
       return [this.loadFun];
     },
     prevSamePath() {
-      return this.$store.state.prevSamePath;
+      return this.$store.state.pageConfig.prevSamePath;
     }
   },
   // 加载信息
@@ -55,6 +55,3 @@ export default {
   },
 }
 </script>
-
-<style>
-</style>

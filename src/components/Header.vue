@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-12 19:10:21
- * @LastEditTime: 2019-09-01 18:13:07
+ * @LastEditTime: 2019-09-10 20:56:38
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -58,6 +58,8 @@ export default {
       if (location.hash) {
         this.$router.back();
         this.$router.back();
+      } else if (this.prevPath.path === "/") {
+        this.$router.push("/");
       } else {
         this.$router.back();
       }
@@ -70,8 +72,8 @@ export default {
     hideRight() {
       return !this.showMore && this.noBack;
     },
-    ...mapState(["headerTitle"])
-  }
+    ...mapState({ headerTitle: "headerTitle", prevPath: state => state.pageConfig.prevPath }),
+  },
 }
 </script>
 

@@ -1,8 +1,8 @@
 /*
- * @Description: In User Settings Edit
- * @Author: your name
+ * @Description: 入口文件
+ * @Author: Odinge
  * @Date: 2019-05-12 13:12:27
- * @LastEditTime: 2019-09-04 19:24:55
+ * @LastEditTime: 2019-09-10 20:41:46
  * @LastEditors: Please set LastEditors
  */
 // import Vue from "vue";
@@ -19,6 +19,8 @@ import "./assets/iconfont/iconfont.css";
 // 路由守卫
 router.beforeEach((to, form, next) => {
   Toast.clear(); // 跳转路由清除提示
+
+  store.commit("SET_PREV_PATH", form); // 存储前一个路由
 
   document.title = to.meta.title || "党建"; // 设置标题
 
@@ -65,8 +67,7 @@ router.beforeEach((to, form, next) => {
         if (!data.name && to.fullPath !== "/setUserInfo?finish=0") {
           Dialog.alert({
             title: "信息录",
-            message: "请完善用户信息",
-            confirmButtonColor: "#f44"
+            message: "请完善用户信息"
           }).then(res => {
             next("/setUserInfo?finish=0");
           });
@@ -96,8 +97,7 @@ router.beforeEach((to, form, next) => {
             load && load.clear();
             Dialog.alert({
               title: "信息录",
-              message: err.message,
-              confirmButtonColor: "#f44"
+              message: err.message
             }).then(res => {
               store
                 .dispatch("logout")
@@ -120,8 +120,7 @@ router.beforeEach((to, form, next) => {
     // 否则全部重定向到登录页
     Dialog.alert({
       title: "权限录",
-      message: "权限验证失败，请重新登录！！",
-      confirmButtonColor: "#f44"
+      message: "权限验证失败，请重新登录！！"
     }).then(res => {
       next({
         path: "/login",

@@ -1,8 +1,8 @@
 /*
- * @Description: In User Settings Edit
+ * @Description: 提交类型
  * @Author: Oding
  * @Date: 2019-05-12 14:50:16
- * @LastEditTime: 2019-09-04 11:15:27
+ * @LastEditTime: 2019-09-10 20:28:27
  * @LastEditors: Please set LastEditors
  */
 
@@ -29,3 +29,6 @@ export const SET_ARTICLE_CHANGE = "SET_ARTICLE_CHANGE";
 
 // 判断内容信息是否改变
 export const SET_CONTENT_CHANGE = "SET_CONTENT_CHANGE";
+
+// 设置上一个路径
+export const SET_PREV_PATH = "SET_PREV_PATH";

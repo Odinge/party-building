@@ -2,7 +2,7 @@
  * @Description: 状态配置
  * @Author: Odinge
  * @Date: 2019-05-12 14:49:01
- * @LastEditTime: 2019-09-04 19:44:34
+ * @LastEditTime: 2019-09-10 20:22:17
  * @LastEditors: Please set LastEditors
  */
 // 状态
@@ -22,13 +22,10 @@ export default {
   headerConfig: {}, // 头部组件配置信息
   // 页面配置
   pageConfig: {
-    openRefresh: false, // 页面是否需要刷新
-    openLoad: false, // 页面是否需要加载数据
-    onLoad() {}, // 加载数据函数
-    onRefresh() {} // 页面刷新获取数据函数
+    prevSamePath: "", // 上一个相似的路径
+    prestrain: true, // 页面预加载
+    prevPath: {} // 前一个页面的路由
   },
-  prestrain: true, // 页面预加载
-  prevSamePath: "", // 上一个相似的路径
   // 内容改变更新页面
   contentChange: {
     articleChange: false, // 判断文章信息是否改变

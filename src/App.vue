@@ -1,13 +1,38 @@
 <!--
  * @Description: In User Settings Edit
- * @Author: your name
+ * @Author: Odinge
  * @Date: 2019-05-12 13:12:27
- * @LastEditTime: 2019-09-04 20:10:57
+ * @LastEditTime: 2019-09-10 20:46:57
  * @LastEditors: Please set LastEditors
  -->
 <template>
-  <router-view id="app" />
+  <router-view v-if="isRouterAlive" id="app"></router-view>
 </template>
+
+<script>
+export default {
+  name: "App",
+  provide() {
+    return {
+      reload: this.reload
+    }
+  },
+  data() {
+    return {
+      isRouterAlive: true
+    }
+  },
+  methods: {
+    // 重新加载函数  inject 注册
+    reload() {
+      this.isRouterAlive = false
+      this.$nextTick(() => {
+        this.isRouterAlive = true;
+      })
+    }
+  }
+};
+</script>
 
 <style>
 body {
@@ -21,7 +46,6 @@ img {
   content: normal !important;
   object-fit: cover;
 }
-
 .unfinished {
   background: url("/img/comm/unfunction.png") center / cover;
 }

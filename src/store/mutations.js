@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-12 14:49:48
- * @LastEditTime: 2019-09-04 16:59:22
+ * @LastEditTime: 2019-09-10 20:20:47
  * @LastEditors: Please set LastEditors
  */
 import * as types from "./types";
@@ -22,11 +22,15 @@ export default {
   },
   // 设置页面预加载状态
   [types.SET_PAGE_LOADING](state, loadState) {
-    state.prestrain = loadState;
+    state.pageConfig.prestrain = loadState;
   },
   // 设置上个相同的路由地址
   [types.SET_PREV_SAME_PATH](state, prevSamePath) {
-    state.prevSamePath = prevSamePath;
+    state.pageConfig.prevSamePath = prevSamePath;
+  },
+  // 设置上个路由地址
+  [types.SET_PREV_PATH](state, prevPath) {
+    state.pageConfig.prevPath = prevPath;
   },
   // 判断l内容信息是否改变
   [types.SET_CONTENT_CHANGE](state, { type, changeState }) {

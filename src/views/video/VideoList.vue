@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-19 21:45:41
- * @LastEditTime: 2019-09-04 22:55:45
+ * @LastEditTime: 2019-09-10 15:37:14
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -28,7 +28,7 @@
         </router-link>
         <!-- 视频操作区 -->
         <div class="video-op app-flex-col flex-1">
-          <van-icon v-if="showCollect" class="collect" :name="item.isCollect?'like':'like-o'" @click="collect(item)"></van-icon>
+          <van-icon v-if="showCollect" class="collect" :name="item.isCollect?'like':'like-o'" @click="collect(item)" :disabled="item.isLoading === true"></van-icon>
           <!-- :disabled="item.isCollect === undefined" -->
           <span class="tag-comment" @click="toComment(item)"></span>
         </div>
@@ -67,16 +67,20 @@ export default {
         this.toast1s("当前项收藏数据未获取完，请稍后收藏！");
         return false;
       }
+
+      this.$set(article, "isLoading", true);
       const obj = [
         { fun: addCollection, success: "已收藏" },
         { fun: cancelCollection, success: "已取消收藏" },
       ][+article.isCollect];
+
       obj.fun(article.articleId).then(() => {
         article.isCollect = !article.isCollect;
         this.toast1s(obj.success);
       }).catch(err => {
         this.toast1s(err.message);
       }).finally(() => {
+        article.isLoading = false;
         this.$articleChange();
       });
     },
