@@ -1,12 +1,12 @@
 <!--
- * @Description: In User Settings Edit
+ * @Description: 入口文件
  * @Author: Odinge
  * @Date: 2019-05-12 13:12:27
- * @LastEditTime: 2019-09-10 20:46:57
+ * @LastEditTime: 2019-09-11 09:33:37
  * @LastEditors: Please set LastEditors
  -->
 <template>
-  <router-view v-if="isRouterAlive" id="app"></router-view>
+  <router-view v-if="isRouterAlive"></router-view>
 </template>
 
 <script>
