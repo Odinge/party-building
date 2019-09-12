@@ -2,7 +2,7 @@
  * @Description: 学习测试
  * @Author: Odinge
  * @Date: 2019-05-12 15:32:28
- * @LastEditTime: 2019-09-04 18:47:57
+ * @LastEditTime: 2019-09-12 16:27:19
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -13,7 +13,7 @@
           <img src="/img/test/dangqi.png" alt="问卷">
           <div class="test-info test-a">
             <h4 class="van-ellipsis">{{item.title}}</h4>
-            <p class="van-ellipsis">{{item.updatetime}}</p>
+            <p class="van-ellipsis">{{item.updateTime}}</p>
           </div>
         </a>
         <!-- accept="image/gif, image/jpeg, image/png" -->

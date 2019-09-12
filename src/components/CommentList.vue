@@ -2,14 +2,14 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-07-10 15:37:56
- * @LastEditTime: 2019-09-04 17:07:39
+ * @LastEditTime: 2019-09-12 17:39:23
  * @LastEditors: Please set LastEditors
  -->
 <template>
   <!-- <list-load v-model="list" :funMap="funMap" ref="load"> -->
   <ul class="comment-content">
     <li v-for="comment in list" :key="comment.commentId">
-      <img :src="defaultAvatar" :alt="comment.name" v-lazy="defaultAvatar">
+      <img :alt="comment.name" v-lazy="defaultAvatar">
       <div class="comment-box">
         <div class="comment-info">
           <span class="comment-name van-ellipsis">{{comment.userName}}</span>

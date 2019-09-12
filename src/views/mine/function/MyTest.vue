@@ -2,14 +2,14 @@
  * @Description: 我的测试
  * @Author: Odinge
  * @Date: 2019-05-12 15:32:28
- * @LastEditTime: 2019-09-04 18:28:30
+ * @LastEditTime: 2019-09-12 17:29:08
  * @LastEditors: Please set LastEditors
  -->
 <template>
   <list-load v-model="list" :funMap="funMap" ref="load">
     <ul class="test-list my-test">
       <li v-for="item in list" :key="item.recordId" class="test-item app-flex" @click="downloadFile(item)">
-        <img :src="$getUrl(item.resultImgUrl)" alt="问卷" v-lazy="$getUrl(item.resultImgUrl)">
+        <img alt="问卷" v-lazy="$getUrl(item.resultImgUrl)">
         <div class="test-info">
           <h4 class="figcaption">{{item.questionnaireTitle}}</h4>
           <p class="van-ellipsis">

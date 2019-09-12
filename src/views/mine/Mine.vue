@@ -2,7 +2,7 @@
  * @Description: 我的
  * @Author: Odinge
  * @Date: 2019-05-12 16:45:12
- * @LastEditTime: 2019-09-04 20:21:29
+ * @LastEditTime: 2019-09-12 18:46:18
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -35,6 +35,7 @@
         </ul>
         <div class="mime-content-mv">
           <!-- <video-controls src="/videos/video-1.mp4"></video-controls> -->
+          <!-- <img v-lazy="'/img/mine/mine-ad.png'"> -->
           <img src="/img/mine/mine-ad.png">
         </div>
         <ul class="mime-content-list">

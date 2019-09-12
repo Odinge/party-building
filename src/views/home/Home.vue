@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-12 15:39:29
- * @LastEditTime: 2019-09-04 23:21:26
+ * @LastEditTime: 2019-09-12 17:26:39
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -14,7 +14,7 @@
         <van-swipe :autoplay="3000" class="swiper-box" indicator-color="#ea2930">
           <van-swipe-item v-for="(img, index) in bannerImageUrl" :key="index">
             <router-link :to="{name:'article', params:{id:img.articleId}}">
-              <img :src="img.url" v-lazy="img.url" />
+              <img v-lazy="$getUrl(img.url)" />
             </router-link>
           </van-swipe-item>
         </van-swipe>
@@ -90,7 +90,6 @@ export default {
 .swiper-box img {
   width: 100%;
   height: 100%;
-  /* object-fit: contain; */
 }
 .home-title {
   margin: 4vw 0;

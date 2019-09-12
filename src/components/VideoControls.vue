@@ -10,7 +10,7 @@
     <!-- <video ref="video" preload="metadata" @pause="pause" @play="play" @click="playpause"> -->
     <video ref="video" :poster="poster" preload="metadata" x5-playsinline="" playsinline="true" webkit-playsinline="true" x-webkit-airplay="true" x5-video-player-type="h5" x5-video-player-fullscreen="" x5-video-orientation="portraint" @loadeddata="captureImage">
       <!-- <video ref="video" @loadeddata="captureImage" controls> -->
-      <source :src="$getUrl(src)" :type="'video/'+type" v-for="type in videoTypes" :key="type">
+      <source :src="src" :type="'video/'+type" v-for="type in videoTypes" :key="type">
       <p>Your browser doesn't support HTML5 video. Here is
         a <a :href="src">link to the video</a> instead.</p>
     </video>

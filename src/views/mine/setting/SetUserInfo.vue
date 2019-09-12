@@ -2,15 +2,13 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-07-10 08:53:18
- * @LastEditTime: 2019-09-04 20:24:59
+ * @LastEditTime: 2019-09-12 15:18:42
  * @LastEditors: Please set LastEditors
  -->
 <template>
-
   <div class="reg-main register">
     <form name="register" action="" method="post" onsubmit="return false">
       <div class="reg-text">
-
         <label for="identity">当前身份</label>
         <picker v-model="regInfo.identity" :columns="identitys" placeholder="请选择申请人类型" title="身份选择" class="input"></picker>
       </div>
@@ -72,9 +70,7 @@
         <date-picker v-model="time.fullpartyTime" class="input" title="确定为正式党员时间"></date-picker>
       </div>
 
-      <div class="reg-btn">
-        <button @click.prevent="register" :class="states[regState]" :disabled="!regState">{{ regState === 1 ? "修改成功": "修&nbsp;&nbsp;改" }}</button>
-      </div>
+      <button class="user-btn" @click.prevent="register" :class="states[regState]" :disabled="!regState">{{ regState === 1 ? "修改成功": "修改信息" }}</button>
     </form>
   </div>
 
@@ -261,8 +257,7 @@ export default {
       // console.log(code);
       this.$dialog.alert({
         title: "邮件录",
-        message: `发送成功，验证码请到 \n${this.regInfo.email} \n查看`,
-        confirmButtonColor: "#f44"
+        message: `发送成功，验证码请到 \n${this.regInfo.email} \n查看`
       }).then(() => {
         load.clear();
         this.codeTime = 30;
@@ -352,8 +347,6 @@ export default {
 };
 </script>
 <style>
-/* .register {
-} */
 .reg-main {
   flex: 1;
   height: 100%;
@@ -366,7 +359,6 @@ export default {
   display: flex;
   align-items: center;
   vertical-align: middle;
-  /* justify-content: center; */
   padding: 1vw 5vw;
   border-bottom: 1px solid #ddd;
 }
@@ -384,9 +376,6 @@ export default {
   color: #858585;
   background-color: transparent;
 }
-.reg-text select.input {
-  margin-left: 0.8em;
-}
 .reg-tip {
   text-align: right;
   padding: 5vw 5vw 10vw;
@@ -399,18 +388,13 @@ export default {
   width: 1em;
   height: 1em;
 }
-.reg-btn {
-  margin-top: 2em;
-  text-align: center;
-}
-.reg-btn button {
-  width: 88%;
-  padding: 3.5vw 0;
-  cursor: pointer;
-  background-color: #de442c;
-  border-radius: 0.3em;
-  font-size: 1em;
+.user-btn {
+  display: block;
+  margin: 10vw auto 0;
+  padding: 3vw 20vw;
+  border-radius: 5vw;
   color: #fff;
+  background-color: tomato;
 }
 .date-picker {
   padding: 2.2vw 5vw;
@@ -426,18 +410,8 @@ export default {
   font-size: 0.7em;
   width: 6em;
 }
-.reg-select {
-  display: flex;
-  align-items: center;
-}
-.reg-select input {
-  background-color: transparent;
-}
 .info {
   color: #e54e31;
-}
-.hide {
-  display: none;
 }
 .user-err {
   box-shadow: 0 0 2px #de442c !important;

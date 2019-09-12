@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-19 09:58:18
- * @LastEditTime: 2019-09-05 00:14:14
+ * @LastEditTime: 2019-09-12 17:27:11
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -18,11 +18,11 @@
           </span>
           <span class="app-flex">
             <van-icon name="clock-o"></van-icon>
-            {{item.updatetime | dateFormat}}
+            {{item.updateTime | dateFormat}}
           </span>
         </div>
       </div>
-      <img :src="item.url" v-lazy="item.url">
+      <img v-lazy="$getUrl(item.url)">
     </router-link>
     <!-- </li> -->
   </ul>

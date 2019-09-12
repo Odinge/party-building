@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-13 08:53:10
- * @LastEditTime: 2019-09-01 11:53:11
+ * @LastEditTime: 2019-09-12 17:12:47
  * @LastEditors: Please set LastEditors
  */
 import axios from "axios";
@@ -20,6 +20,20 @@ const service = axios.create({
   // baseURL: process.env.NODE_ENV === "production" ? pubBaseURL : "/api"
   // timeout: 5000 // 请求超时时间
 });
+
+// 无权限重新登录
+function reLogin() {
+  Dialog.alert({
+    title: "权限录",
+    message: "权限验证失败，请重新登录！！"
+  }).then(() => {
+    delToken();
+    router.replace({
+      path: "/login",
+      query: { redirect: router.currentRoute.fullPath }
+    });
+  });
+}
 
 // 请求拦截器
 service.interceptors.request.use(
@@ -58,26 +72,15 @@ service.interceptors.response.use(
       case 20001:
         return data;
       case 40006:
-        Dialog.alert({
-          title: "提示",
-          message: "无权限操作，请登录",
-          confirmButtonColor: "#f44"
-        }).then(() => {
-          delToken();
-          router.replace({
-            path: "/login",
-            query: { redirect: router.currentRoute.fullPath }
-          });
-        });
+        reLogin();
         break;
       default:
         break;
     }
-
     throw res;
   },
   err => {
-    console.log(err.response);
+    // console.log(err.response);
 
     if (err && err.response) {
       const resMap = {
@@ -95,20 +98,9 @@ service.interceptors.response.use(
       const { code } = data;
       switch (code) {
         case 40006:
-          Dialog.alert({
-            title: "提示",
-            message: "无权限操作，请登录",
-            confirmButtonColor: "#f44"
-          }).then(() => {
-            delToken();
-            router.replace({
-              path: "/login",
-              query: { redirect: router.currentRoute.fullPath }
-            });
-          });
+          reLogin();
           return;
           break;
-
         default:
           break;
       }

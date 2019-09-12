@@ -2,11 +2,11 @@
  * @Description: 入口文件
  * @Author: Odinge
  * @Date: 2019-05-12 13:12:27
- * @LastEditTime: 2019-09-11 09:33:37
+ * @LastEditTime: 2019-09-12 16:31:57
  * @LastEditors: Please set LastEditors
  -->
 <template>
-  <router-view v-if="isRouterAlive"></router-view>
+  <router-view v-if="isRouterAlive" id="app"></router-view>
 </template>
 
 <script>

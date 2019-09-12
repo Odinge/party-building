@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 13:26:54
- * @LastEditTime: 2019-09-04 15:44:16
+ * @LastEditTime: 2019-09-12 17:29:24
  * @LastEditors: Please set LastEditors
  -->
 <!-- 成果上传 -->
@@ -16,7 +16,7 @@
     <list-load v-model="list" :funMap="funMap" ref="load" class="ac-load">
       <ul class="ac-list">
         <li v-for="item in aclist" :key="item.fileId" class="test-item app-flex" @click="downloadFile(item)">
-          <img :src="$getDownloadUrlById(item.fileId)" alt="问卷" v-lazy="$getDownloadUrlById(item.fileId)">
+          <img alt="问卷" v-lazy="$getDownloadUrlById(item.fileId)">
           <div class="test-info">
             <h4 class="figcaption">{{item.fileName | filterName}}</h4>
             <p class="van-ellipsis">

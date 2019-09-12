@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: Odinge
  * @Date: 2019-05-16 00:39:59
- * @LastEditTime: 2019-09-10 15:41:08
+ * @LastEditTime: 2019-09-12 17:57:35
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -17,13 +17,14 @@
           <h3>{{article.title}}</h3>
           <div class="a-author">
             <span>{{article.author}}</span>
-            <span class="a-time">{{article.updatetime}}</span>
+            <span class="a-time">{{article.updateTime}}</span>
           </div>
           <div class="a-main" v-html="article.content"></div>
           <div class="a-redactor">
             负责编辑： {{article.author}}
           </div>
-          <div class="center">
+          <!-- 完成阅读操作区域 -->
+          <div class="center" v-if="requirePunch">
             <div class=" readTime" v-if="!haveRead">
               <span>已阅读时间(阅读{{baseReadTime/60}}分钟即可打卡)</span>
               <van-progress :percentage="readPercent" :pivot-text="readTimeText" pivot-color="rgb(242, 136, 19)" color="linear-gradient(to right, rgb(252, 255, 153), rgb(242, 136, 19))" />
@@ -123,6 +124,9 @@ export default {
     readTotal() {
       return this.baseReadTime * this.readNum;
     },
+    requirePunch() {
+      return this.article.type !== 0;
+    }
   },
   mounted() {
     this.loadData();
@@ -138,7 +142,7 @@ export default {
     if (this.readMode) {
       window.onblur = this.clearReadTimer;
       window.onfocus = () => {
-        if (!this.haveRead) {
+        if (!this.haveRead && this.requirePunch) {
           this.beginRead();
         }
       };
@@ -146,10 +150,12 @@ export default {
   },
   watch: {
     showComment(show) {
-      if (show && !this.haveRead) {
-        this.clearReadTimer();
-      } else if (!this.haveRead) {
-        this.beginRead();
+      if (this.requirePunch) {
+        if (show && !this.haveRead) {
+          this.clearReadTimer();
+        } else if (!this.haveRead) {
+          this.beginRead();
+        }
       }
     }
   },
@@ -261,8 +267,11 @@ export default {
       studyFinish(this.id).then(data => {
         this.haveRead = true;
         this.clearReadTimer();
-        // this.$toast.success({ duration: 1000, message: "完成阅读" });
-        this.getPunchInStatus();
+        if (this.requirePunch) {
+          this.getPunchInStatus();
+        } else {
+          this.$toast.success({ duration: 1000, message: "完成阅读" });
+        }
       }).catch(err => {
         this.haveRead = err.code === 400010; // 文章状态是否阅读
         // 初始化阅读状态
@@ -270,7 +279,7 @@ export default {
           this.isOne = false;
           // this.pageLoad.clear();
 
-          if (!this.haveRead) {
+          if (!this.haveRead && this.requirePunch) {
             // this.beginReadTime = new Date();
             this.readTime = 0;
             !this.openComment && this.beginRead();

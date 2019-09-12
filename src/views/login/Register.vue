@@ -2,15 +2,17 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-12 15:30:23
- * @LastEditTime: 2019-08-24 22:12:09
+ * @LastEditTime: 2019-09-12 16:24:16
  * @LastEditors: Please set LastEditors
  -->
 <template>
   <section class="register">
     <header class="reg-head">
-      <a href="javascript:;" @touchstart="back">返回</a>
+      <van-icon name="arrow-left" @click="back"></van-icon>
       <h2>用户注册</h2>
-      <router-link to="/login">登录</router-link>
+      <router-link to="/login" slot="right" class="login-btn">
+        <van-icon name="contact"></van-icon>
+      </router-link>
     </header>
     <div class="reg-main">
       <form name="register" action="" method="post" onsubmit="return false">
@@ -35,11 +37,9 @@
         </div>
         <!-- 提示信息 -->
         <div class="reg-tip">
-          <input type="checkbox" checked id="plain" v-model="agree"><label for="plain">同意注册条款</label>
+          <input type="checkbox" checked id="plain" class="hide" v-model="agree"><span class="checkbox"></span><label for="plain">同意注册条款</label>
         </div>
-        <div class="reg-btn">
-          <button @click.prevent="register" :class="states[regState]" :disabled="!regState">{{ regState === 1 ? "注册成功": "注 册" }}</button>
-        </div>
+        <button class="reg-btn" @click.prevent="register" :class="states[regState]" :disabled="!regState">{{ regState === 1 ? "注册成功": "注&nbsp;&nbsp;&nbsp;&nbsp;册" }}</button>
       </form>
     </div>
   </section>
@@ -167,12 +167,9 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 5vw 6vw;
+  padding: 4vw 9vw;
   background: #e54e31;
   color: #fff;
-}
-.reg-head h2 {
-  font-size: 1.2em;
 }
 .reg-main {
   flex: 1;
@@ -186,7 +183,6 @@ export default {
   display: flex;
   align-items: center;
   vertical-align: middle;
-  /* justify-content: center; */
   padding: 1vw 5vw;
   border-bottom: 1px solid #ddd;
 }
@@ -211,23 +207,29 @@ export default {
   font-size: 0.9em;
   color: #de442c;
 }
-.reg-tip input {
-  vertical-align: middle;
-  margin-right: 0.2em;
+.reg-tip .checkbox {
+  box-sizing: border-box;
+  display: inline-block;
   width: 1em;
   height: 1em;
+  padding: 0.2em;
+  margin-right: 0.4em;
+  background-clip: content-box;
+  border: 1px solid #f76d58;
+  border-radius: 50%;
+  vertical-align: middle;
 }
+.reg-tip input:checked + .checkbox {
+  background-color: #f76d58;
+}
+
 /* 注册按钮 */
 .reg-btn {
-  text-align: center;
-}
-.reg-btn button {
-  width: 88%;
-  padding: 3.5vw 0;
-  cursor: pointer;
-  background-color: #de442c;
-  border-radius: 0.3em;
-  font-size: 1em;
+  display: block;
+  margin: 2vw auto 0;
+  padding: 3vw 20vw;
+  background-color: tomato;
+  border-radius: 5vw;
   color: #fff;
 }
 /* 注册错误提示 */

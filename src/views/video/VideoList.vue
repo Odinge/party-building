@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-19 21:45:41
- * @LastEditTime: 2019-09-10 15:37:14
+ * @LastEditTime: 2019-09-12 17:07:17
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -10,7 +10,7 @@
     <li v-for="item in list" :key="item.articleId" class="list-item">
       <!-- 视屏控制区 -->
       <div class="video-play">
-        <video-controls :src="item.url"></video-controls>
+        <video-controls :src="$getUrl(item.url)"></video-controls>
         <!-- <span class="tag-top">TOP{{index+1}}</span> -->
         <!-- <span class="tag-comment"></span> -->
         <!-- <span class="tag-msg van-ellipsis">{{item.msg}}</span> -->
@@ -165,7 +165,6 @@ export default {
 }
 .collect {
   font-size: 2em;
-  color: rgb(78, 77, 77);
 }
 .read-num {
   margin-left: 0.5em;

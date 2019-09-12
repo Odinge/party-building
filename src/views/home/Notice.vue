@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-21 08:26:58
- * @LastEditTime: 2019-09-04 23:25:36
+ * @LastEditTime: 2019-09-12 16:29:01
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -22,7 +22,7 @@
               {{item.praiseNum}}
             </span> -->
           <span class="app-flex con-time">
-            <van-icon name="clock-o"></van-icon>{{item.updatetime | dateFormat}}
+            <van-icon name="clock-o"></van-icon>{{item.updateTime | dateFormat}}
           </span>
         </div>
       </div>

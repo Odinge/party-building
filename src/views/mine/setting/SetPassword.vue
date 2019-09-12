@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-17 13:02:09
- * @LastEditTime: 2019-09-04 16:00:07
+ * @LastEditTime: 2019-09-12 14:59:39
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -124,10 +124,8 @@ export default {
   padding-top: 5vw;
 }
 .change-password .old-psd {
-  /* margin-bottom: 5vw; */
   background-color: #e8e8e8;
 }
-
 .change-password .psd-btn {
   display: block;
   margin: 5vw auto;

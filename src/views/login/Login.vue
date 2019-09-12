@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-12 15:14:18
- * @LastEditTime: 2019-09-04 16:01:38
+ * @LastEditTime: 2019-09-12 15:12:13
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -32,13 +32,10 @@
               <router-link to="/forget">忘记密码</router-link>
             </div>
           </div>
-          <div class="aui-form-button">
-            <button @click.prevent="login" :class="states[loginState]" :disabled="!loginState">{{ loginState === 1 ? "登录成功": "登录" }}</button>
-          </div>
+          <button class="aui-form-button" @click.prevent="login" :class="states[loginState]" :disabled="!loginState">{{ loginState === 1 ? "登录成功": "登录" }}</button>
           <div class="register-text">
             <router-link to="/register">立即注册</router-link>
           </div>
-          <!-- <div class="err" id="msg">{{ errMsg }}</div> -->
         </form>
       </div>
     </section>
@@ -216,7 +213,6 @@ export default {
 }
 
 .aui-flex-box input {
-  /* width: 100%; */
   height: auto;
   padding: 0.3em;
   color: #e54e31;
@@ -228,15 +224,12 @@ export default {
 }
 
 .aui-form-button {
-  padding: 2em 0;
-  text-align: center;
-}
-
-.aui-form-button button {
+  display: block;
+  padding: 2.5vw 27vw;
+  margin: 2em auto;
   background: #de442c;
-  width: 90%;
-  padding: 0.5em 0;
-  border-radius: 20px;
+  text-align: center;
+  border-radius: 2em;
   color: #fff;
 }
 
