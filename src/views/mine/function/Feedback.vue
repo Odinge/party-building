@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-07-10 15:43:07
- * @LastEditTime: 2019-09-05 00:42:36
+ * @LastEditTime: 2019-09-14 20:10:58
  * @LastEditors: Please set LastEditors
  -->
 <!-- 意见反馈 -->
@@ -83,7 +83,7 @@ export default {
         feedback(this.formData).then(data => {
           this.$toast.success("反馈成功");
           this.clear();
-        }).catch(err => { this.$toast.fail(err.message) });
+        }).catch(err => { this.toast1s(err.message) });
       }).catch(err => { });
     },
     clear() {

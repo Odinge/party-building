@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-17 13:02:09
- * @LastEditTime: 2019-09-12 14:59:39
+ * @LastEditTime: 2019-09-14 20:10:49
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -99,7 +99,7 @@ export default {
             this.$store.dispatch("logout").then(res => {
               this.$router.push({ path: "/login" });
             }).catch(err => {
-              this.$toast.fail(err.message);
+              this.toast1s(err.message);
             });
           })
         }).catch(err => {

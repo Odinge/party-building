@@ -2,15 +2,12 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-13 08:53:10
- * @LastEditTime: 2019-09-12 17:12:47
+ * @LastEditTime: 2019-09-14 19:07:39
  * @LastEditors: Please set LastEditors
  */
 import axios from "axios";
-
-// 获取token
-import { getToken, delToken } from "../utils/auth";
-// 路由
 import router from "../router";
+import { removeToken } from "../utils/auth";
 import { Dialog } from "vant";
 
 // const pubBaseURL = "http://117.50.73.238:8080";
@@ -22,12 +19,12 @@ const service = axios.create({
 });
 
 // 无权限重新登录
-function reLogin() {
+function reLogin(res) {
   Dialog.alert({
     title: "权限录",
-    message: "权限验证失败，请重新登录！！"
+    message: "用户登录异常，请重新登录！！"
   }).then(() => {
-    delToken();
+    removeToken();
     router.replace({
       path: "/login",
       query: { redirect: router.currentRoute.fullPath }
@@ -39,14 +36,8 @@ function reLogin() {
 service.interceptors.request.use(
   config => {
     // console.log(config);
-
     // config.headers["Content-Type"] = "application/json;charset=UTF-8";
     // config.headers.Accept = "application/json;";
-    // let token = getToken();
-
-    // if (token) {
-    //   config.headers.token = token;
-    // }
     return config;
   },
   err => {
@@ -61,7 +52,6 @@ service.interceptors.response.use(
   response => {
     // console.log(response);
 
-    // let status = response.status;
     let { data: res } = response;
     let { code, data } = res;
 
@@ -96,10 +86,10 @@ service.interceptors.response.use(
       };
       const data = err.response.data;
       const { code } = data;
+
       switch (code) {
         case 40006:
           reLogin();
-          return;
           break;
         default:
           break;

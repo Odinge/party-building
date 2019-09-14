@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-07-10 15:37:56
- * @LastEditTime: 2019-09-12 17:39:23
+ * @LastEditTime: 2019-09-14 20:15:40
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -72,7 +72,7 @@ export default {
         });
         deleteComment(commentId).then(data => {
           this.$emit("refreshList"); // 刷新列表
-        }).catch(err => { this.$toast(err.message) });
+        }).catch(err => { this.toast1s(err.message) });
       }).catch(err => { });
     }
   }

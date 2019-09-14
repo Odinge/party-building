@@ -2,7 +2,7 @@
  * @Description: 全局配置
  * @Author: Odinge
  * @Date: 2019-05-14 23:30:00
- * @LastEditTime: 2019-09-11 09:44:22
+ * @LastEditTime: 2019-09-14 17:05:03
  * @LastEditors: Please set LastEditors
  */
 import Vue from "vue";

@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: Odinge
  * @Date: 2019-05-16 00:39:59
- * @LastEditTime: 2019-09-12 17:57:35
+ * @LastEditTime: 2019-09-14 20:00:35
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -23,8 +23,9 @@
           <div class="a-redactor">
             负责编辑： {{article.author}}
           </div>
+
           <!-- 完成阅读操作区域 -->
-          <div class="center" v-if="requirePunch">
+          <div class="center" v-if="requirePunch && !readError">
             <div class=" readTime" v-if="!haveRead">
               <span>已阅读时间(阅读{{baseReadTime/60}}分钟即可打卡)</span>
               <van-progress :percentage="readPercent" :pivot-text="readTimeText" pivot-color="rgb(242, 136, 19)" color="linear-gradient(to right, rgb(252, 255, 153), rgb(242, 136, 19))" />
@@ -61,12 +62,12 @@
       </div>
     </div>
     <comment-input v-model="showComment" :placeholder="placeholder" :target="target" @updateComment="onLoad"></comment-input>
+    <module v-model="showPunchResult" v-bind="punchText"></module>
   </div>
 </template>
 
 <script>
-import { getArticle, getArticleInfo, studyFinish, getComment, getLikeStatus, getCollectionStatus, addLike, addCollection, cancelLike, cancelCollection, getLikeCount } from "../../api/article";
-import { getPunchInStatus } from "../../api/mine";
+import { getArticle, getArticleInfo, studyFinish, getComment, getLikeStatus, getCollectionStatus, addLike, addCollection, cancelLike, cancelCollection, getLikeCount, getPunchInStatus } from "../../api/article";
 export default {
   props: ["id"],
   data() {
@@ -79,6 +80,7 @@ export default {
       loading: true, // 加载评价数据
       finished: false, // 加载评价全部加载完
       pageLoad: null, // 加载页面
+      readError: false, // 获取是否错误
 
       // 关于阅读
       isOne: true, // 第一次访问页面
@@ -99,7 +101,16 @@ export default {
       showComment: false, // 是否显示评论
       placeholder: "", // 消息对象的提示字
       target: null, // 当前点击的消息对象
-      commentError: false // 评价加载出错
+      commentError: false, // 评价加载出错
+
+      // 打卡
+      havePunch: false, // 是否已打卡
+      showPunchResult: false, // 是否显示打卡结果
+      punchText: {
+        title: "", // 标题
+        subtitle: "", // 小标题
+        content: "" // 内容
+      }, // 打卡文字
     }
   },
   computed: {
@@ -160,9 +171,21 @@ export default {
     }
   },
   methods: {
+    // 打开模态框
+    openModule(punchText) {
+      this.showPunchResult = true;
+      this.punchText = punchText;
+    },
+    // 加载函数
     loadData() {
       this.isOne = true; // 第一次访问
       this.readDisabled = true;
+
+      // 查询打卡状态
+      this.queryPunchInStatus();
+      // 加载评价
+      this.onLoad();
+
       // 获取文章信息
       getArticleInfo(this.id).then(data => {
         this.article = data;
@@ -170,12 +193,11 @@ export default {
         // 设置头部信息
         this.$store.commit("setHeaderTitle", this.article.title);
         this.isRefresh = false;
-        this.pageLoad.clear();
 
         // 进入页面时查询文章状态
         this.finishRead();
-        // 加载评价
-        this.onLoad();
+
+        this.pageLoad.clear();
 
       }).catch(err => {
         // 获取错误
@@ -183,7 +205,6 @@ export default {
         this.$dialog.alert({
           title: '错误录',
           message: err.message,
-          confirmButtonColor: "#f44"
         }).then(() => this.$router.back());
       });
     },
@@ -263,19 +284,23 @@ export default {
         return false;
       } */
 
+      if (this.isOne) {
+        this.pageLoad = this.$toast.loading({ duration: 0, forbidClick: true });
+      }
+
       // 完成阅读调用
       studyFinish(this.id).then(data => {
         this.haveRead = true;
         this.clearReadTimer();
-        if (this.requirePunch) {
-          this.getPunchInStatus();
+        if (this.havePunch) {
+          this.$toast.success("完成阅读");
         } else {
-          this.$toast.success({ duration: 1000, message: "完成阅读" });
+          this.getPunchInStatus();
         }
       }).catch(err => {
-        this.haveRead = err.code === 400010; // 文章状态是否阅读
-        // 初始化阅读状态
-        if (this.isOne) {
+        if ([400010].includes(err.code) && this.isOne) {
+          this.haveRead = err.code === 400010; // 文章状态是否阅读
+          // 初始化阅读状态
           this.isOne = false;
           // this.pageLoad.clear();
 
@@ -284,24 +309,48 @@ export default {
             this.readTime = 0;
             !this.openComment && this.beginRead();
           }
-
         } else {
-          // 未完成阅读
           this.toast1s(err.message);
         }
+
       })
     },
 
     // 获取是否完成当日打卡
     getPunchInStatus() {
       getPunchInStatus().then(data => {
-        this.$toast.success("已完成当日\n     打卡");
+        // this.$toast.success("已完成当日\n     打卡");
+        this.openModule({
+          title: "恭喜你!",
+          subtitle: "完成了今天的学习任务",
+          content: "已阅读3篇文章",
+          mode: 1
+        });
         this.$contentChange("punch");
       }).catch(err => {
         if (err.code === 400016) {
-          this.$toast.success("     真   棒\n    ~ ^_^ ~\n继续阅读下篇\n  文章打卡哟");
+          // this.$toast.success("     真   棒\n    ~ ^_^ ~\n继续阅读下篇\n  文章打卡哟");
+          this.openModule({
+            title: "再接再厉",
+            subtitle: "已阅读该篇文章",
+            content: "阅读完3篇文章可打卡哟"
+          });
         } else {
-          this.$toast(err.message);
+          this.$toast1s(err.message);
+        }
+      }).finally(() => {
+        this.pageLoad.clear();
+      });
+    },
+    // 查询
+    queryPunchInStatus() {
+      getPunchInStatus().then(data => {
+        this.havePunch = true;
+      }).catch(err => {
+        if (err.code === 400016) {
+          this.havePunch = false;
+        } else {
+          this.$toast1s(err.message);
         }
       });
     },

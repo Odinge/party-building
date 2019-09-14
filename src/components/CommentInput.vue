@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-26 13:51:12
- * @LastEditTime: 2019-09-05 00:48:48
+ * @LastEditTime: 2019-09-14 20:15:07
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -75,14 +75,14 @@ export default {
       // 评价
       this.close();
       addComment(this.articleId, comment).then(data => {
-        this.$toast({ duration: 1000, message: "评价成功" });
+        this.toast1s("评价成功");
         this.$contentChange("comment");
         this.$emit("updateComment", () => {
           this.comment = ''; // 清除评价
         });
       }).catch(err => {
         this.open();
-        this.$toast({ duration: 1000, message: err.message });
+        this.toast1s(err.message);
       });
     },
     opened() {

@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-26 10:51:03
- * @LastEditTime: 2019-08-26 22:34:29
+ * @LastEditTime: 2019-09-14 18:51:06
  * @LastEditors: Please set LastEditors
  */
 import request from "./request";
@@ -133,6 +133,11 @@ export const addComment = (articleId, content) => {
 export const deleteComment = commentId =>
   request("DELETE", "/deleteComment?commentId=" + commentId);
 
+/**
+ * 打卡状态获取
+ */
+export const getPunchInStatus = () => request("get", `/getPunchInStatus`);
+
 // 文章详情接口带状态
 export const getArticleInfo = articleId =>
   new Promise((resolve, reject) => {
@@ -145,10 +150,17 @@ export const getArticleInfo = articleId =>
       ])
       .then(
         request.axios.spread((article, isCollect, isLike, likeCount) =>
-          resolve({ ...article, isCollect, isLike, likeCount })
+          resolve({
+            ...article,
+            isCollect,
+            isLike,
+            likeCount
+          })
         )
       )
-      .catch(err => reject(err));
+      .catch(err => {
+        reject(err);
+      });
   });
 
 // 文章详情接口带状态1

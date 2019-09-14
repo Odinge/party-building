@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 13:26:54
- * @LastEditTime: 2019-09-12 17:29:24
+ * @LastEditTime: 2019-09-14 20:07:18
  * @LastEditors: Please set LastEditors
  -->
 <!-- 成果上传 -->
@@ -65,7 +65,7 @@ export default {
       uploadAcFile(file).then(data => {
         const load = this.$refs.load;
         load.onRefresh(() => this.$toast.success("成果上传成功"));
-      }).catch(err => this.$toast(err.message));
+      }).catch(err => this.toast1s(err.message));
 
     },
     onBeforeRead(file) {

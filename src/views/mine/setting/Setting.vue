@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-16 03:40:11
- * @LastEditTime: 2019-08-30 01:24:41
+ * @LastEditTime: 2019-09-14 20:17:43
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -44,7 +44,7 @@ export default {
         load.clear();
         this.$router.push({ path: "/login" });
       }).catch(err => {
-        this.$toast.fail(err.message);
+        this.toast1s(err.message);
       });
     },
     onRead(file, detail) {

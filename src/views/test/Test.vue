@@ -2,7 +2,7 @@
  * @Description: 学习测试
  * @Author: Odinge
  * @Date: 2019-05-12 15:32:28
- * @LastEditTime: 2019-09-12 16:27:19
+ * @LastEditTime: 2019-09-14 20:19:04
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -69,7 +69,7 @@ export default {
 
       getImgUrl(file).then(data => {
         this.uploadRecode(data, detail.name);
-      }).catch(err => this.$toast(err.message));
+      }).catch(err => this.toast1s(err.message));
     },
     // 上传之前
     onBeforeRead(file) {

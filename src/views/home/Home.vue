@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-12 15:39:29
- * @LastEditTime: 2019-09-12 17:26:39
+ * @LastEditTime: 2019-09-14 20:05:51
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -72,7 +72,7 @@ export default {
           // 设置页面预加载
           this.SET_PAGE_LOADING(false);
         }).catch(err => {
-          this.$toast(err.message);
+          this.toast1s(err.message);
         })
     },
     onRefresh() {

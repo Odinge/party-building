@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-17 13:02:09
- * @LastEditTime: 2019-09-04 16:01:53
+ * @LastEditTime: 2019-09-14 20:11:51
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -40,9 +40,7 @@ export default {
       this.$dialog.alert({
         title: '忘记录',
         message: "重置密码会将重置连接发送到您的邮箱里，如果没有完善邮箱信息\n请联系管理员修改！",
-      }).then(() => {
-        this.toast1s('不要再忘记密码哦');
-      });
+      }).then(() => { });
     },
     // 找回密码
     findPassword() {
@@ -61,14 +59,14 @@ export default {
             this.$store.dispatch("logout").then(res => {
               this.$router.push({ path: "/login" });
             }).catch(err => {
-              this.$toast.fail(err.message);
+              this.toast1s(err.message);
             });
           } else {
             this.$router.push({ path: "/login" });
           }
         });
       }).catch(err => {
-        this.$toast.fail(err.message);
+        this.toast1s(err.message);
       });
 
     }

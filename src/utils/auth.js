@@ -1,8 +1,8 @@
 /*
  * @Description: In User Settings Edit
- * @Author: your name
+ * @Author: Odinge
  * @Date: 2019-05-14 13:31:31
- * @LastEditTime: 2019-08-27 20:08:18
+ * @LastEditTime: 2019-09-14 16:24:46
  * @LastEditors: Please set LastEditors
  */
 import Cookies from "js-cookie";
@@ -30,9 +30,10 @@ export const getToken = () => Cookies.get("ticket");
 
 // 删除token
 // export const delToken = () => sessionStorage.removeItem("token");
+export const delToken = () => Cookies.remove("ticket");
 
-export const delToken = () => {
-  Cookies.remove("ticket");
+export const removeToken = () => {
+  delToken();
   delAccount();
 };
 

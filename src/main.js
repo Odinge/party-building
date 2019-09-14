@@ -2,7 +2,7 @@
  * @Description: 入口文件
  * @Author: Odinge
  * @Date: 2019-05-12 13:12:27
- * @LastEditTime: 2019-09-12 16:59:39
+ * @LastEditTime: 2019-09-14 17:25:59
  * @LastEditors: Please set LastEditors
  */
 // import Vue from "vue";
@@ -13,6 +13,7 @@ import router from "./router";
 import store from "./store";
 // ui组件注册
 import { Toast, Dialog } from "vant";
+import { removeToken } from "./utils/auth";
 import "../public/css/reset.css";
 import "./assets/iconfont/iconfont.css";
 
@@ -99,14 +100,8 @@ router.beforeEach((to, form, next) => {
               title: "信息录",
               message: err.message
             }).then(res => {
-              store
-                .dispatch("logout")
-                .then(res => {
-                  next({ path: "/login" });
-                })
-                .catch(err => {
-                  // Toast.fail(err.message);
-                });
+              removeToken();
+              next({ path: "/login" });
             });
           });
       } else {
@@ -118,22 +113,10 @@ router.beforeEach((to, form, next) => {
     next(); // 在免登录白名单，直接进入
   } else {
     // 否则全部重定向到登录页
-    if (!!token === true && !account) {
-      Dialog.alert({
-        title: "权限录",
-        message: "权限验证失败，请重新登录！！"
-      }).then(res => {
-        next({
-          path: "/login",
-          query: { redirect: to.fullPath }
-        });
-      });
-    } else {
-      next({
-        path: "/login",
-        query: { redirect: to.fullPath }
-      });
-    }
+    next({
+      path: "/login",
+      query: { redirect: to.fullPath }
+    });
   }
 });
 

@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-07-10 15:37:56
- * @LastEditTime: 2019-09-12 17:29:42
+ * @LastEditTime: 2019-09-14 20:08:15
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -74,7 +74,7 @@ export default {
           load.onRefresh(() => {
             this.toast1s("已删除评价");
           });
-        }).catch(err => { this.$toast(err.message) });
+        }).catch(err => { this.toast1s(err.message) });
       }).catch(err => { });
 
     }

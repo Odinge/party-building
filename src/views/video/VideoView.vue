@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-06-19 17:34:12
- * @LastEditTime: 2019-09-10 21:13:53
+ * @LastEditTime: 2019-09-14 20:04:38
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -34,7 +34,7 @@ export default {
           getCollectionStatus(article.articleId).then(data => {
             this.$set(article, "isCollect", data);
           }).catch(err => {
-            this.$toast(err.message);
+            this.toast1s(err.message);
           });
         }
       });

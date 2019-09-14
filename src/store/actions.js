@@ -2,13 +2,13 @@
  * @Description: 异步执行状态
  * @Author: Odinge
  * @Date: 2019-05-12 14:49:11
- * @LastEditTime: 2019-09-04 11:16:14
+ * @LastEditTime: 2019-09-14 17:38:26
  * @LastEditors: Please set LastEditors
  */
 // 异步方法
 import { login, register, logout, getUserInfo } from "../api/login";
 import * as types from "./types";
-import { delToken, getToken } from "../utils/auth";
+import { removeToken } from "../utils/auth";
 
 export default {
   async login({ commit }, user) {
@@ -17,12 +17,9 @@ export default {
     return res;
   },
   async logout({ commit }) {
-    const res = await logout();
-    delToken();
-    // 刷新浏览器
-    // location.reload();
+    await logout();
+    removeToken();
     commit(types.SET_USERINFO, {});
-    return res;
   },
   // 从数据库获取信息
   async getUserInfo({ commit }) {

@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-06-19 15:38:42
- * @LastEditTime: 2019-09-04 14:21:54
+ * @LastEditTime: 2019-09-14 20:07:40
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -109,7 +109,7 @@ export default {
           this.successText = "加载成功";
         }).catch(err => {
           this.successText = "加载成功";
-          this.$toast(err.message);
+          this.toast1s(err.message);
         });
       });
     },

@@ -2,7 +2,7 @@
  * @Description: 我的
  * @Author: Odinge
  * @Date: 2019-05-12 16:45:12
- * @LastEditTime: 2019-09-12 18:46:18
+ * @LastEditTime: 2019-09-14 20:13:54
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -55,7 +55,7 @@
 import * as types from "../../store/types";
 import { mapState } from "vuex";
 import { common, func } from "../../router";
-import { getPunchInStatus } from "../../api/mine";
+import { getPunchInStatus } from "../../api/article";
 export default {
   data() {
     return {
@@ -85,7 +85,7 @@ export default {
           this.punchInStatus = err.message;
           this.pStatus = 1;
         } else {
-          this.$toast(err.message)
+          this.toast1s(err.message)
         }
         this.loading = false;
       });
