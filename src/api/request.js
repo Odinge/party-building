@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-13 08:53:10
- * @LastEditTime: 2019-09-14 19:07:39
+ * @LastEditTime: 2019-09-25 18:54:47
  * @LastEditors: Please set LastEditors
  */
 import axios from "axios";
@@ -11,6 +11,7 @@ import { removeToken } from "../utils/auth";
 import { Dialog } from "vant";
 
 // const pubBaseURL = "http://117.50.73.238:8080";
+// const pubBaseURL = "http://113.54.11.44:8080";
 // 创建axios实例
 const service = axios.create({
   baseURL: "/api"

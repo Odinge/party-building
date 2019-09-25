@@ -2,7 +2,7 @@
  * @Description: 全局配置
  * @Author: Odinge
  * @Date: 2019-05-14 23:30:00
- * @LastEditTime: 2019-09-14 17:05:03
+ * @LastEditTime: 2019-09-25 19:04:05
  * @LastEditors: Please set LastEditors
  */
 import Vue from "vue";
@@ -74,10 +74,8 @@ Vue.prototype.$http = axios;
 
 // 接口域名地址
 // Vue.prototype.$baseUrl = process.env.BASE_URL;
-Vue.prototype.$webUrl = "http://117.50.73.238:8080";
+Vue.prototype.$webUrl = /^http:\/\/[^\/]+(?=\/)/;
 Vue.prototype.$baseUrl = "/api";
-Vue.prototype.$localUrl = "/api";
-// Vue.prototype.$baseUrl = "/";
 // Vue.prototype.$baseUrl = "";
 
 // 文章被改变
@@ -102,7 +100,7 @@ Vue.prototype.$changeRefresh = function(type, isClear = false) {
 
 // 获取网址
 Vue.prototype.$getUrl = function(url) {
-  if (url.indexOf(this.$webUrl) !== -1) {
+  if (this.$webUrl.test(url)) {
     return url.replace(this.$webUrl, this.$baseUrl);
   } else {
     return url ? this.$baseUrl + url : url;
