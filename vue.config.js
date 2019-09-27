@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-12 13:22:12
- * @LastEditTime: 2019-09-25 19:06:22
+ * @LastEditTime: 2019-09-26 13:47:39
  * @LastEditors: Please set LastEditors
  */
 // 作为配置文件，直接导出配置对象即可
@@ -19,8 +19,9 @@ module.exports = {
     proxy: {
       "/api": {
         // 目标 API 地址
-        target: "http://117.50.73.238:8080",
-        // target: "http://113.54.11.44:8080",
+        target: process.env.VUE_APP_WEB_URL, // 开发环境
+        // target: "http://117.50.73.238:8080", // 开发环境
+        // target: "http://113.54.11.44:8080", // 生产环境
         // 如果要代理 websockets
         // ws: true, // 防止控制台报错
         // 将主机标头的原点更改为目标URL

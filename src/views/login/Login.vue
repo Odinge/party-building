@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-12 15:14:18
- * @LastEditTime: 2019-09-12 15:12:13
+ * @LastEditTime: 2019-09-26 11:01:35
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -88,7 +88,7 @@ export default {
       const load = this.$toast.loading({
         mask: true,
         duration: 0,
-        message: '加载中...'
+        message: '登录中...'
       });
 
       this.$store

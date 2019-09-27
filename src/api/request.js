@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-05-13 08:53:10
- * @LastEditTime: 2019-09-25 18:54:47
+ * @LastEditTime: 2019-09-27 13:01:34
  * @LastEditors: Please set LastEditors
  */
 import axios from "axios";
@@ -10,12 +10,12 @@ import router from "../router";
 import { removeToken } from "../utils/auth";
 import { Dialog } from "vant";
 
-// const pubBaseURL = "http://117.50.73.238:8080";
-// const pubBaseURL = "http://113.54.11.44:8080";
+import webConfig from "../../public/js/web.config"; // 服务器配置
 // 创建axios实例
 const service = axios.create({
-  baseURL: "/api"
-  // baseURL: process.env.NODE_ENV === "production" ? pubBaseURL : "/api"
+  // baseURL: "/api"
+  baseURL: webConfig.baseURL
+  // baseURL: process.env.VUE_APP_BASE_URL
   // timeout: 5000 // 请求超时时间
 });
 

@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: Odinge
  * @Date: 2019-05-16 00:39:59
- * @LastEditTime: 2019-09-14 20:00:35
+ * @LastEditTime: 2019-09-26 17:56:33
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -298,7 +298,7 @@ export default {
           this.getPunchInStatus();
         }
       }).catch(err => {
-        if ([400010].includes(err.code) && this.isOne) {
+        if ([400010, 400011].includes(err.code) && this.isOne) {
           this.haveRead = err.code === 400010; // 文章状态是否阅读
           // 初始化阅读状态
           this.isOne = false;
